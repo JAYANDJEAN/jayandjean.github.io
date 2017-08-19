@@ -10,7 +10,7 @@
   
   <title>
     
-      I.数学基础-信息论-熵的基本介绍 | JAYANDJEAN
+      【置顶】学习规划 | JAYANDJEAN
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -84,45 +84,69 @@
 </header>
 
     <div id="article-banner">
-  <h2>I.数学基础-信息论-熵的基本介绍</h2>
-  <p class="post-date">2017-08-13</p>
+  <h2>【置顶】学习规划</h2>
+  <p class="post-date">2018-08-19</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
 </div>
 <main class="app-body">
   <article class="post-article">
-    <section class="markdown-content"><p>在介绍一些数学概念时，我们往往需要讲一个通俗易懂的故事！假设你已经看过<a href="https://www.zhihu.com/question/41252833/answer/195901726" target="_blank" rel="external">这个故事！</a></p>
-<p>下面仅仅是划重点。</p>
+    <section class="markdown-content"><p>我只是知识的搬运工，工程量很大，慢慢积累。</p>
 <a id="more"></a>
-<h3 id="信息熵"><a href="#信息熵" class="headerlink" title="信息熵"></a>信息熵</h3><ol>
-<li>信息熵代表的是随机变量或整个系统的不确定性，熵越大，随机变量或系统的不确定性就越大。</li>
-<li>根据真实分布，我们能够找到一个最优策略，以最小的代价消除系统的不确定性，而这个代价大小就是信息熵。信息熵衡量了系统的不确定性，而我们要消除这个不确定性，所要付出的”最小努力“（猜题次数、编码长度等）的大小就是信息熵。</li>
-<li>对于分布$X\sim p(x)$的信息熵定义为：$$H(X)=-\sum_{x\in\mathcal{X}}p(x)\ln p(x)=\sum_{x\in\mathcal{X}}p(x)\ln \frac{1}{p(x)}$$</li>
-<li>若变量为连续变量，信息熵可以写成：$$H(X)=-\int p(x)\ln p(x)dx$$</li>
-<li>可以证明分布$p(x)$为平均分布时，$H(X)$取最大值：$$\begin{array}{}<br>\max &amp; -\sum p(x)\ln p(x) \cr<br>\mbox{s.t.} &amp; \sum p(x)=1<br>\end{array}$$可以用拉格朗日乘子法求解等式约束问题。</li>
-<li>条件熵的定义为：$$\begin{split}H(Y\mid X)&amp;=\sum_{x\in\mathcal{X}}p(x)H(Y\mid X=x)\cr<br>&amp;=-\sum_{x\in\mathcal{X}}p(x)\sum_{y\in\mathcal{Y}}p(y\mid x)\ln p(y\mid x)\cr<br>&amp;=-\sum_{x\in\mathcal{X}}\sum_{y\in\mathcal{Y}}p(x,y)\ln p(y\mid x)\end{split}$$可以理解为已知$X$的分布情况下，分布$Y$的信息熵。已知的是$X$的分布，而不是具体$x$值。</li>
-<li>链式法则：$$H(X,Y)=H(X)+H(Y\mid X)$$</li>
-</ol>
-<h3 id="交叉熵"><a href="#交叉熵" class="headerlink" title="交叉熵"></a>交叉熵</h3><ol>
-<li>交叉熵用来衡量在给定的真实分布下，使用非真实分布所指定的策略消除系统的不确定性所需要付出的努力的大小。</li>
-<li>对于真实分布$X\sim p(x)$，用非真实分布$X\sim q(x)$去消除不确定性所需要付出的努力：$$H(p\parallel q)=-\sum_{x\in\mathcal{X}}p(x)\ln q(x)=\sum_{x\in\mathcal{X}}p(x)\ln \frac{1}{q(x)}$$</li>
-<li>最小化交叉熵等价于最大化似然函数，也就是可以用交叉熵作为损失函数；这也就是tensorflow里用cross-entropy作为loss-function的原因。</li>
-</ol>
-<h3 id="相对熵"><a href="#相对熵" class="headerlink" title="相对熵"></a>相对熵</h3><ol>
-<li>我们说过信息熵是我们要消除不确定性，所要付出的”最小努力“，那么交叉熵一定会大于信息熵，也就是用非真实分布去消除不确定性所要付出的努力一定大于使用真实分布的努力。</li>
-<li>交叉熵与信息熵的差为相对熵，定义为：$$\begin{split}<br>KL(p\parallel q)<br>&amp;=-\sum_{x\in\mathcal{X}} p(x)\ln q(x)-\left(-\sum_{x\in\mathcal{X}} p(x)\ln p(x)\right)\cr<br>&amp;=-\sum_{x\in\mathcal{X}} p(x)\ln\frac{q(x)}{p(x)}<br>\end{split}$$其中$p(x)$是真实分布，$q(x)$是非真实分布；</li>
-<li>现在我们来证明$KL(p\parallel q)\geqslant0$，因为$-\ln x$是严格凸函数，且$\sum_{x\in\mathcal{X}} q(x)=1$，根据Jensen不等式：$$\begin{split}<br>KL(p\parallel q)<br>&amp;=-\sum_{x\in\mathcal{X}} p(x)\ln\frac{q(x)}{p(x)}\cr<br>&amp;\geqslant-\ln\left(\sum_{x\in\mathcal{X}}p(x)·\frac{q(x)}{p(x)}\right)\cr<br>&amp;=0<br>\end{split}$$</li>
-<li>同样，最小化KL散度等价于最大化似然函数；</li>
-</ol>
-<h3 id="互信息"><a href="#互信息" class="headerlink" title="互信息"></a>互信息</h3><ol>
-<li>考虑两个随机变量$X,Y$，互信息可以定义为联合分布$p(x,y)$和乘积分布$p(x)p(y)$的相对熵：$$I(X,Y)=-\sum_{x\in\mathcal{X}}\sum_{y\in\mathcal{Y}}p(x,y)\ln\frac{p(x)p(y)}{p(x,y)}$$可见当随机变量$X,Y$相互独立时，即$p(x,y)=p(x)p(y)$时，互信息为零；</li>
-<li>同时可以把互信息化简为：$$\begin{split}<br>I(X,Y)<br>&amp;=-\sum_{x\in\mathcal{X}}\sum_{y\in\mathcal{Y}}p(x,y)\ln\frac{p(x)p(y)}{p(x,y)}\cr<br>&amp;=-\sum_{x\in\mathcal{X}}\sum_{y\in\mathcal{Y}}p(x,y)\ln\frac{p(y)}{p(y\mid x)}\cr<br>&amp;=-\sum_{x\in\mathcal{X}}\sum_{y\in\mathcal{Y}}p(x,y)\ln p(y)-\left(-\sum_{x\in\mathcal{X}}\sum_{y\in\mathcal{Y}}p(x,y)\ln p(y\mid x)\right)\cr<br>&amp;=-\sum_{y\in\mathcal{Y}}p(y)\ln p(y)-\left(-\sum_{x\in\mathcal{X}}\sum_{y\in\mathcal{Y}}p(x,y)\ln p(y\mid x)\right)\cr<br>&amp;=H(Y)-H(Y\mid X)<br>\end{split}$$可以理解为，因为了解了$X$的分布，变量$Y$的不确定性有所减少，而减少量就是互信息。</li>
-</ol>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
-<li>Pattern Recognition and Machine Learning</li>
-<li>信息论基础</li>
-</ol>
+<p>如何成为一个合格的算法工程师，现需要学习以下内容，本blog也主要包括这些内容：</p>
+<ul>
+<li>I.数学基础<ul>
+<li>1、最优化</li>
+<li>2、信息论<ul>
+<li><a href="https://jayandjean.github.io/2017/08/13/I_math_information_theory_entropy/" target="_blank" rel="external">信息熵的基本介绍</a> </li>
+</ul>
+</li>
+<li>3、概率论</li>
+<li>4、图论</li>
+<li>5、代数</li>
+<li>6、范畴论、博弈论、决策论、计算复杂性</li>
+</ul>
+</li>
+<li>II.物理基础<ul>
+<li>1、量子信息与量子计算 </li>
+</ul>
+</li>
+<li>III.数据结构与算法<ul>
+<li>1、数据结构</li>
+<li>2、排序算法</li>
+<li>3、搜索查找</li>
+<li>4、图论算法</li>
+</ul>
+</li>
+<li>IV.机器学习模型<ul>
+<li>1、线性模型</li>
+<li>2、树模型</li>
+<li>3、集成模型</li>
+<li>4、混合模型</li>
+<li>5、概率图模型</li>
+<li>6、神经网络模型</li>
+<li>7、强化学习</li>
+<li>8、聚类</li>
+<li>9、降维与特征选择</li>
+</ul>
+</li>
+<li>V.编程工具<ul>
+<li>1、Python</li>
+<li>2、Scala</li>
+<li>3、Java、C++</li>
+<li>4、Hadoop、Spark</li>
+<li>5、TensorFlow、MXNet</li>
+</ul>
+</li>
+<li>VI.应用<ul>
+<li>1、计算机视觉</li>
+<li>2、语音识别</li>
+<li>3、自然语言处理</li>
+<li>4、推荐系统</li>
+</ul>
+</li>
+</ul>
 </section>
     
     <div class="money-like">
@@ -147,7 +171,7 @@
 
 <script>
   (function () {
-    var url = 'http://yoursite.com/2017/08/13/I.math_information_theory_entropy/';
+    var url = 'http://yoursite.com/2018/08/19/0_plan/';
     var banner = ''
     if (banner) {
       $('#article-banner').css({
@@ -198,7 +222,7 @@
     var gitmentConfig = "";
     if (gitmentConfig != "undefined") {
       var gitment = new Gitment({
-        id: "I.数学基础-信息论-熵的基本介绍",
+        id: "【置顶】学习规划",
         owner: "",
         repo: "",
         oauth: {
