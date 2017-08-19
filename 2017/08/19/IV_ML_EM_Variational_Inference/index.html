@@ -115,6 +115,11 @@
 <h3 id="变分推断"><a href="#变分推断" class="headerlink" title="变分推断"></a>变分推断</h3><ol>
 <li>在推导EM迭代过程中提到，直接求泛函较为复杂，现在我们重新考虑这件事。</li>
 <li>我们把所有潜在变量和参数组成的集合记作$Z$,类似地，我们把所有观测变量的集合记作$X$;</li>
+<li>在概率模型的应用中，一个中心任务是在给定观测数据变量$X$的条件下，计算潜在变量$Z$的后验概率分布$p(Z\mid X)$。现在我们的目标是找到对后验概率分布$p(Z\mid X)$以及$p(X)$的近似。因为直接将$q(Z)=p(Z\mid X)$是不可行的，所以选择刚正面；但如果直接计算泛函$L(q)$又较为困难，所以假设$q(Z)$受一些限制，这样便能得到目标的近似解。</li>
+<li>与我们关于EM的讨论相同，我们定义：$$\begin{split}\ln p(X)&amp;=\int\left(q(Z)\ln\left(\frac{p(X,Z)}{q(Z)}\right)\right)dZ-\int\left(q(Z)\ln\left(\frac{p(Z\mid X)}{q(Z)}\right)\right)dZ\cr<br>&amp;=L(q)+KL(q\parallel p)\end{split}$$同时假设$$q(Z)=\prod_{i=1}^{M}q_i(Z_i)$$其中$Z_i$是$Z$的元素中互不相交的组，共划分成$M$个组。</li>
+<li>公式推导：$$\begin{split}L(q)<br>&amp;=\int q(Z)\ln\left(\frac{p(X,Z)}{q(Z)}\right)dZ\cr<br>&amp;=\int\prod_{i=1}^{M}q_i(Z_i)\left(\ln(p(X,Z))-\sum_{i=1}^{M}\ln q_i(Z_i)\right)dZ\cr<br>&amp;=\int q_j\left(\int\ln p(X,Z)\prod_{i\ne j}q_idZ_i\right)dZ_j-\int q_j\ln q_j dZ_j+const\cr<br>&amp;=\int q_j\ln p’(X,Z_j)dZ_j-\int q_j\ln q_j dZ_j+const\cr<br>&amp;=\int q_j\ln\left(\frac{p’(X,Z_j)}{q_j}\right)dZ_j+const\cr<br>&amp;=-KL(q_j\parallel p’)+const\end{split}$$其中$$\ln p’(X,Z_j)=\int\ln p(X,Z)\prod_{i\ne j}q_idZ_i=E_{i\ne j}[\ln p(X,Z)]+const$$注意：一顿推导只是关注$j$分量，其他的全部扔到const里面去，因为现在只是推导分量$j$上的参数更新，对其他分量的处理方式相同。</li>
+<li>由于分量$KL(q_j\parallel p’)\geqslant 0$，为使得$L(q)$取最大值，那么可得$$\ln q_j(Z_j)=\ln p’(X,Z_j)=E_{i\ne j}[\ln p(X,Z)]+const$$</li>
+<li>迭代方法：</li>
 </ol>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
 <li>Pattern Recognition and Machine Learning</li>
