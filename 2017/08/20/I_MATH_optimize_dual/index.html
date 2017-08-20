@@ -10,7 +10,7 @@
   
   <title>
     
-      【置顶】学习规划 | JAYANDJEAN
+      I.数学基础-最优化-对偶形式的推导 | JAYANDJEAN
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -84,78 +84,28 @@
 </header>
 
     <div id="article-banner">
-  <h2>【置顶】学习规划</h2>
-  <p class="post-date">2018-08-19</p>
+  <h2>I.数学基础-最优化-对偶形式的推导</h2>
+  <p class="post-date">2017-08-20</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
 </div>
 <main class="app-body">
   <article class="post-article">
-    <section class="markdown-content"><p>我只是知识的搬运工，工程量有点大，慢慢积累。</p>
+    <section class="markdown-content"><p>《最优化理论与算法（第二版）》第四章-对偶原理及灵敏度分析，里面有个不大不小的错误，公式4.1.2的约束条件应该有误。</p>
 <a id="more"></a>
-<p>为了成为一个合格的算法工程师，现需要学习以下内容：</p>
-<ul>
-<li>I.数学基础<ul>
-<li>1、最优化<ul>
-<li><a href="">对偶形式的推导</a></li>
-</ul>
+<h3 id="对称形式的对偶"><a href="#对称形式的对偶" class="headerlink" title="对称形式的对偶"></a>对称形式的对偶</h3><ol>
+<li>原问题（m个约束方程，n个变量）：$$\begin{array}{}<br>\min &amp; \sum\limits_{j=1}^{n}c_jx_j \cr<br>\mbox{s.t.} &amp; \sum\limits_{j=1}^{n}a_{ij}x_j\geqslant b_i &amp;\quad&amp; i=1,2,···,m \cr<br>&amp;x_j\geqslant0 &amp;\quad&amp; j=1,2,···,n\cr<br>\end{array}$$</li>
+<li>对偶问题（n个约束方程，m个变量）：$$\begin{array}{}<br>\min &amp; \sum\limits_{i=1}^{m}b_i w_i \cr<br>\mbox{s.t.} &amp; \sum\limits_{i=1}^{m}w_ia_{ij}\leqslant c_j &amp;\quad&amp; j=1,2,···,n \cr<br>&amp;w_i\geqslant0 &amp;\quad&amp; i=1,2,···,m\cr<br>\end{array}$$</li>
+<li>向量形式表达如下：$$\left\{\begin{array}{}<br>\min &amp; c^Tx \cr<br>\mbox{s.t.} &amp; Ax\geqslant b \cr<br>&amp;x\geqslant0 \cr<br>\end{array}\right.<br>\Rightarrow\<br>\left\{\begin{array}{}<br>\min &amp; wx \cr<br>\mbox{s.t.} &amp; wA\leqslant c \cr<br>&amp;w\geqslant0 \cr<br>\end{array}\right.$$</li>
+<li>推导过程如下<ol>
+<li>令$$L=\underset{w_i\geqslant0}{max}\sum_{j=1}^{n}c_jx_j-\sum_{i=1}^{m}w_i\left(\sum_{j=1}^{n}a_{ij}x_j-b_i\right)$$如果$L$有有限最优解，则$\ \forall i,\sum_{j=1}^{n}a_{ij}x_j-b_i\geqslant0$</li>
+<li>所以原问题等价于求解$$p=\underset{x_j\geqslant0}{min}\ \ \underset{w_i\geqslant0}{max}\left[\sum_{j=1}^{n}c_jx_j-\sum_{i=1}^{m}w_i\left(\sum_{j=1}^{n}a_{ij}x_j-b_i\right)\right]$$</li>
+<li>则对偶问题可以看成把$min$和$max$换个位置，即$$d=\underset{w_i\geqslant0}{max}\ \ \underset{x_j\geqslant0}{min}\left[\sum_{j=1}^{n}c_jx_j-\sum_{i=1}^{m}w_i\left(\sum_{j=1}^{n}a_{ij}x_j-b_i\right)\right]$$那么直观的理解为最大值中的最小值一定大于等于最小值中的最大值，即$p\geqslant d$。</li>
+<li>对于$d$的化解：$$\begin{split}{}<br>d &amp;=\underset{w_i\geqslant0}{max}\ \ \underset{x_j\geqslant0}{min}\left[\sum_{j=1}^{n}c_jx_j-\sum_{i=1}^{m}w_i\left(\sum_{j=1}^{n}a_{ij}x_j-b_i\right)\right]\cr<br>&amp;= \underset{w_i\geqslant0}{max}\ \ \underset{x_j\geqslant0}{min}\left[\sum_{j=1}^{n}\left(c_j-\sum_{i=1}^{m}w_ia_{ij}\right)x_j+\sum_{i=1}^{m}w_ib_i\right]<br>\end{split}$$这样就可以得到上述的对偶形式。</li>
+</ol>
 </li>
-<li>2、信息论<ul>
-<li><a href="https://jayandjean.github.io/2017/08/13/I_MATH_information_theory_entropy/" target="_blank" rel="external">信息熵的基本介绍</a> </li>
-</ul>
-</li>
-<li>3、概率论</li>
-<li>4、图论</li>
-<li>5、代数</li>
-<li>6、范畴论、博弈论、决策论、变分法、计算复杂性<ul>
-<li><a href="https://jayandjean.github.io/2017/08/20/I_MATH_Calculus_of_Variations_Euler_equation/" target="_blank" rel="external">极值的必要条件-欧拉方程</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li>II.物理基础<ul>
-<li>1、量子信息与量子计算 </li>
-</ul>
-</li>
-<li>III.数据结构与算法<ul>
-<li>1、数据结构</li>
-<li>2、排序算法</li>
-<li>3、搜索查找</li>
-<li>4、图论算法</li>
-</ul>
-</li>
-<li>IV.机器学习模型<ul>
-<li>1、线性模型</li>
-<li>2、树模型</li>
-<li>3、集成模型</li>
-<li>4、混合模型<ul>
-<li><a href="https://jayandjean.github.io/2017/08/19/IV_ML_EM_Variational_Inference/" target="_blank" rel="external">从EM算法到变分推断</a></li>
-</ul>
-</li>
-<li>5、概率图模型</li>
-<li>6、神经网络模型</li>
-<li>7、强化学习</li>
-<li>8、聚类</li>
-<li>9、降维与特征选择</li>
-</ul>
-</li>
-<li>V.编程工具<ul>
-<li>1、Python</li>
-<li>2、Scala</li>
-<li>3、Java、C++</li>
-<li>4、Hadoop、Spark</li>
-<li>5、TensorFlow、MXNet</li>
-</ul>
-</li>
-<li>VI.应用<ul>
-<li>1、计算机视觉</li>
-<li>2、语音识别</li>
-<li>3、自然语言处理</li>
-<li>4、推荐系统</li>
-</ul>
-</li>
-</ul>
+</ol>
 </section>
     
     <div class="money-like">
@@ -180,7 +130,7 @@
 
 <script>
   (function () {
-    var url = 'http://yoursite.com/2018/08/19/0_plan/';
+    var url = 'http://yoursite.com/2017/08/20/I_MATH_optimize_dual/';
     var banner = ''
     if (banner) {
       $('#article-banner').css({
@@ -231,7 +181,7 @@
     var gitmentConfig = "";
     if (gitmentConfig != "undefined") {
       var gitment = new Gitment({
-        id: "【置顶】学习规划",
+        id: "I.数学基础-最优化-对偶形式的推导",
         owner: "",
         repo: "",
         oauth: {
