@@ -10,7 +10,7 @@
   
   <title>
     
-      IV.机器学习模型-混合模型-从EM算法到变分推断 | JAYANDJEAN
+      I.数学基础-变分法-极值的必要条件-欧拉方程 | JAYANDJEAN
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -84,50 +84,34 @@
 </header>
 
     <div id="article-banner">
-  <h2>IV.机器学习模型-混合模型-从EM算法到变分推断</h2>
-  <p class="post-date">2017-08-19</p>
+  <h2>I.数学基础-变分法-极值的必要条件-欧拉方程</h2>
+  <p class="post-date">2017-08-20</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
 </div>
 <main class="app-body">
   <article class="post-article">
-    <section class="markdown-content"><p>在介绍一些数学概念时，我们往往需要讲一个通俗易懂的故事！假设你已经看过《统计学习方法》第九章-EM算法及其推广中，李航博士讲的投硬币故事！</p>
-<p>下面仅仅是划重点。</p>
+    <section class="markdown-content"><p>为更好的理解变分推断，还是有必要粗略的了解一下变分的概念；以下内容搬自老大中的《变分法基础》</p>
 <a id="more"></a>
-<h3 id="一般形式的EM算法"><a href="#一般形式的EM算法" class="headerlink" title="一般形式的EM算法"></a>一般形式的EM算法</h3><ol>
-<li>EM算法是寻找具有潜在变量的概率模型的最大似然解的一种通用方法。我们称$\{X,Z\}$为完整数据集，称$\{X\}$为不完整数据集</li>
-<li>我们目标是在不完整数据集下最大化似然函数$$p(X\mid\theta)=\sum_{Z}p(X,Z\mid\theta)$$</li>
-<li>我们引入一个定义在潜在变量上的分布$q(Z)$，则对于任意的$q(Z)$，以下等式成立：$$\begin{split}\ln p(X\mid\theta)&amp;=\sum_{Z}\left(q(Z)\ln\left(\frac{p(X,Z\mid\theta)}{q(Z)}\right)\right)-\sum_{Z}\left(q(Z)\ln\left(\frac{p(Z\mid X,\theta)}{q(Z)}\right)\right)\cr<br>&amp;=L(q,\theta)+KL(q\parallel p)\end{split}$$因为$\ln p(X\mid\theta)$的取值与$q(Z)$无关，所以$\ln p(X\mid\theta)=\sum_{Z}q(Z)\ln p(X\mid\theta)$，所以上式成立；</li>
-<li>现在我们来看各个量之间的依赖关系：<ol>
-<li>$\ln p(X\mid\theta)$只与$\theta$有关，相当于需要在不完整数据集下，最大化似然函数；</li>
-<li>$L(q,\theta)$是$q(Z)$的泛函，同时也是$\theta$的函数；</li>
-<li>$KL(q\parallel p)$是$q(Z)$和$Z$的条件概率分布之间的相对熵，而$Z$的条件概率分布明显与$\theta$有关；</li>
+<h3 id="变分的基本概念"><a href="#变分的基本概念" class="headerlink" title="变分的基本概念"></a>变分的基本概念</h3><ol>
+<li>以函数为自变量的函数称为泛函（Functional）</li>
+<li>函数$y(x)$与$y_0(x)$在区间$[a,b]$的$n$级距离：$$d_n[y(x),y_0(x)]=\underset{0\leqslant i \leqslant n}{max}\space\underset{a\leqslant x \leqslant b}{max}\mid y^{(i)}(x)-y_0^{(i)}(x)\mid$$</li>
+<li>$y_0(x)$在$[a,b]$的$n$级$\delta$领域：$$N_n[y_0(x),\delta]=\left\{y(x)\mid y(x)\in C^n[a,b],d_n[y(x)-y_0(x)]&lt;\delta\right\}$$</li>
+<li>$x\in[x_0,x_1]$：$$\delta y=y(x)-y_0(x)=\varepsilon \eta(x)$$<br> $\eta(x)$为$x$的任意函数，且$\eta(x_0)=\eta(x_1)=0$</li>
 </ol>
-</li>
-<li>现在来看EM的迭代优化过程：<ol>
-<li>在E步中：$\theta$保持固定，记作$\theta^旧$，那么$\ln p(X\mid\theta)$也是固定的；我们需要将下界$L(q,\theta^旧)$关于$q(Z)$最大化，直接求这个泛函较为复杂。由于最小化$KL(q\parallel p)$等价于最大化$L(q,\theta^旧)$，又由于$KL(q\parallel p)\geqslant0$，所以可以得到$q(Z)=p(Z\mid X,\theta^旧)$。</li>
-<li>接着我们来计算E步之后的下界$L(q,\theta)$：$$\begin{split}L(q,\theta)&amp;=\sum_{Z}\left(q(Z)\ln\left(\frac{p(X,Z\mid\theta)}{q(Z)}\right)\right)\cr<br>&amp;=\sum_{Z}p(Z\mid X,\theta^旧)\ln p(X,Z\mid\theta)-p(Z\mid X,\theta^旧)\ln p(Z\mid X,\theta^旧)\cr<br>&amp;=Q(\theta,\theta^旧)+H(q)<br>\end{split}$$</li>
-<li>在M步中：$q(Z)$保持固定，最大化$L(q,\theta)$，又由于$KL(q\parallel p)\geqslant0$，所以$\ln p(X\mid\theta)$一定保持增长。最大化$L(q,\theta)$等价于最大化$Q(\theta,\theta^旧)$，所以我们可以得到：$$\theta^新=\underset{\theta}{\arg\max}\ Q(\theta,\theta^旧)$$我们回过头来看一下，M步中的计算与直接计算$\max \ln \sum_{Z}p(X,Z\mid\theta)$的不同：M步中对数里无求和符号</li>
+<h3 id="最简泛函的变分与极值的必要条件"><a href="#最简泛函的变分与极值的必要条件" class="headerlink" title="最简泛函的变分与极值的必要条件"></a>最简泛函的变分与极值的必要条件</h3><ol>
+<li>最简单的积分型泛函：$$J[y(x)]=\int_{x_0}^{x_1}F(x,y(x),y’(x))dx$$<br> 其中被积函数$F$称为泛函的核</li>
+<li>推导：<br> $$\begin{split}<br> \Delta J &amp;=J[y_1(x)]-J[y(x)]\cr<br> &amp;=J[y(x)+\delta y]-J[y(x)]\cr<br> &amp;=\int_{x_0}^{x_1}F(x,y+\delta y,y’+\delta y’)dx-\int_{x_0}^{x_1}F(x,y,y’)dx\cr<br> &amp;=\int_{x_0}^{x_1}\left[F(x,y+\delta y,y’+\delta y’)-F(x,y,y’)\right]dx\cr<br> &amp;=\int_{x_0}^{x_1}\left[F(x,y,y’)+(\delta y\frac{\partial}{\partial y}+\delta y’\frac{\partial}{\partial y’})F(x,y,y’)+\frac{1}{2}(\delta y\frac{\partial}{\partial y}+\delta y’\frac{\partial}{\partial y’})^2F(x,y,y’)-F(x,y,y’)\right]dx\cr<br> &amp;=\int_{x_0}^{x_1}(F_y\delta y+F_{y’}\delta y’)dx+\varepsilon d_1[y_1(x)-y(x)]\end{split}$$</li>
+<li>泛函增量的主要部分：<br> $$L[y,\delta y]=\int_{x_0}^{x_1}(F_y\delta y+F_{y’}\delta y’)dx$$</li>
+<li>$L[y,\delta y]$称为泛函$J[y(x)]$在$y(x)$上的一阶变分或一次变分，简称变分，记作$\delta J[y(x)]$。<br> $$\begin{split}<br> \delta J[y(x)]&amp;=\int_{x_0}^{x_1}(F_y\delta y+F_{y’}\delta y’)dx\cr<br> &amp;=\varepsilon\int_{x_0}^{x_1}(F_y\eta+F_{y’}\eta’)dx<br> \end{split}$$</li>
+<li>若泛函$J[y(x)]$在$y=y(x)$上达到极值，则在$y=y(x)$上的变分$\delta J$等于零</li>
+<li>化简：<br> $$\begin{split}\int_{x_0}^{x_1}(F_y\delta y+F_{y’}\delta y’)dx<br> &amp;=\int_{x_0}^{x_1}\left(F_y\delta y+(F_{y’}\delta y)’-\delta y\frac{d}{dx}F_{y’}\right)dx\cr<br> &amp;=F_{y’}\delta y\mid_{x_0}^{x_1}+\int_{x_0}^{x_1}(F_y-\frac{d}{dx}F_{y’})\delta y dx\cr<br> &amp;=\int_{x_0}^{x_1}(F_y-\frac{d}{dx}F_{y’})\delta y dx\end{split}$$</li>
 </ol>
-</li>
-</ol>
-<h3 id="变分推断"><a href="#变分推断" class="headerlink" title="变分推断"></a>变分推断</h3><ol>
-<li>我们把所有潜在变量和模型参数组成的集合记作$Z$，类似地，我们把所有观测变量的集合记作$X$;在概率模型的应用中，一个中心任务是在给定观测变量$X$的条件下，计算潜在变量$Z$的后验概率分布$p(Z\mid X)$。</li>
-<li>我们通常使用推断(inference)这个术语来指代给定一些其他变量的情况下计算某些变量概率分布的过程。</li>
-<li>精确推断问题可以描述为一个优化问题。有时，计算$\ln p(X)$是十分困难的（有待举例子！）。于是考虑求目标解的近似解。</li>
-<li>变分学习的核心思想就是在一个关于$q$的有约束的分布族上最大化$L(q)$。变分方法的优点是我们不需要为分布$q$设定一个特定的参数化形式。我们设定它如何分解，之后通过解决优化问题来找出在这些分解限制下最优的概率分布。</li>
-<li><p>与我们关于EM的讨论相同，我们定义：$$\begin{split}\ln p(X)&amp;=\int\left(q(Z)\ln\left(\frac{p(X,Z)}{q(Z)}\right)\right)dZ-\int\left(q(Z)\ln\left(\frac{p(Z\mid X)}{q(Z)}\right)\right)dZ\cr<br>&amp;=L(q)+KL(q\parallel p)\end{split}$$同时假设$$q(Z)=\prod_{i=1}^{M}q_i(Z_i)$$其中$Z_i$是$Z$的元素中互不相交的组，共划分成$M$个组。</p>
-</li>
-<li><p>公式推导：$$\begin{split}L(q)<br>&amp;=\int q(Z)\ln\left(\frac{p(X,Z)}{q(Z)}\right)dZ\cr<br>&amp;=\int\prod_{i=1}^{M}q_i(Z_i)\left(\ln(p(X,Z))-\sum_{i=1}^{M}\ln q_i(Z_i)\right)dZ\cr<br>&amp;=\int q_j\left(\int\ln p(X,Z)\prod_{i\ne j}q_idZ_i\right)dZ_j-\int q_j\ln q_j dZ_j+const\cr<br>&amp;=\int q_j\ln p’(X,Z_j)dZ_j-\int q_j\ln q_j dZ_j+const\cr<br>&amp;=\int q_j\ln\left(\frac{p’(X,Z_j)}{q_j}\right)dZ_j+const\cr<br>&amp;=-KL(q_j\parallel p’)+const\end{split}$$其中$$\ln p’(X,Z_j)=\int\ln p(X,Z)\prod_{i\ne j}q_idZ_i=E_{i\ne j}[\ln p(X,Z)]+const$$注意：一顿推导只是关注$j$分量，其他的全部扔到const里面去，因为现在只是推导分量$j$上的参数更新，对其他分量的处理方式相同。</p>
-</li>
-<li>由于分量$KL(q_j\parallel p’)\geqslant 0$，为使得$L(q)$取最大值，那么可得$$\ln q_j(Z_j)=\ln p’(X,Z_j)=E_{i\ne j}[\ln p(X,Z)]+const$$</li>
-<li>迭代方法：（未写完！！！）</li>
-</ol>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
-<li>Pattern Recognition and Machine Learning</li>
-<li>Deep Learnin</li>
-<li>《统计学习方法》</li>
+<h3 id="最简泛函的欧拉方程"><a href="#最简泛函的欧拉方程" class="headerlink" title="最简泛函的欧拉方程"></a>最简泛函的欧拉方程</h3><ol>
+<li>使最简泛函取极值：<br> $$\begin{split}<br>J[y(x)]=&amp;\int_{x_0}^{x_1}F(x,y,y’)dx\cr<br>\mbox{s.t.}\space\space &amp; y(x_0)=y_0 \cr<br>&amp; y(x_1)=y_1<br>\end{split}$$</li>
+<li>欧拉方程：<br> $$F_y-\frac{d}{dx}F_{y’}=0$$</li>
+<li>欧拉方程只是泛函取极值的必要条件；</li>
 </ol>
 </section>
     
@@ -153,7 +137,7 @@
 
 <script>
   (function () {
-    var url = 'http://yoursite.com/2017/08/19/IV_ML_EM_Variational_Inference/';
+    var url = 'http://yoursite.com/2017/08/20/I_MATH_Calculus_of_Variations_Euler_equation/';
     var banner = ''
     if (banner) {
       $('#article-banner').css({
@@ -204,7 +188,7 @@
     var gitmentConfig = "";
     if (gitmentConfig != "undefined") {
       var gitment = new Gitment({
-        id: "IV.机器学习模型-混合模型-从EM算法到变分推断",
+        id: "I.数学基础-变分法-极值的必要条件-欧拉方程",
         owner: "",
         repo: "",
         oauth: {
