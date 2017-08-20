@@ -119,14 +119,14 @@
 <li>变分学习的核心思想就是在一个关于$q$的有约束的分布族上最大化$L(q)$。变分方法的优点是我们不需要为分布$q$设定一个特定的参数化形式。我们设定它如何分解，之后通过解决优化问题来找出在这些分解限制下最优的概率分布。</li>
 <li><p>与我们关于EM的讨论相同，我们定义：$$\begin{split}\ln p(X)&amp;=\int\left(q(Z)\ln\left(\frac{p(X,Z)}{q(Z)}\right)\right)dZ-\int\left(q(Z)\ln\left(\frac{p(Z\mid X)}{q(Z)}\right)\right)dZ\cr<br>&amp;=L(q)+KL(q\parallel p)\end{split}$$同时假设$$q(Z)=\prod_{i=1}^{M}q_i(Z_i)$$其中$Z_i$是$Z$的元素中互不相交的组，共划分成$M$个组。</p>
 </li>
-<li><p>公式推导：$$\begin{split}L(q)<br>&amp;=\int q(Z)\ln\left(\frac{p(X,Z)}{q(Z)}\right)dZ\cr<br>&amp;=\int\prod_{i=1}^{M}q_i(Z_i)\left(\ln(p(X,Z))-\sum_{i=1}^{M}\ln q_i(Z_i)\right)dZ\cr<br>&amp;=\int q_j\left(\int\ln p(X,Z)\prod_{i\ne j}q_idZ_i\right)dZ_j-\int q_j\ln q_j dZ_j+const\cr<br>&amp;=\int q_j\ln p’(X,Z_j)dZ_j-\int q_j\ln q_j dZ_j+const\cr<br>&amp;=\int q_j\ln\left(\frac{p’(X,Z_j)}{q_j}\right)dZ_j+const\cr<br>&amp;=-KL(q_j\parallel p’)+const\end{split}$$其中$$\ln p’(X,Z_j)=\int\ln p(X,Z)\prod_{i\ne j}q_idZ_i=E_{i\ne j}[\ln p(X,Z)]+const$$注意：一顿推导只是关注$j$分量，其他的全部扔到const里面去，因为现在只是推导分量$j$上的参数更新，对其他分量的处理方式相同。</p>
+<li><p>公式推导：$$\begin{split}L(q)<br>&amp;=\int q(Z)\ln\left(\frac{p(X,Z)}{q(Z)}\right)dZ\cr<br>&amp;=\int\prod_{i=1}^{M}q_i(Z_i)\left(\ln(p(X,Z))-\sum_{i=1}^{M}\ln q_i(Z_i)\right)dZ\cr<br>&amp;=\int q_j\left(\int\ln p(X,Z)\prod_{i\ne j}q_idZ_i\right)dZ_j-\int q_j\ln q_j dZ_j+const\cr<br>&amp;=\int q_j\ln \overline{p}(X,Z_j)dZ_j-\int q_j\ln q_j dZ_j+const\cr<br>&amp;=\int q_j\ln\left(\frac{\overline{p}(X,Z_j)}{q_j}\right)dZ_j+const\cr<br>&amp;=-KL(q_j\parallel \overline{p})+const\end{split}$$其中$$\ln \overline{p}(X,Z_j)=\int\ln p(X,Z)\prod_{i\ne j}q_idZ_i=E_{i\ne j}[\ln p(X,Z)]+const$$注意：一顿推导只是关注$j$分量，其他的全部扔到const里面去，因为现在只是推导分量$j$上的参数更新，对其他分量的处理方式相同。</p>
 </li>
-<li>由于分量$KL(q_j\parallel p’)\geqslant 0$，为使得$L(q)$取最大值，那么可得$$\ln q_j(Z_j)=\ln p’(X,Z_j)=E_{i\ne j}[\ln p(X,Z)]+const$$</li>
-<li>迭代方法：（未写完！！！）</li>
+<li>由于分量$KL(q_j\parallel \overline{p})\geqslant 0$，为使得$L(q)$取最大值，那么可得$$\ln q_j(Z_j)=\ln \overline{p}(X,Z_j)=E_{i\ne j}[\ln p(X,Z)]+const$$</li>
+<li>参数更新迭代方法：（感觉有点看不下去了！先放着吧！）</li>
 </ol>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
 <li>Pattern Recognition and Machine Learning</li>
-<li>Deep Learnin</li>
+<li>Deep Learning</li>
 <li>《统计学习方法》</li>
 </ol>
 </section>
