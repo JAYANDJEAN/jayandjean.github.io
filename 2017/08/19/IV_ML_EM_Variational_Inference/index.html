@@ -10,7 +10,7 @@
   
   <title>
     
-      IV.机器学习模型-混合模型-从EM算法到变分推断 | JAYANDJEAN
+      IV.机器学习模型-确定性近似-从EM算法到变分推断 | JAYANDJEAN
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -84,7 +84,7 @@
 </header>
 
     <div id="article-banner">
-  <h2>IV.机器学习模型-混合模型-从EM算法到变分推断</h2>
+  <h2>IV.机器学习模型-确定性近似-从EM算法到变分推断</h2>
   <p class="post-date">2017-08-19</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
@@ -93,7 +93,7 @@
 <main class="app-body">
   <article class="post-article">
     <section class="markdown-content"><p>在介绍一些数学概念时，我们往往需要讲一个通俗易懂的故事！假设你已经看过《统计学习方法》第九章-EM算法及其推广中，李航博士讲的投硬币故事！</p>
-<p>下面仅仅是划重点。</p>
+<p>下面仅仅是《Pattern Recognition and Machine Learning》第九章-混合模型和EM、第十章-近似推断的学习笔记。</p>
 <a id="more"></a>
 <h3 id="一般形式的EM算法"><a href="#一般形式的EM算法" class="headerlink" title="一般形式的EM算法"></a>一般形式的EM算法</h3><ol>
 <li>EM算法是寻找具有潜在变量的概率模型的最大似然解的一种通用方法。我们称$\{X,Z\}$为完整数据集，称$\{X\}$为不完整数据集</li>
@@ -127,14 +127,23 @@
 </ol>
 </li>
 <li>算法保证收敛，因为下界关于每个因子$q_i(Z_i)$是一个凸函数。</li>
-<li>《PRML》里接着讲了一元、二元高斯函数的变分推断求解过程，还能看懂，接着就看不懂了=。=，先缓缓。</li>
-</ol>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
-<li>Pattern Recognition and Machine Learning</li>
+<li><p>期望传播（expectation propagation）：最小化$KL(p\parallel q)$同时假设$q(Z)=\prod_{i=1}^{M}q_i(Z_i)$</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3></li>
+<li><p>Pattern Recognition and Machine Learning</p>
+</li>
 <li>Deep Learning</li>
 <li>《统计学习方法》</li>
 </ol>
 </section>
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#机器学习模型" >
+    <span class="tag-code">机器学习模型</span>
+  </a>
+
+      </div>
     
     <div class="money-like">
       <div class="reward-btn">
@@ -209,7 +218,7 @@
     var gitmentConfig = "";
     if (gitmentConfig != "undefined") {
       var gitment = new Gitment({
-        id: "IV.机器学习模型-混合模型-从EM算法到变分推断",
+        id: "IV.机器学习模型-确定性近似-从EM算法到变分推断",
         owner: "",
         repo: "",
         oauth: {
