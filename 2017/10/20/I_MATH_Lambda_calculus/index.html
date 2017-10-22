@@ -10,7 +10,7 @@
   
   <title>
     
-      I.数学基础-Lambda计算 | JAYANDJEAN
+      I.数学基础-Lambda Calculus | JAYANDJEAN
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -84,7 +84,7 @@
 </header>
 
     <div id="article-banner">
-  <h2>I.数学基础-Lambda计算</h2>
+  <h2>I.数学基础-Lambda Calculus</h2>
   <p class="post-date">2017-10-20</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
@@ -92,9 +92,73 @@
 </div>
 <main class="app-body">
   <article class="post-article">
-    <section class="markdown-content"><p>《程序设计语言理论基础》读书笔记。</p>
+    <section class="markdown-content"><p>《Lecture Notes on the Lambda Calculus》读书笔记。</p>
+<p>Topics covered in these notes include </p>
+<ol>
+<li>the un-typed lambda calculus, </li>
+<li>the Church-Rosser theorem, </li>
+<li>combinatory algebras, </li>
+<li>the simply-typed lambda calculus, </li>
+<li>the Curry-Howard isomorphism, </li>
+<li>weak and strong normalization, </li>
+<li>polymorphism, </li>
+<li>type inference, </li>
+<li>denotational se-mantics, </li>
+<li>complete partial orders, </li>
+<li>the language PCF.</li>
+</ol>
 <a id="more"></a>
-</section>
+<h2 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1.Introduction"></a>1.Introduction</h2><ul>
+<li>1.1 Extensional vs. intensional view of functions:<ol>
+<li>functions as graphs</li>
+<li>functions as formulas</li>
+</ol>
+</li>
+<li>1.2 The lambda calculus:<ol>
+<li>One advantage of the lambda notation is that it allows us to easily talk about higher-order functions.</li>
+</ol>
+</li>
+<li>1.3 Untyped vs. typed lambda-calculi:<ol>
+<li>Untyped lambdacalculus.</li>
+<li>Simply-typed lambda calculus.</li>
+<li>Polymorphically typed lambda calculus.</li>
+</ol>
+</li>
+<li>1.4 Lambda calculus and computability</li>
+<li>1.5 Connections to computer science<ol>
+<li>Many real-world programming languages can be regarded as extensions of the lambda calculus.</li>
+</ol>
+</li>
+<li>1.6 Connections to logic<ol>
+<li>The connection between lambda calculus and constructive logics is via the “proofs- as-programs” paradigm.</li>
+</ol>
+</li>
+</ul>
+<h2 id="2-The-untyped-lambda-calculus"><a href="#2-The-untyped-lambda-calculus" class="headerlink" title="2.The untyped lambda calculus"></a>2.The untyped lambda calculus</h2><ul>
+<li>2.1 Syntax<ol>
+<li>lambda terms: variables, applications, and lambda abstractions</li>
+<li>Backus-Naur Form:$$M,N ::= x\mid (MN)\mid (\lambda x.M)$$</li>
+</ol>
+</li>
+<li>2.2 Free and bound variables, $\alpha$-equivalence<ol>
+<li>If $x, y$ are variables, and $M$ is a term, we write $M\{y/x\}$ for the result of renaming $x$ as $y$ in $M$.</li>
+<li>We define $\alpha$-equivalence to be the smallest congruence relation $=_{\alpha}$ on lambda terms, such that for all terms $M$ and all variables $y$ that do not occur in $M$,$$\lambda x.M =_{\alpha} \lambda y.(M\{y/x\})$$</li>
+</ol>
+</li>
+<li>2.3 Substitution<ol>
+<li>We will write $M[N/x]$ for the result of replacing $x$ by $N$ in $M$.</li>
+<li>We should only replace free variables.</li>
+</ol>
+</li>
+<li>2.4 Introduction to $\beta$-reduction<ol>
+<li>We will often use the ordinary equality symbol $M = N$ to denote $\alpha$-equivalence.</li>
+<li>The process of evaluating lambda terms by “plugging arguments into functions” is called $\beta$-reduction.$$(\lambda x.M)N\rightarrow_{\beta}M[N/x]$$</li>
+<li>A lambda term without any β-redexes is said to be in $\beta$-normal form.</li>
+</ol>
+</li>
+<li>2.5 Formal definitions of $\beta$-reduction and $\beta$-equivalence</li>
+</ul>
+<h2 id="3-Programming-in-the-untyped-lambda-calculus"><a href="#3-Programming-in-the-untyped-lambda-calculus" class="headerlink" title="3.Programming in the untyped lambda calculus"></a>3.Programming in the untyped lambda calculus</h2></section>
     
       <div class="tags">
         <span>Tags:</span>
@@ -178,7 +242,7 @@
     var gitmentConfig = "";
     if (gitmentConfig != "undefined") {
       var gitment = new Gitment({
-        id: "I.数学基础-Lambda计算",
+        id: "I.数学基础-Lambda Calculus",
         owner: "",
         repo: "",
         oauth: {
