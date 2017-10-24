@@ -96,7 +96,7 @@
 <a id="more"></a>
 <p>Topics covered in these notes include </p>
 <ol>
-<li>the un-typed lambda calculus, </li>
+<li>the untyped lambda calculus, </li>
 <li>the Church-Rosser theorem, </li>
 <li>combinatory algebras, </li>
 <li>the simply-typed lambda calculus, </li>
@@ -104,7 +104,7 @@
 <li>weak and strong normalization, </li>
 <li>polymorphism, </li>
 <li>type inference, </li>
-<li>denotational se-mantics, </li>
+<li>denotational semantics, </li>
 <li>complete partial orders, </li>
 <li>the language PCF.</li>
 </ol>
@@ -130,7 +130,7 @@
 </ol>
 </li>
 <li>1.6 Connections to logic<ol>
-<li>The connection between lambda calculus and constructive logics is via the “proofs- as-programs” paradigm.</li>
+<li>The connection between lambda calculus and constructive logics is via the “proofs-as-programs” paradigm.</li>
 </ol>
 </li>
 </ul>
@@ -140,9 +140,9 @@
 <li>Backus-Naur Form:$$M,N ::= x\mid (MN)\mid (\lambda x.M)$$</li>
 </ol>
 </li>
-<li>2.2 Free and bound variables, $\alpha$-equivalence<ol>
+<li>2.2 Free and bound variables, $\alpha\textit{-equivalence}$<ol>
 <li>If $x, y$ are variables, and $M$ is a term, we write $M\{y/x\}$ for the result of renaming $x$ as $y$ in $M$.</li>
-<li>We define $\alpha$-equivalence to be the smallest congruence relation $=_{\alpha}$ on lambda terms, such that for all terms $M$ and all variables $y$ that do not occur in $M$,$$\lambda x.M =_{\alpha} \lambda y.(M\{y/x\})$$</li>
+<li>We define $\alpha\textit{-equivalence}$ to be the smallest congruence relation $=_{\alpha}$ on lambda terms, such that for all terms $M$ and all variables $y$ that do not occur in $M$,$$\lambda x.M =_{\alpha} \lambda y.(M\{y/x\}),y\notin FV(M)$$</li>
 </ol>
 </li>
 <li>2.3 Substitution<ol>
@@ -150,13 +150,18 @@
 <li>We should only replace free variables.</li>
 </ol>
 </li>
-<li>2.4 Introduction to $\beta$-reduction<ol>
-<li>We will often use the ordinary equality symbol $M = N$ to denote $\alpha$-equivalence.</li>
-<li>The process of evaluating lambda terms by “plugging arguments into functions” is called $\beta$-reduction.$$(\lambda x.M)N\rightarrow_{\beta}M[N/x]$$</li>
-<li>A lambda term without any β-redexes is said to be in $\beta$-normal form.</li>
+<li>2.4 Introduction to $\beta\textit{-reduction}$<ol>
+<li>We will often use the ordinary equality symbol $M = N$ to denote $\alpha\textit{-equivalence}$.</li>
+<li>The process of evaluating lambda terms by “plugging arguments into functions” is called $\beta\textit{-reduction}$.$$(\lambda x.M)N\rightarrow_{\beta}M[N/x]$$</li>
+<li>A lambda term without any β-redexes is said to be in $\beta\textit{-normal form}$.</li>
 </ol>
 </li>
-<li>2.5 Formal definitions of $\beta$-reduction and $\beta$-equivalence</li>
+<li>2.5 Formal definitions of $\beta\textit{-reduction}$ and $\beta\textit{-equivalence}$<ol>
+<li>Formally, $$\twoheadrightarrow_{\beta}$$ is defined to be the reflexive transitive closure of $\rightarrow_{\beta}$</li>
+<li>A relation $R$ on a set $X$ is $\textit{transitive}$ if, for all $x, y, z$ in $X$, whenever $x\ R\ y$ and $y\ R\ z$ then $x\ R\ z$.</li>
+<li>好好看一下Closure</li>
+</ol>
+</li>
 </ul>
 <h2 id="3-Programming-in-the-untyped-lambda-calculus"><a href="#3-Programming-in-the-untyped-lambda-calculus" class="headerlink" title="3.Programming in the untyped lambda calculus"></a>3.Programming in the untyped lambda calculus</h2></section>
     
