@@ -157,13 +157,33 @@
 </ol>
 </li>
 <li>2.5 Formal definitions of $\beta\textit{-reduction}$ and $\beta\textit{-equivalence}$<ol>
-<li>Formally, $twoheadrightarrow_{\beta}$ is defined to be the reflexive transitive closure of $\rightarrow_{\beta}$</li>
-<li>A relation $R$ on a set $X$ is $\textit{transitive}$ if, for all $x, y, z$ in $X$, whenever $x\ R\ y$ and $y\ R\ z$ then $x\ R\ z$.</li>
+<li>We write $M\twoheadrightarrow_{\beta} M’$ if $M$ reduces to $M’$ in zero or more steps.</li>
+<li>Formally, $\twoheadrightarrow_{\beta}$ is defined to be the reflexive transitive closure of $\rightarrow_{\beta}$</li>
 <li>好好看一下Closure</li>
 </ol>
 </li>
 </ul>
-<h2 id="3-Programming-in-the-untyped-lambda-calculus"><a href="#3-Programming-in-the-untyped-lambda-calculus" class="headerlink" title="3.Programming in the untyped lambda calculus"></a>3.Programming in the untyped lambda calculus</h2></section>
+<h2 id="3-Programming-in-the-untyped-lambda-calculus"><a href="#3-Programming-in-the-untyped-lambda-calculus" class="headerlink" title="3.Programming in the untyped lambda calculus"></a>3.Programming in the untyped lambda calculus</h2><ul>
+<li>3.1 Booleans<ol>
+<li>$$\begin{split}&amp;T=\lambda xy.x\cr &amp;F=\lambda xy.y\end{split}$$</li>
+<li>如果逻辑运算符“and”定义为：$\lambda ab.abF$，则$$\begin{split}&amp;\mathbf{and}\ TT\twoheadrightarrow_{\beta}T\cr &amp;\mathbf{and}\ TF\twoheadrightarrow_{\beta}F\cr &amp;\mathbf{and}\ FT\twoheadrightarrow_{\beta}F\cr &amp;\mathbf{and}\ FF\twoheadrightarrow_{\beta}F\cr\end{split}$$</li>
+</ol>
+</li>
+<li>3.2 Natural numbers</li>
+<li>3.3 Fixed points and recursive functions<ol>
+<li>If $F$ and $N$ are lambda terms, we say that $N$ is a fixed point of $F$ if $FN =_{\beta} N$</li>
+<li>$\mathbf{Theorem 3.1.}\textit{ In the untyped lambda calculus, every term F has a fixed point.}$</li>
+<li>$\mathbf{Proof}$. Let $A = \lambda xy.y(xxy)$, and define $\theta = AA$. Now suppose $F$ is any lambda term, and let $N = \theta F$ . We claim that $N$ is a fixed point of $F$ . This is shown by the following calculation:$$\begin{split}N&amp;=\theta F\cr<br>&amp;=AAF\cr<br>&amp;=(\lambda xy.y(xxy))AF\cr<br>&amp;\rightarrow_{\beta}F(AAF)\cr<br>&amp;=F(\theta F)\cr<br>&amp;=FN\end{split}$$</li>
+<li>The term $\theta$ used in the proof is called Turing’s fixed point combinator.</li>
+</ol>
+</li>
+<li>3.4 Other data types: pairs, tuples, lists, trees, etc.</li>
+</ul>
+<p>不要急，慢慢看！</p>
+<h2 id="4-The-Church-Rosser-Theorem"><a href="#4-The-Church-Rosser-Theorem" class="headerlink" title="4.The Church-Rosser Theorem"></a>4.The Church-Rosser Theorem</h2><ul>
+<li>…</li>
+</ul>
+<h2 id="5-Combinatory-algebras"><a href="#5-Combinatory-algebras" class="headerlink" title="5.Combinatory algebras"></a>5.Combinatory algebras</h2><h2 id="6-Simply-typed-lambda-calculus-propositional-logic-and-the-Curry-Howard-isomorphism"><a href="#6-Simply-typed-lambda-calculus-propositional-logic-and-the-Curry-Howard-isomorphism" class="headerlink" title="6.Simply-typed lambda calculus, propositional logic, and the Curry-Howard isomorphism"></a>6.Simply-typed lambda calculus, propositional logic, and the Curry-Howard isomorphism</h2><h2 id="7-Weak-and-strong-normalization"><a href="#7-Weak-and-strong-normalization" class="headerlink" title="7.Weak and strong normalization"></a>7.Weak and strong normalization</h2><h2 id="8-Polymorphism"><a href="#8-Polymorphism" class="headerlink" title="8.Polymorphism"></a>8.Polymorphism</h2><h2 id="9-Type-inference"><a href="#9-Type-inference" class="headerlink" title="9.Type inference"></a>9.Type inference</h2></section>
     
       <div class="tags">
         <span>Tags:</span>
