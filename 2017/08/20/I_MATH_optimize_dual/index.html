@@ -96,8 +96,8 @@
 <a id="more"></a>
 <h3 id="对称形式的对偶"><a href="#对称形式的对偶" class="headerlink" title="对称形式的对偶"></a>对称形式的对偶</h3><ol>
 <li>原问题（m个约束方程，n个变量）：$$\begin{array}{}<br>\min &amp; \sum\limits_{j=1}^{n}c_jx_j \cr<br>\mbox{s.t.} &amp; \sum\limits_{j=1}^{n}a_{ij}x_j\geqslant b_i &amp;\quad&amp; i=1,2,···,m \cr<br>&amp;x_j\geqslant0 &amp;\quad&amp; j=1,2,···,n\cr<br>\end{array}$$</li>
-<li>对偶问题（n个约束方程，m个变量）：$$\begin{array}{}<br>\min &amp; \sum\limits_{i=1}^{m}b_i w_i \cr<br>\mbox{s.t.} &amp; \sum\limits_{i=1}^{m}w_ia_{ij}\leqslant c_j &amp;\quad&amp; j=1,2,···,n \cr<br>&amp;w_i\geqslant0 &amp;\quad&amp; i=1,2,···,m\cr<br>\end{array}$$</li>
-<li>向量形式表达如下：$$\left\{\begin{array}{}<br>\min &amp; c^Tx \cr<br>\mbox{s.t.} &amp; Ax\geqslant b \cr<br>&amp;x\geqslant0 \cr<br>\end{array}\right.<br>\Rightarrow\<br>\left\{\begin{array}{}<br>\min &amp; wx \cr<br>\mbox{s.t.} &amp; wA\leqslant c \cr<br>&amp;w\geqslant0 \cr<br>\end{array}\right.$$</li>
+<li>对偶问题（n个约束方程，m个变量）：$$\begin{array}{}<br>\max &amp; \sum\limits_{i=1}^{m}b_i w_i \cr<br>\mbox{s.t.} &amp; \sum\limits_{i=1}^{m}w_ia_{ij}\leqslant c_j &amp;\quad&amp; j=1,2,···,n \cr<br>&amp;w_i\geqslant0 &amp;\quad&amp; i=1,2,···,m\cr<br>\end{array}$$</li>
+<li>向量形式表达如下：$$\left\{\begin{array}{}<br>\min &amp; c^Tx \cr<br>\mbox{s.t.} &amp; Ax\geqslant b \cr<br>&amp;x\geqslant0 \cr<br>\end{array}\right.<br>\Rightarrow\<br>\left\{\begin{array}{}<br>\max &amp; wx \cr<br>\mbox{s.t.} &amp; wA\leqslant c \cr<br>&amp;w\geqslant0 \cr<br>\end{array}\right.$$</li>
 <li>推导过程如下<ol>
 <li>令$$L=\underset{w_i\geqslant0}{max}\sum_{j=1}^{n}c_jx_j-\sum_{i=1}^{m}w_i\left(\sum_{j=1}^{n}a_{ij}x_j-b_i\right)$$如果$L$有有限最优解，则$\ \forall i,\sum_{j=1}^{n}a_{ij}x_j-b_i\geqslant0$</li>
 <li>所以原问题等价于求解$$p=\underset{x_j\geqslant0}{min}\ \ \underset{w_i\geqslant0}{max}\left[\sum_{j=1}^{n}c_jx_j-\sum_{i=1}^{m}w_i\left(\sum_{j=1}^{n}a_{ij}x_j-b_i\right)\right]$$</li>
