@@ -93,7 +93,7 @@
 <main class="app-body">
   <article class="post-article">
     <section class="markdown-content"><p>在介绍一些数学概念时，我们往往需要讲一个通俗易懂的故事！假设你已经看过《统计学习方法》第九章-EM算法及其推广中，李航博士讲的投硬币故事！</p>
-<p>下面仅仅是《Pattern Recognition and Machine Learning》第九章-混合模型和EM、第十章-近似推断的学习笔记。</p>
+<p>下面仅仅是Pattern Recognition and Machine Learning第九章-混合模型和EM、第十章-近似推断的学习笔记。</p>
 <a id="more"></a>
 <h3 id="一般形式的EM算法"><a href="#一般形式的EM算法" class="headerlink" title="一般形式的EM算法"></a>一般形式的EM算法</h3><ol>
 <li>EM算法是寻找具有潜在变量的概率模型的最大似然解的一种通用方法。我们称$\{X,Z\}$为完整数据集，称$\{X\}$为不完整数据集</li>
@@ -116,7 +116,7 @@
 <li>我们通常使用推断(inference)这个术语来指代给定一些其他变量的情况下计算某些变量概率分布的过程。</li>
 <li>在概率模型的应用中，一个中心任务是在给定观测变量$X$的条件下，计算潜在变量$Z$的后验概率分布$p(Z\mid X)$；例如，在EM算法中，我们需要计算完整数据对数似然函数关于潜在变量后验概率分布的期望。即计算$$\sum_{Z}p(Z\mid X,\theta^旧)\ln p(X,Z\mid\theta)$$但对于实际应用中的许多模型来说，计算后验概率分布或者计算关于这个后验概率分布的期望是不可行的。这可能是由于潜在空间的维度太高，以至于无法直接计算，即上述公式中$Z$的状态数有指数多个。又或者由于后验概率分布的形式特别复杂，从而期望无法解析地计算。</li>
 <li>因为在有些情况下精确推断是不可行的，所以考虑近似方法，近似方法主要分两类：随机近似，例如马尔科夫链蒙特卡罗方法，主要利用马尔科夫链收敛的性质；确定近似，这些方法基于对后验概率分布的解析近似。可以回忆一下，RBM推导中，我们采用的就是随机近似。</li>
-<li>《deep learning》里提到另一个应该考虑变分推断的原因，基于MAP推断的学习算法只是学习一个$p(Z\mid X)$的点估计而非推断整个完整的分布。即EM算法M步中$$\theta^新=\underset{\theta}{\arg\max}\ Q(\theta,\theta^旧)$$是对$\theta$的点估计。</li>
+<li>$\textit{deep learning}$ 里提到另一个应该考虑变分推断的原因，基于MAP推断的学习算法只是学习一个$p(Z\mid X)$的点估计而非推断整个完整的分布。即EM算法M步中$$\theta^新=\underset{\theta}{\arg\max}\ Q(\theta,\theta^旧)$$是对$\theta$的点估计。</li>
 <li>变分推断的核心思想就是在一个关于$q$的有约束的分布族上最大化$L(q)$。变分方法的优点是我们不需要为分布$q$设定一个特定的参数化形式。我们设定它如何分解，之后通过解决优化问题来找出在这些分解限制下最优的概率分布。</li>
 <li>与我们关于EM的讨论相同，我们定义：$$\begin{split}\ln p(X)&amp;=\int\left(q(Z)\ln\left(\frac{p(X,Z)}{q(Z)}\right)\right)dZ-\int\left(q(Z)\ln\left(\frac{p(Z\mid X)}{q(Z)}\right)\right)dZ\cr<br>&amp;=L(q)+KL(q\parallel p)\end{split}$$同时假设$$q(Z)=\prod_{i=1}^{M}q_i(Z_i)$$其中$Z_i$是$Z$的元素中互不相交的组，共划分成$M$个组。</li>
 <li>公式推导：$$\begin{split}L(q)<br>&amp;=\int q(Z)\ln\left(\frac{p(X,Z)}{q(Z)}\right)dZ\cr<br>&amp;=\int\prod_{i=1}^{M}q_i(Z_i)\left(\ln(p(X,Z))-\sum_{i=1}^{M}\ln q_i(Z_i)\right)dZ\cr<br>&amp;=\int q_j\left(\int\ln p(X,Z)\prod_{i\ne j}q_idZ_i\right)dZ_j-\int q_j\ln q_j dZ_j+const\cr<br>&amp;=\int q_j\ln \overline{p}(X,Z_j)dZ_j-\int q_j\ln q_j dZ_j+const\cr<br>&amp;=\int q_j\ln\left(\frac{\overline{p}(X,Z_j)}{q_j}\right)dZ_j+const\cr<br>&amp;=-KL(q_j\parallel \overline{p})+const\end{split}$$其中$$\ln \overline{p}(X,Z_j)=\int\ln p(X,Z)\prod_{i\ne j}q_idZ_i=E_{i\ne j}[\ln p(X,Z)]+const$$注意：一顿推导只是关注$j$分量，其他的全部扔到const里面去，因为现在只是推导分量$j$上的参数更新，对其他分量的处理方式相同。</li>
