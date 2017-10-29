@@ -157,8 +157,8 @@
 </ol>
 </li>
 <li>2.5 Formal definitions of $\beta\textit{-reduction}$ and $\beta\textit{-equivalence}$<ol>
-<li>We write $M\twoheadrightarrow_{\beta} M’$ if $M$ reduces to $M’$ in zero or more steps.</li>
-<li>Formally, $\twoheadrightarrow_{\beta}$ is defined to be the reflexive transitive closure of $\rightarrow_{\beta}$</li>
+<li>$\mathbf{Definition.}$ We write $M\twoheadrightarrow_{\beta} M’$ if $M$ reduces to $M’$ in zero or more steps. Formally, $\twoheadrightarrow_{\beta}$ is defined to be the reflexive transitive closure of $\rightarrow_{\beta}$.</li>
+<li>$\mathbf{Definition.}$ We write $M =_{\beta} M’$ if $M$ can be transformed into $M’$ by zero or more reduction steps and/or inverse reduction steps.Formally, $=_{\beta}$ is defined to be the reflexive symmetric transitive closure of $\rightarrow_{\beta}$.</li>
 <li>好好看一下Closure</li>
 </ol>
 </li>
@@ -172,18 +172,46 @@
 <li>3.2 Natural numbers</li>
 <li>3.3 Fixed points and recursive functions<ol>
 <li>If $F$ and $N$ are lambda terms, we say that $N$ is a fixed point of $F$ if $FN =_{\beta} N$</li>
-<li>$\mathbf{Theorem 3.1.}\textit{ In the untyped lambda calculus, every term F has a fixed point.}$</li>
+<li>$\mathbf{Theorem\ 3.1}\textit{ In the untyped lambda calculus, every term F has a fixed point.}$</li>
 <li>$\mathbf{Proof}$. Let $A = \lambda xy.y(xxy)$, and define $\theta = AA$. Now suppose $F$ is any lambda term, and let $N = \theta F$ . We claim that $N$ is a fixed point of $F$ . This is shown by the following calculation:$$\begin{split}N&amp;=\theta F\cr<br>&amp;=AAF\cr<br>&amp;=(\lambda xy.y(xxy))AF\cr<br>&amp;\rightarrow_{\beta}F(AAF)\cr<br>&amp;=F(\theta F)\cr<br>&amp;=FN\end{split}$$</li>
 <li>The term $\theta$ used in the proof is called Turing’s fixed point combinator.</li>
 </ol>
 </li>
 <li>3.4 Other data types: pairs, tuples, lists, trees, etc.</li>
 </ul>
-<p>不要急，慢慢看！</p>
 <h2 id="4-The-Church-Rosser-Theorem"><a href="#4-The-Church-Rosser-Theorem" class="headerlink" title="4.The Church-Rosser Theorem"></a>4.The Church-Rosser Theorem</h2><ul>
+<li>4.1 Extensionality, $\eta$-equivalence, and $\eta$-reduction<ol>
+<li>$\eta\textit{-reduction}$:$$\lambda x.Mx\rightarrow_{\eta} M, \textit{where}\ x\notin FV(M)$$</li>
+<li>Single-step $\beta\eta$-reduction $\rightarrow_{\beta\eta}$ is defined as the union of the single-step $\beta$- and $\eta$-reductions</li>
+</ol>
+</li>
+<li>4.2 Statement of the Church-Rosser Theorem, and some con- sequences<ol>
+<li>$\mathbf{Theorem\ 4.2}$ (Church and Rosser, 1936):<br> Suppose M, N, and P are lambda terms such that M $\twoheadrightarrow $ N and M $\twoheadrightarrow$ P. Then there exists a lambda term Z such that N $\twoheadrightarrow $ Z and P $\twoheadrightarrow $ Z.</li>
+</ol>
+</li>
+<li>4.3 Preliminary remarks on the proof of the Church-Rosser Theorem<ol>
+<li>很有意思，帮助理解，但一些图太难画了。</li>
+</ol>
+</li>
+<li>4.4 Proof of the Church-Rosser Theorem<ol>
+<li>We begin by defining a new relation $M \rhd M’$ on terms, called $\textit{parallel one-step reduction}$. We define $\rhd$ to be the smallest relation satisfying:$$\begin{split}&amp;\frac{}{x\rhd x}\cr<br>&amp;\frac{P\rhd P’,N\rhd N’}{PN\rhd P’N’}\cr<br>&amp;\frac{N\rhd N’}{\lambda x.N\rhd\lambda x.N’}\cr<br>&amp;\frac{Q\rhd Q’,N\rhd N’}{(\lambda x.Q)N\rhd Q’[N’/x]}\cr<br>&amp;\frac{P\rhd P’(x\notin FV(P))}{\lambda x.Px\rhd P’}\end{split}$$</li>
+<li>$\mathbf{Lemma\ 4.6}$:<ul>
+<li>(a) For all $M$, $M’$, if $M\rightarrow_{\beta\eta} M’$ then $M \rhd M’$.</li>
+<li>(b) For all $M$, $M’$, if $M\rhd M’$ then $M \twoheadrightarrow_{\beta\eta} M’$.</li>
+<li>(c) $\twoheadrightarrow_{\beta\eta}$ is the reflexive transitive closure of $\rhd$.</li>
+</ul>
+</li>
+<li>$\mathbf{Lemma\ 4.7}$ (Substitution).If $M \rhd M’$ and $U \rhd U’$, then $M[U/y] \rhd M’[U’/y]$.</li>
+<li>$\mathbf{Lemma\ 4.8}$ (Maximal parallel one-step reductions). Whenever $M \rhd M’$, then $M’ \rhd M^*$.</li>
+<li>$\mathbf{Lemma\ 4.9}$ (Diamond property for $\rhd$). If $M \rhd N$ and $M \rhd P$ , then there exists $Z$<br>such that $N \rhd Z$ and $P \rhd Z$.</li>
+<li>$\textit{Proof of Theorem 4.2}$: Since $\rhd$ satisfies the diamond property, and its reflexive transitive closure $\twoheadrightarrow_{\beta\eta}$ also satisfies the diamond property,and the diamond property for $\twoheadrightarrow_{\beta\eta}$ is just the Church-Rosser property for $\rightarrow_{\beta\eta}$.</li>
+</ol>
+</li>
+</ul>
+<h2 id="5-Combinatory-algebras"><a href="#5-Combinatory-algebras" class="headerlink" title="5.Combinatory algebras"></a>5.Combinatory algebras</h2><ul>
 <li>…</li>
 </ul>
-<h2 id="5-Combinatory-algebras"><a href="#5-Combinatory-algebras" class="headerlink" title="5.Combinatory algebras"></a>5.Combinatory algebras</h2><h2 id="6-Simply-typed-lambda-calculus-propositional-logic-and-the-Curry-Howard-isomorphism"><a href="#6-Simply-typed-lambda-calculus-propositional-logic-and-the-Curry-Howard-isomorphism" class="headerlink" title="6.Simply-typed lambda calculus, propositional logic, and the Curry-Howard isomorphism"></a>6.Simply-typed lambda calculus, propositional logic, and the Curry-Howard isomorphism</h2><h2 id="7-Weak-and-strong-normalization"><a href="#7-Weak-and-strong-normalization" class="headerlink" title="7.Weak and strong normalization"></a>7.Weak and strong normalization</h2><h2 id="8-Polymorphism"><a href="#8-Polymorphism" class="headerlink" title="8.Polymorphism"></a>8.Polymorphism</h2><h2 id="9-Type-inference"><a href="#9-Type-inference" class="headerlink" title="9.Type inference"></a>9.Type inference</h2></section>
+<h2 id="6-Simply-typed-lambda-calculus-propositional-logic-and-the-Curry-Howard-isomorphism"><a href="#6-Simply-typed-lambda-calculus-propositional-logic-and-the-Curry-Howard-isomorphism" class="headerlink" title="6.Simply-typed lambda calculus, propositional logic, and the Curry-Howard isomorphism"></a>6.Simply-typed lambda calculus, propositional logic, and the Curry-Howard isomorphism</h2><h2 id="7-Weak-and-strong-normalization"><a href="#7-Weak-and-strong-normalization" class="headerlink" title="7.Weak and strong normalization"></a>7.Weak and strong normalization</h2><h2 id="8-Polymorphism"><a href="#8-Polymorphism" class="headerlink" title="8.Polymorphism"></a>8.Polymorphism</h2><h2 id="9-Type-inference"><a href="#9-Type-inference" class="headerlink" title="9.Type inference"></a>9.Type inference</h2><h2 id="10-Denotational-semantics"><a href="#10-Denotational-semantics" class="headerlink" title="10.Denotational semantics"></a>10.Denotational semantics</h2><h2 id="11-The-language-PCF"><a href="#11-The-language-PCF" class="headerlink" title="11.The language PCF"></a>11.The language PCF</h2><h2 id="12-Complete-partial-orders"><a href="#12-Complete-partial-orders" class="headerlink" title="12.Complete partial orders"></a>12.Complete partial orders</h2><h2 id="13-Denotational-semantics-of-PCF"><a href="#13-Denotational-semantics-of-PCF" class="headerlink" title="13.Denotational semantics of PCF"></a>13.Denotational semantics of PCF</h2></section>
     
       <div class="tags">
         <span>Tags:</span>
