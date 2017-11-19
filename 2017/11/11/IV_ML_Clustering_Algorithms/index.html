@@ -10,7 +10,7 @@
   
   <title>
     
-      IV.机器学习模型-聚类聚类分析概述 | JAYANDJEAN
+      IV.机器学习模型-聚类分析概述 | JAYANDJEAN
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -84,7 +84,7 @@
 </header>
 
     <div id="article-banner">
-  <h2>IV.机器学习模型-聚类聚类分析概述</h2>
+  <h2>IV.机器学习模型-聚类分析概述</h2>
   <p class="post-date">2017-11-11</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
@@ -93,8 +93,68 @@
 <main class="app-body">
   <article class="post-article">
     <section class="markdown-content"><p>聚类分析概述。</p>
-<p>$\textit{A Comprehensive Survey of Clustering Algorithms}$</p>
 <a id="more"></a>
+<h3 id="Traditional-Clustering-Algorithms"><a href="#Traditional-Clustering-Algorithms" class="headerlink" title="Traditional Clustering Algorithms"></a>Traditional Clustering Algorithms</h3><ol>
+<li>Clustering Algorithm Based on Partition<ul>
+<li>划分方法主要是根据同类对象相似，不同类对象相异进行对象的聚类；比如$N$个对象聚成$K$个类，可以定义一个目标函数，称为失真度量，形式为$$J=\sum_{n=1}^{N}\sum_{k=1}^{K}r_{nk}\parallel x_n-\mu_k\parallel ^2$$我们的目标就是优化$J$，K-means和K-medoids是这类中最常见的算法。缺点是参数$K$需要人为设定。</li>
+</ul>
+</li>
+<li>Clustering Algorithm Based on Hierarchy<ul>
+<li>层次方法是将数据转化为树状结构，通过确定层级来实现聚类。</li>
+</ul>
+</li>
+<li>Clustering Algorithm Based on Fuzzy Theory<ul>
+<li>没啥意义。</li>
+</ul>
+</li>
+<li>Clustering Algorithm Based on Distribution<ul>
+<li>该类算法的主要判断依据是，如果原始数据由多个分布混合产生，那么属于同一个分布的数据属于同一类；典型的算法有混合高斯模型（GMM）。</li>
+</ul>
+</li>
+<li>Clustering Algorithm Based on Density<ul>
+<li>该类算法的主要判断依据是，在高密度区域的数据属于同一类。典型的算法有DBSCAN，OPTICS，Mean-shift，优点是不需要定义簇的数量。</li>
+</ul>
+</li>
+<li>Clustering Algorithm Based on Graph Theory<ul>
+<li>节点代表数据，边代表数据点之间的相似性；典型的算法有CLICK和基于最小生成树的聚类，CLICK的核心方法是在图中不断去掉相似性最小的边直到生成不同的类。</li>
+</ul>
+</li>
+<li>Clustering Algorithm Based on Grid<ul>
+<li>基于网格的聚类算法</li>
+</ul>
+</li>
+<li>Clustering Algorithm Based on Fractal Theory<ul>
+<li>基于分形理论的聚类，暂时不懂，略过。</li>
+</ul>
+</li>
+<li>Clustering Algorithm Based on Model<ul>
+<li>基于统计学习方法的典型方法有COBWEB，GMM；COBWEB的核心想法是利用数据生成决策树，再利用层次方法进行聚类；基于神经网络的方法有SOM，暂时不懂</li>
+</ul>
+</li>
+</ol>
+<h3 id="Modern-Clustering-Algorithms"><a href="#Modern-Clustering-Algorithms" class="headerlink" title="Modern Clustering Algorithms"></a>Modern Clustering Algorithms</h3><ol>
+<li>Clustering Algorithm Based on Kernel<ul>
+<li>主要思想是将特征数据映射到高维空间，再进行聚类分析；典型的方法有kernel K- means，kernel SOM。</li>
+</ul>
+</li>
+<li>Clustering Algorithm Based on Ensemble</li>
+<li>Clustering Algorithm Based on Swarm Intelligence</li>
+<li>Clustering Algorithm Based on Quantum Theory</li>
+<li>Clustering Algorithm Based on Spectral Graph Theory<ul>
+<li>谱分法最早应用于图形分割，主要是求解拉普拉斯矩阵的特征值，及特征向量，并对特征向量进行聚类。</li>
+</ul>
+</li>
+<li>Clustering Algorithm Based on Affinity Propagation</li>
+<li>Clustering Algorithm Based on Density and Distance</li>
+<li>马尔科夫聚类算法（MCL）</li>
+<li>标签传播算法（Label Propagation Algorithm）<ul>
+<li>半监督聚类算法</li>
+</ul>
+</li>
+</ol>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><ol>
+<li>$\textit{A Comprehensive Survey of Clustering Algorithms}$</li>
+</ol>
 </section>
     
       <div class="tags">
@@ -179,7 +239,7 @@
     var gitmentConfig = "";
     if (gitmentConfig != "undefined") {
       var gitment = new Gitment({
-        id: "IV.机器学习模型-聚类聚类分析概述",
+        id: "IV.机器学习模型-聚类分析概述",
         owner: "",
         repo: "",
         oauth: {
