@@ -98,10 +98,10 @@
 <p>前三节 图的概念、图的顶点度、图的运算</p>
 </blockquote>
 <ol>
-<li>图$G$是一个三元组，记作$G=<v(g),e(g),\varphi(g)>$，其中$V(G)$为图的顶点集合，$E(G)$为图的边集合，$\varphi(G)$为边到顶点对的映射；</v(g),e(g),\varphi(g)></li>
+<li>图$G$是一个三元组，记作$G=\{V(G),E(G),\varphi(G)\}$，其中$V(G)$为图的顶点集合，$E(G)$为图的边集合，$\varphi(G)$为边到顶点对的映射；</li>
 <li>$\Delta(G)$和$\delta(G)$分别表示$G$的最大顶点度和最小顶点度；</li>
 <li>设$G$为无向图，对于$G$的每个顶点$x$，若$d(x)=K$，则称$G$为$K$正则无向图；</li>
-<li>定义：设$G_1=<v_1,e_1>$和$G_2=<v_2,e_2>$是简单图，若存在一个从$V_1$到$V_2$的双射函数$f$，且$f$具有这样的性质，对$V_1$中的所有$x$和$y$，$x$和$y$在$G_1$中相邻，且$f(x)$和$f(y)$在$G_2$中相邻，则称$G_1$和$G_2$是同构的，记作$G_1\simeq G_2$；</v_2,e_2></v_1,e_1></li>
+<li>定义：设$G_1=\{V_1,E_1\}$和$G_2=\{V_2,E_2\}$是简单图，若存在一个从$V_1$到$V_2$的双射函数$f$，且$f$具有这样的性质，对$V_1$中的所有$x$和$y$，$x$和$y$在$G_1$中相邻，且$f(x)$和$f(y)$在$G_2$中相邻，则称$G_1$和$G_2$是同构的，记作$G_1\simeq G_2$；</li>
 <li>若$G_1\subseteq G$，且$V_1=V$，则称$G_1$是$G$的生成子图；</li>
 </ol>
 <blockquote>
@@ -136,7 +136,10 @@
 <blockquote>
 <p>第四节 最小生成树</p>
 </blockquote>
-<h3 id="第四章-平面图"><a href="#第四章-平面图" class="headerlink" title="第四章 平面图"></a>第四章 平面图</h3><h3 id="第五章-独立集与匹配"><a href="#第五章-独立集与匹配" class="headerlink" title="第五章 独立集与匹配"></a>第五章 独立集与匹配</h3><h3 id="第六章-网络流和Petri网"><a href="#第六章-网络流和Petri网" class="headerlink" title="第六章 网络流和Petri网"></a>第六章 网络流和Petri网</h3></section>
+<h3 id="第四章-平面图"><a href="#第四章-平面图" class="headerlink" title="第四章 平面图"></a>第四章 平面图</h3><h3 id="第五章-独立集与匹配"><a href="#第五章-独立集与匹配" class="headerlink" title="第五章 独立集与匹配"></a>第五章 独立集与匹配</h3><ol>
+<li>设$G=\{V,E\}$是简单无向图，$T\subseteq V,T\neq\emptyset$，若$T$中任意两个顶点都相邻，则称$T$是图$G$的团(clique)；</li>
+</ol>
+<h3 id="第六章-网络流和Petri网"><a href="#第六章-网络流和Petri网" class="headerlink" title="第六章 网络流和Petri网"></a>第六章 网络流和Petri网</h3></section>
     
       <div class="tags">
         <span>Tags:</span>
