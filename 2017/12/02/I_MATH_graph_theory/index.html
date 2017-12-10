@@ -10,7 +10,7 @@
   
   <title>
     
-      I.数学基础-图论-读书笔记 | JAYANDJEAN
+      I.数学基础-图论-知识点整理 | JAYANDJEAN
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -84,7 +84,7 @@
 </header>
 
     <div id="article-banner">
-  <h2>I.数学基础-图论-读书笔记</h2>
+  <h2>I.数学基础-图论-知识点整理</h2>
   <p class="post-date">2017-12-02</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
@@ -92,54 +92,53 @@
 </div>
 <main class="app-body">
   <article class="post-article">
-    <section class="markdown-content"><p>《图论及其算法》读书笔记。</p>
+    <section class="markdown-content"><p>因为最近的工作需要，整理一下关于图的知识点。</p>
 <a id="more"></a>
-<h3 id="第一章-图的基本概念"><a href="#第一章-图的基本概念" class="headerlink" title="第一章 图的基本概念"></a>第一章 图的基本概念</h3><blockquote>
-<p>前三节 图的概念、图的顶点度、图的运算</p>
-</blockquote>
+<p>主要包括以下几点内容：</p>
 <ol>
-<li>图$G$是一个三元组，记作$G=\{V(G),E(G),\varphi(G)\}$，其中$V(G)$为图的顶点集合，$E(G)$为图的边集合，$\varphi(G)$为边到顶点对的映射；</li>
-<li>$\Delta(G)$和$\delta(G)$分别表示$G$的最大顶点度和最小顶点度；</li>
+<li>图的基本概念</li>
+<li>图的基本算法<ul>
+<li>深度优先搜索与广度优先搜索</li>
+<li>最小生成树</li>
+</ul>
+</li>
+<li>图的分析与可视化</li>
+<li>分布式图计算<ul>
+<li>了解不同的计算模型</li>
+<li>学会使用graph sdk</li>
+</ul>
+</li>
+<li>图聚类模型<ul>
+<li>spectral graph theory</li>
+</ul>
+</li>
+<li>概率图模型</li>
+</ol>
+<h3 id="1、图的基本概念"><a href="#1、图的基本概念" class="headerlink" title="1、图的基本概念"></a>1、图的基本概念</h3><ol>
+<li>图的定义：图$G$是一个三元组，记作$G=\{V(G),E(G),\varphi(G)\}$，其中$V(G)$为图的顶点集合，$E(G)$为图的边集合，$\varphi(G)$为边到顶点对的映射；</li>
+<li>定义：环、平行边、对称边</li>
+<li>定义：无向图、有向图、平凡图、简单图、完全图</li>
+<li>顶点度的定义：$x$为$G$的任一顶点，与顶点$x$关联的边数（环要计算两次）称为$x$的度数，记作$deg(x)$；$\Delta(G)$和$\delta(G)$分别表示$G$的最大顶点度和最小顶点度；</li>
 <li>设$G$为无向图，对于$G$的每个顶点$x$，若$d(x)=K$，则称$G$为$K$正则无向图；</li>
-<li>定义：设$G_1=\{V_1,E_1\}$和$G_2=\{V_2,E_2\}$是简单图，若存在一个从$V_1$到$V_2$的双射函数$f$，且$f$具有这样的性质，对$V_1$中的所有$x$和$y$，$x$和$y$在$G_1$中相邻，且$f(x)$和$f(y)$在$G_2$中相邻，则称$G_1$和$G_2$是同构的，记作$G_1\simeq G_2$；</li>
-<li>若$G_1\subseteq G$，且$V_1=V$，则称$G_1$是$G$的生成子图；</li>
-</ol>
-<blockquote>
-<p>第四节 路与连通图</p>
-</blockquote>
-<ol>
-<li>边互不相同的链称为迹(trail)，内部点互不相同的链称为路(path)；</li>
-</ol>
-<blockquote>
-<p>第五节 连通度和二分图</p>
-</blockquote>
-<ol>
-<li>连通度的定义</li>
-</ol>
-<blockquote>
-<p>第六节 图的矩阵表示</p>
-</blockquote>
-<ol>
+<li>图的同构定义：设$G_1=\{V_1,E_1\}$和$G_2=\{V_2,E_2\}$是简单图，若存在一个从$V_1$到$V_2$的双射函数$f$，且$f$具有这样的性质，对$V_1$中的所有$x$和$y$，$x$和$y$在$G_1$中相邻，且$f(x)$和$f(y)$在$G_2$中相邻，则称$G_1$和$G_2$是同构的，记作$G_1\simeq G_2$；</li>
+<li>生成子图的定义：若$G_1\subseteq G$，且$V_1=V$，则称$G_1$是$G$的生成子图（$\textit{spanning subgraph}$）；</li>
+<li>导出子图的定义：设$V_1\subseteq V$，且$V_1\ne\emptyset$，以$V_1$为顶点，以两端点均在$V_1$中的全体边为边集的$G$的子图，称为$V_1$的导出子图（$\textit{induced subgraph}$），记作$G[V_1]$；</li>
+<li>定义：补图、并、交、差、环和</li>
+<li>边互不相同的链称为迹($\textit{trail}$)，内部点互不相同的链称为路($\textit{path}$)；</li>
+<li>两端点相同的迹（即闭迹）称为回；两端点相同的路（即闭路）称为圈；</li>
+<li>如果在图$G$中删去一个顶点$x$后，图$G$的连通分支数增加，即$W(G-x)&gt;W(G)$，则称顶点$x$为$G$的割点($\textit{cut vertex}$)；如果在图$G$中删去一条边$e$后，图$G$的连通分支数增加，即$W(G-e)&gt;W(G)$，则称边$e$为$G$的割边($\textit{cut edge}$)或桥；</li>
+<li>没有割点的非平凡连通图称为块($\textit{block}$)；</li>
+<li>如果图$G$的顶点集的一个真子集$T$满足$G-T$不连通或是平凡图，则称$T$为$G$的一个点割；如果图$G$的边集的一个真子集$S$满足$G-S$不连通或是平凡图，则称$S$为$G$的一个边割；</li>
+<li>设$G$是连通图，称$K(G)=\min\{\parallel T\parallel\mid T是G的点割\}$为$G$的点连通度；称$\lambda(G)=\min\{\parallel S\parallel\mid S是G的边割\}$为$G$的边连通度；</li>
 <li>邻接矩阵、关联矩阵、可达矩阵</li>
-</ol>
-<h3 id="第二章-欧拉图与哈密顿图"><a href="#第二章-欧拉图与哈密顿图" class="headerlink" title="第二章 欧拉图与哈密顿图"></a>第二章 欧拉图与哈密顿图</h3><h3 id="第三章-树及其应用"><a href="#第三章-树及其应用" class="headerlink" title="第三章 树及其应用"></a>第三章 树及其应用</h3><ol>
 <li>树是无圈连通无向图；</li>
 <li>如果$T$是$G$的一个生成子图而且又是一棵树，则称$T$是图$G$的一棵生成树，生成树$T$中的边称为树$T$的树枝，不在生成树$T$中的$G$的边，称为树$T$的弦；</li>
-<li>生成树的计数问题！</li>
-</ol>
-<blockquote>
-<p>第三节 深度优先搜索与广度优先搜索</p>
-</blockquote>
-<ol>
-<li>定义</li>
-</ol>
-<blockquote>
-<p>第四节 最小生成树</p>
-</blockquote>
-<h3 id="第四章-平面图"><a href="#第四章-平面图" class="headerlink" title="第四章 平面图"></a>第四章 平面图</h3><h3 id="第五章-独立集与匹配"><a href="#第五章-独立集与匹配" class="headerlink" title="第五章 独立集与匹配"></a>第五章 独立集与匹配</h3><ol>
 <li>设$G=\{V,E\}$是简单无向图，$T\subseteq V,T\neq\emptyset$，若$T$中任意两个顶点都相邻，则称$T$是图$G$的团(clique)；</li>
 </ol>
-<h3 id="第六章-网络流和Petri网"><a href="#第六章-网络流和Petri网" class="headerlink" title="第六章 网络流和Petri网"></a>第六章 网络流和Petri网</h3></section>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li>《图论及其算法》</li>
+</ol>
+</section>
     
       <div class="tags">
         <span>Tags:</span>
@@ -223,7 +222,7 @@
     var gitmentConfig = "";
     if (gitmentConfig != "undefined") {
       var gitment = new Gitment({
-        id: "I.数学基础-图论-读书笔记",
+        id: "I.数学基础-图论-知识点整理",
         owner: "",
         repo: "",
         oauth: {
