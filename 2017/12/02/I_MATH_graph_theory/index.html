@@ -152,7 +152,17 @@
 <p> <img src="http://7xs8n3.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-12-16%20%E4%B8%8B%E5%8D%884.13.16.png" alt=""></p>
 </li>
 </ol>
-<h3 id="4、分布式图计算"><a href="#4、分布式图计算" class="headerlink" title="4、分布式图计算"></a>4、分布式图计算</h3><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<h3 id="4、分布式图计算"><a href="#4、分布式图计算" class="headerlink" title="4、分布式图计算"></a>4、分布式图计算</h3><ol>
+<li>Pregel模型：“像顶点一样思考”<ol>
+<li>用户无需考虑并行分布式计算的细节，只需要实现一个顶点更新函数，让框架在遍历顶点时进行调用即可。</li>
+</ol>
+</li>
+<li>GAS模型：邻居更新模型<ol>
+<li>相比于Pregel模型的消息通信范式，GraphLab的GAS模型更偏向共享内存风格。它允许用户的自定义函数访问当前顶点的整个邻域，可以抽象成Gather，Apply，Scatter这三个阶段，常被简称为GAS。相应用户需要实现的三个独立的函数：gather、apply和scatter。</li>
+</ol>
+</li>
+</ol>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
 <li>《图论及其算法》</li>
 <li>《图分析与可视化》</li>
 </ol>
