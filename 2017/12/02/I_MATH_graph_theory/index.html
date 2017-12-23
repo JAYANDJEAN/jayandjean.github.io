@@ -92,7 +92,7 @@
 </div>
 <main class="app-body">
   <article class="post-article">
-    <section class="markdown-content"><p>因为最近的工作需要，整理一下关于图的知识点。</p>
+    <section class="markdown-content"><p>整理一下关于图的知识点。</p>
 <a id="more"></a>
 <p>主要包括以下几点内容：</p>
 <ol>
@@ -153,12 +153,24 @@
 </li>
 </ol>
 <h3 id="4、分布式图计算"><a href="#4、分布式图计算" class="headerlink" title="4、分布式图计算"></a>4、分布式图计算</h3><ol>
-<li>Pregel模型：“像顶点一样思考”<ol>
-<li>用户无需考虑并行分布式计算的细节，只需要实现一个顶点更新函数，让框架在遍历顶点时进行调用即可。</li>
+<li>基于MapReduce模型的MapReduce派系<ol>
+<li>Pegasus是一个建立在Hadoop平台上所实现的开源大规模图数据处理系统，其核心思想是将各种图计算的操作归纳为一个迭代的矩阵乘法计算；</li>
 </ol>
 </li>
-<li>GAS模型：邻居更新模型<ol>
-<li>相比于Pregel模型的消息通信范式，GraphLab的GAS模型更偏向共享内存风格。它允许用户的自定义函数访问当前顶点的整个邻域，可以抽象成Gather，Apply，Scatter这三个阶段，常被简称为GAS。相应用户需要实现的三个独立的函数：gather、apply和scatter。</li>
+<li>基于BSP模型的Pregel派系<ol>
+<li>为了改进基于MR模型的大规模图计算系统的低效率，Google于2010年推出基于整体同步并行（Bulk Synchronous Parallel）模型的大规模分布式图计算框架Pregel；</li>
+<li>每个BSP作业由一系列顺序执行的通过全局路障分离的超步（Superstep）组成，并行任务按照超步组织，接收来自于上一个超步的消息，执行本地计算并发送消息给下一个超步。每一个超步包含三个过程：<ol>
+<li>本地计算：每个工作节点读取其本地内存数据并行计算，其计算异步执行；</li>
+<li>消息通信：参与计算的每个工作节点将消息传递给与之关联的其他工作节点，以便相互间交换所需的数据；</li>
+<li>路障同步：用于数据的整体同步，即块间同步，每个工作节点更新其自身消息缓存，确定所有的计算和消息传递都进行完毕后开始进入下一个超步；</li>
+</ol>
+</li>
+<li>基于BSP模型的大规模分布式图计算系统，最早最著名的就是Pregel；</li>
+<li>由于超步中每个节点上的本地计算所耗费的时间不等，执行进度不统一，因此全局路障同步将导致大量节点处于等待状态，形成快等慢的局面，造成计算效率低下的问题。</li>
+</ol>
+</li>
+<li>基于GAS模型的GraphLab派系<ol>
+<li>由GraphLab项目组提出的GAS（Gather-Apply-Scatter）模型通过将计算过程进一步细分来增加计算并发性；</li>
 </ol>
 </li>
 </ol>
