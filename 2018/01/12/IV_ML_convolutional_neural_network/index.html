@@ -94,10 +94,10 @@
   <article class="post-article">
     <section class="markdown-content"><p>《深度学习》第九章读书笔记。</p>
 <a id="more"></a>
-<h3 id="第九章-卷积神经网络"><a href="#第九章-卷积神经网络" class="headerlink" title="第九章 卷积神经网络"></a>第九章 卷积神经网络</h3><h4 id="9-1-卷积运算"><a href="#9-1-卷积运算" class="headerlink" title="9.1 卷积运算"></a>9.1 卷积运算</h4><ol>
+<h2 id="第九章-卷积神经网络"><a href="#第九章-卷积神经网络" class="headerlink" title="第九章 卷积神经网络"></a>第九章 卷积神经网络</h2><h3 id="9-1-卷积运算"><a href="#9-1-卷积运算" class="headerlink" title="9.1 卷积运算"></a>9.1 卷积运算</h3><ol>
 <li>如果把二维的图像$I$作为输入，我们也相应的需要使用二维的核$K$:$$\begin{split}S(i,j)<br>&amp;=(I_K)(i,j)=\sum_{m}\sum_{n}I(m,n)K(i-m,j-n)\cr<br>&amp;=(K_I)(i,j)=\sum_{m}\sum_{n}I(i-m,j-n)K(m,n)<br>\end{split}$$</li>
 </ol>
-<h4 id="9-2-动机"><a href="#9-2-动机" class="headerlink" title="9.2 动机"></a>9.2 动机</h4><ol>
+<h3 id="9-2-动机"><a href="#9-2-动机" class="headerlink" title="9.2 动机"></a>9.2 动机</h3><ol>
 <li>卷积运算通过三个重要的思想来帮助改进机器学习系统：<ol>
 <li>稀疏交互 (sparse interactions)：参数矩 阵的每一个独立的参数都描述了每一个输入单元与每一个输出单元间的交互，这意味着每一个输出单元与每一个输入单元都产生交互。然而，卷积神经网络具有稀疏交互 (sparse interactions)</li>
 <li>参数共享 (parameter sharing)、</li>
@@ -105,7 +105,7 @@
 </ol>
 </li>
 </ol>
-<h4 id="9-3-池化"><a href="#9-3-池化" class="headerlink" title="9.3 池化"></a>9.3 池化</h4><ol>
+<h3 id="9-3-池化"><a href="#9-3-池化" class="headerlink" title="9.3 池化"></a>9.3 池化</h3><ol>
 <li>卷积神经网络的卷积层通常包含三级。<ol>
 <li>在第一级中，卷积层并行地进行多个卷积运算来产生一组线性激活函数。</li>
 <li>在第二级中，非线性的激活函数如整流线性单元函数等作用在第一级中的每一个线性输出上。这一级有时也被称为探测级 (detector stage)。</li>
@@ -121,7 +121,7 @@
 </li>
 <li>局部平移不变性。不懂</li>
 </ol>
-<h4 id="9-4-卷积与池化作为一种无限强的先验"><a href="#9-4-卷积与池化作为一种无限强的先验" class="headerlink" title="9.4 卷积与池化作为一种无限强的先验"></a>9.4 卷积与池化作为一种无限强的先验</h4><ol>
+<h3 id="9-4-卷积与池化作为一种无限强的先验"><a href="#9-4-卷积与池化作为一种无限强的先验" class="headerlink" title="9.4 卷积与池化作为一种无限强的先验"></a>9.4 卷积与池化作为一种无限强的先验</h3><ol>
 <li>这个无限强的先验是说：<ol>
 <li>一个隐藏单元的权值必须和它相邻隐单元的权值相等；</li>
 <li>除了隐藏单元空间的部分权值外，其他的权值都为零；</li>
@@ -132,13 +132,13 @@
 </ol>
 </li>
 </ol>
-<h4 id="9-5-基本卷积函数的变体"><a href="#9-5-基本卷积函数的变体" class="headerlink" title="9.5 基本卷积函数的变体"></a>9.5 基本卷积函数的变体</h4><h4 id="9-6-结构化输出"><a href="#9-6-结构化输出" class="headerlink" title="9.6 结构化输出"></a>9.6 结构化输出</h4><h4 id="9-7-数据类型"><a href="#9-7-数据类型" class="headerlink" title="9.7 数据类型"></a>9.7 数据类型</h4><ol>
+<h3 id="9-5-基本卷积函数的变体"><a href="#9-5-基本卷积函数的变体" class="headerlink" title="9.5 基本卷积函数的变体"></a>9.5 基本卷积函数的变体</h3><h3 id="9-6-结构化输出"><a href="#9-6-结构化输出" class="headerlink" title="9.6 结构化输出"></a>9.6 结构化输出</h3><h3 id="9-7-数据类型"><a href="#9-7-数据类型" class="headerlink" title="9.7 数据类型"></a>9.7 数据类型</h3><ol>
 <li>卷积网络使用的数据通常包含多个通道</li>
 </ol>
-<h4 id="9-8-高效的卷积算法"><a href="#9-8-高效的卷积算法" class="headerlink" title="9.8 高效的卷积算法"></a>9.8 高效的卷积算法</h4><ol>
+<h3 id="9-8-高效的卷积算法"><a href="#9-8-高效的卷积算法" class="headerlink" title="9.8 高效的卷积算法"></a>9.8 高效的卷积算法</h3><ol>
 <li>卷积等效于使用Fourier变换将输入与核都转换到频域，执行两个信号的逐点相乘，并使用Fourier逆变换转换回时域。对于某些问题大小，这可能比离散型卷积的朴素实现更快。</li>
 </ol>
-<h4 id="9-9-随机或无监督的特征"><a href="#9-9-随机或无监督的特征" class="headerlink" title="9.9 随机或无监督的特征"></a>9.9 随机或无监督的特征</h4><h4 id="9-10-卷积神经网络的神经科学基础"><a href="#9-10-卷积神经网络的神经科学基础" class="headerlink" title="9.10 卷积神经网络的神经科学基础"></a>9.10 卷积神经网络的神经科学基础</h4><h4 id="9-11-卷积神经网络与深度学习的历史"><a href="#9-11-卷积神经网络与深度学习的历史" class="headerlink" title="9.11 卷积神经网络与深度学习的历史"></a>9.11 卷积神经网络与深度学习的历史</h4></section>
+<h3 id="9-9-随机或无监督的特征"><a href="#9-9-随机或无监督的特征" class="headerlink" title="9.9 随机或无监督的特征"></a>9.9 随机或无监督的特征</h3><h3 id="9-10-卷积神经网络的神经科学基础"><a href="#9-10-卷积神经网络的神经科学基础" class="headerlink" title="9.10 卷积神经网络的神经科学基础"></a>9.10 卷积神经网络的神经科学基础</h3><h3 id="9-11-卷积神经网络与深度学习的历史"><a href="#9-11-卷积神经网络与深度学习的历史" class="headerlink" title="9.11 卷积神经网络与深度学习的历史"></a>9.11 卷积神经网络与深度学习的历史</h3></section>
     
       <div class="tags">
         <span>Tags:</span>
