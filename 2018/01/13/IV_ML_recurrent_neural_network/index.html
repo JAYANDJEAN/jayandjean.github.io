@@ -94,7 +94,13 @@
   <article class="post-article">
     <section class="markdown-content"><p>《深度学习》第十章读书笔记。</p>
 <a id="more"></a>
-<h2 id="第十章"><a href="#第十章" class="headerlink" title="第十章"></a>第十章</h2><h3 id="10-1"><a href="#10-1" class="headerlink" title="10.1"></a>10.1</h3></section>
+<h2 id="第十章-序列建模-循环和递归网络"><a href="#第十章-序列建模-循环和递归网络" class="headerlink" title="第十章 序列建模:循环和递归网络"></a>第十章 序列建模:循环和递归网络</h2><h3 id="10-1"><a href="#10-1" class="headerlink" title="10.1"></a>10.1</h3><p>$\boldsymbol{h}^{(t)}=f\left(\boldsymbol{h}^{(t-1)},\boldsymbol{x}^{(t)};\boldsymbol{\theta}\right)$</p>
+<hr>
+<p>$$\begin{eqnarray}<br>\boldsymbol{a}^{(t)}&amp;=&amp;\boldsymbol{b}+\boldsymbol{W}\cdot\boldsymbol{h}^{(t-1)}+\boldsymbol{U}\cdot\boldsymbol{x}^{(t)}\cr<br>\boldsymbol{h}^{(t)}&amp;=&amp;\tanh\left(\boldsymbol{a}^{(t)}\right)\cr<br>\boldsymbol{o}^{(t)}&amp;=&amp;\boldsymbol{c}+\boldsymbol{V}\cdot\boldsymbol{h}^{(t)}\cr<br>\boldsymbol{\widehat{y}}^{(t)}&amp;=&amp;\text{softmax}\left(\boldsymbol{o}^{(t)}\right)<br>\end{eqnarray}$$</p>
+<p>这个循环网络将一个输入序列映射到相同长度的输出序列，与$\boldsymbol{x}$序列配对的$\boldsymbol{y}$的总损失就是所有时间步的损失之和，则：$$\begin{split}<br>&amp;L\left(\{x^{1},…,x^{(\tau)}\},\{y^{1},…,y^{(\tau)}\}\right)\cr<br>&amp;=\sum_{t}L^{(t)}\cr<br>&amp;=-\sum_{t}\log{p_{model}\left(y^{(t)}\mid\{x^{1},…,x^{(t)}\}\right)}<br>\end{split}$$</p>
+<hr>
+<p>导师驱动过程不再使用最大似然准则，而在时刻$t+1$接收真实值$y^{(t)}$作为输入。条件最大似然准则是：$$\begin{split}<br>&amp;\log\left(y^{(t)},y^{(t+1)}\mid x^{(t)},x^{(t+1)}\right)\cr<br>&amp;=\log\left(y^{(t+1)}\mid y^{(t)},x^{(t)},x^{(t+1)}\right)+\log\left(y^{(t)}\mid x^{(t)},x^{(t+1)}\right)<br>\end{split}$$</p>
+</section>
     
       <div class="tags">
         <span>Tags:</span>
