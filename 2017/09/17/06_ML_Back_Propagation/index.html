@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="jayandjean&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      IV.机器学习模型-神经网络-反向传播算法 | JAYANDJEAN
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+  <body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>JAYANDJEAN</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>IV.机器学习模型-神经网络-反向传播算法</h2>
+  <p class="post-date">2017-09-17</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body">
+  <article class="post-article">
+    <section class="markdown-content"><p>抄自<a href="http://ufldl.stanford.edu/wiki/index.php/反向传导算法" target="_blank" rel="external">反向传播算法</a></p>
+<a id="more"></a>
+<h2 id="反向传播算法"><a href="#反向传播算法" class="headerlink" title="反向传播算法"></a>反向传播算法</h2><p>假设我们有一个固定样本集 $\textstyle \{ (x^{(1)}, y^{(1)}), \ldots, (x^{(m)}, y^{(m)}) \}$，它包含 $\textstyle m$ 个样例。我们可以用批量梯度下降法来求解神经网络。具体来讲，对于单个样例 $\textstyle (x,y)$，其代价函数为：</p>
+<p>$$\begin{split}<br>J(W,b; x,y)=\frac{1}{2} \left| h_{W,b}(x) - y \right|^2.<br>\end{split}$$</p>
+<p>这是一个（二分之一的）方差代价函数。给定一个包含 $\textstyle m$ 个样例的数据集，我们可以定义整体代价函数为：</p>
+<p>$$\begin{split}<br>J(W,b)<br>&amp;=\left[ \frac{1}{m} \sum_{i=1}^m J(W,b;x^{(i)},y^{(i)}) \right] + \frac{\lambda}{2} \sum_{l=1}^{n_l-1} \; \sum_{i=1}^{s_l} \; \sum_{j=1}^{s_{l+1}} \left( W^{(l)}_{ji} \right)^2 \cr<br>&amp;=\left[ \frac{1}{m} \sum_{i=1}^m \left( \frac{1}{2} \left| h_{W,b}(x^{(i)}) - y^{(i)} \right|^2 \right) \right] + \frac{\lambda}{2} \sum_{l=1}^{n_l-1} \; \sum_{i=1}^{s_l} \; \sum_{j=1}^{s_{l+1}} \left( W^{(l)}_{ji} \right)^2<br>\end{split}$$</p>
+<p>其中，$n_l$表示网络的层数，$s_l$表示第 $\textstyle l$ 层的节点数（偏置单元不计在内），所以 $\textstyle \dim(x)=s_1,\dim(y)=s_{n_l}$</p>
+<p>我们首先来讲一下如何使用反向传播算法来计算 $\textstyle \frac{\partial}{\partial W_{ij}^{(l)}} J(W,b; x, y)$ 和 $\textstyle \frac{\partial}{\partial b_{i}^{(l)}} J(W,b; x, y)$，这两项是单个样例 $\textstyle (x,y)$ 的代价函数 $\textstyle J(W,b;x,y)$ 的偏导数。一旦我们求出该偏导数，就可以推导出整体代价函数 $\textstyle J(W,b)$ 的偏导数：<br>$$<br>\begin{split}<br>\frac{\partial}{\partial W_{ij}^{(l)}} J(W,b)<br>&amp;=\left[ \frac{1}{m} \sum_{i=1}^m \frac{\partial}{\partial W_{ij}^{(l)}} J(W,b; x^{(i)}, y^{(i)}) \right] + \lambda W_{ij}^{(l)} \cr<br>\frac{\partial}{\partial b_{i}^{(l)}} J(W,b)<br>&amp;=\frac{1}{m}\sum_{i=1}^m \frac{\partial}{\partial b_{i}^{(l)}} J(W,b; x^{(i)}, y^{(i)})<br>\end{split}$$</p>
+<p>以上两行公式稍有不同，第一行比第二行多出一项，是因为权重衰减是作用于 $\textstyle W$ 而不是 $\textstyle b$。</p>
+<p>反向传播算法的思路如下：给定一个样例 $\textstyle (x,y)$，我们首先进行“前向传导”运算，计算出网络中所有的激活值，包括 $\textstyle h_{W,b}(x)$ 的输出值。之后，针对第 $\textstyle l$ 层的每一个节点 $\textstyle i$，我们计算出其“残差” $\textstyle \delta^{(l)}_i$，该残差表明了该节点对最终输出值的残差产生了多少影响。对于最终的输出节点，我们可以直接算出网络产生的激活值与实际值之间的差距，我们将这个差距定义为 $\textstyle \delta^{(n_l)}_i$ （第 $\textstyle n_l$ 层表示输出层）。对于隐藏单元我们如何处理呢？我们将基于节点（译者注：第 $\textstyle l+1$ 层节点）残差的加权平均值计算 $\textstyle \delta^{(l)}_i$，这些节点以 $\textstyle a^{(l)}_i$ 作为输入。下面将给出反向传导算法的细节：</p>
+<ol>
+<li>进行前馈传导计算，利用前向传导公式，得到 $\textstyle L_2, L_3, \ldots$  直到输出层 $\textstyle L_{n_l}$ 的激活值。</li>
+<li><p>对于第 $\textstyle n_l$ 层（输出层）的每个输出单元 $\textstyle i$，我们根据以下公式计算残差：$$<br>\begin{split}<br>\delta^{(n_l)}_i<br>=\frac{\partial}{\partial z^{(n_l)}_i} \;\;\frac{1}{2} \left|y - h_{W,b}(x)\right|^2=- (y_i - a^{(n_l)}_i) \cdot f’(z^{(n_l)}_i)<br>\end{split}$$<br>译者注：$$<br>\begin{split}<br>\delta^{(n_l)}_i<br>&amp;=\frac{\partial}{\partial z^{n_l}_i}J(W,b;x,y)=\frac{\partial}{\partial z^{n_l}_i}\frac{1}{2} \left|y - h_{W,b}(x)\right|^2 \cr<br>&amp;=\frac{\partial}{\partial z^{n_l}_i}\frac{1}{2} \sum_{j=1}^{S_{n_l}} (y_j-a_j^{(n_l)})^2=\frac{\partial}{\partial z^{n_l}_i}\frac{1}{2} \sum_{j=1}^{S_{n_l}} (y_j-f(z_j^{(n_l)}))^2 \cr<br>&amp;=- (y_i - f(z_i^{(n_l)})) \cdot f’(z^{(n_l)}_i)=- (y_i - a^{(n_l)}_i) \cdot f’(z^{(n_l)}_i)<br>\end{split}$$</p>
+</li>
+<li><p>对 $\textstyle l=n_l-1, n_l-2, n_l-3, \ldots, 2$ 的各个层，第 $\textstyle l$ 层的第 $\textstyle i$ 个节点的残差计算方法如下：$$\delta^{(l)}_i=\left( \sum_{j=1}^{s_{l+1}} W^{(l)}_{ji} \delta^{(l+1)}_j \right) f’(z^{(l)}_i)$$<br> 译者注：$$<br>\begin{split}<br>\delta^{(n_l-1)}_i<br>&amp;=\frac{\partial}{\partial z^{n_l-1}_i}J(W,b;x,y)=\frac{\partial}{\partial z^{n_l-1}_i}\frac{1}{2} \left|y - h_{W,b}(x)\right|^2 \cr<br>&amp;=\frac{\partial}{\partial z^{n_l-1}_i}\frac{1}{2} \sum_{j=1}^{S_{n_l}}(y_j-a_j^{(n_l)})^2 =\frac{1}{2} \sum_{j=1}^{S_{n_l}}\frac{\partial}{\partial z^{n_l-1}_i}(y_j-a_j^{(n_l)})^2\cr<br>&amp;=\frac{1}{2} \sum_{j=1}^{S_{n_l}}\frac{\partial}{\partial z^{n_l-1}_i}(y_j-f(z_j^{(n_l)}))^2 \cr<br>&amp;=\sum_{j=1}^{S_{n_l}}-(y_j-f(z_j^{(n_l)})) \cdot \frac{\partial}{\partial z_i^{(n_l-1)}}f(z_j^{(n_l)}) \cr<br>&amp;=\sum_{j=1}^{S_{n_l}}-(y_j-f(z_j^{(n_l)})) \cdot  f’(z_j^{(n_l)}) \cdot \frac{\partial z_j^{(n_l)}}{\partial z_i^{(n_l-1)}} =\sum_{j=1}^{S_{n_l}} \delta_j^{(n_l)} \cdot \frac{\partial z_j^{(n_l)}}{\partial z_i^{n_l-1}} \cr<br>&amp;=\sum_{j=1}^{S_{n_l}} \left(\delta_j^{(n_l)} \cdot \frac{\partial}{\partial z_i^{n_l-1}}\sum_{k=1}^{S_{n_l-1}}f(z_k^{n_l-1}) \cdot W_{jk}^{n_l-1}\right) \cr<br>&amp;=\sum_{j=1}^{S_{n_l}} \delta_j^{(n_l)} \cdot W_{ji}^{n_l-1} \cdot f’(z_i^{n_l-1})=\left(\sum_{j=1}^{S_{n_l}}W_{ji}^{n_l-1}\delta_j^{(n_l)}\right)f’(z_i^{n_l-1})<br>\end{split}$$将上式中的$\textstyle n_l-1$ 与$\textstyle n_l$的关系替换为$\textstyle l$与$\textstyle l+1$的关系，就可以得到：$$<br>\delta^{(l)}_i=\left( \sum_{j=1}^{s_{l+1}} W^{(l)}_{ji} \delta^{(l+1)}_j \right) f’(z^{(l)}_i)$$以上逐次从后向前求导的过程即为“反向传导”的本意所在。 </p>
+</li>
+<li><p>计算我们需要的偏导数，计算方法如下：$$<br>\begin{split}<br>\frac{\partial}{\partial W_{ij}^{(l)}} J(W,b; x, y) &amp;=a^{(l)}_j \delta_i^{(l+1)} \cr<br>\frac{\partial}{\partial b_{i}^{(l)}} J(W,b; x, y) &amp;=\delta_i^{(l+1)}.<br>\end{split}$$</p>
+</li>
+</ol>
+<p>那么，反向传播算法可表示为以下几个步骤：</p>
+<ol>
+<li>进行前馈传导计算，利用前向传导公式，得到 $\textstyle L_2, L_3, \ldots$直到输出层 $\textstyle L_{n_l}$ 的激活值。</li>
+<li>对输出层（第 $\textstyle n_l$ 层），计算：$$\begin{split}<br>\delta^{(n_l)}<br>=- (y - a^{(n_l)}) \bullet f’(z^{(n_l)})<br>\end{split}$$</li>
+<li>对于 $\textstyle l=n_l-1, n_l-2, n_l-3, \ldots, 2$ 的各层，计算：$$\begin{split}<br>\delta^{(l)}=\left((W^{(l)})^T \delta^{(l+1)}\right) \bullet f’(z^{(l)})<br>\end{split}$$</li>
+<li>计算最终需要的偏导数值：$$\begin{split}<br>\nabla_{W^{(l)}} J(W,b;x,y) &amp;=\delta^{(l+1)} (a^{(l)})^T, \cr<br>\nabla_{b^{(l)}} J(W,b;x,y) &amp;=\delta^{(l+1)}.<br>\end{split}$$</li>
+</ol>
+<p>实现中应注意：在以上的第2步和第3步中，我们需要为每一个 $\textstyle i$ 值计算其 $\textstyle f’(z^{(l)}_i)$。假设 $\textstyle f(z)$ 是sigmoid函数，并且我们已经在前向传导运算中得到了 $\textstyle a^{(l)}_i$。那么，使用我们早先推导出的 $\textstyle f’(z)$表达式，就可以计算得到 $\textstyle f’(z^{(l)}_i)=a^{(l)}_i (1- a^{(l)}_i)$。</p>
+<p>最后，我们将对梯度下降算法做个全面总结。在下面的伪代码中，$\textstyle \Delta W^{(l)}$ 是一个与矩阵 $\textstyle W^{(l)}$ 维度相同的矩阵，$\textstyle \Delta b^{(l)}$ 是一个与 $\textstyle b^{(l)}$ 维度相同的向量。注意这里“$\textstyle \Delta W^{(l)}$”是一个矩阵，而不是“$\textstyle \Delta$ 与 $\textstyle W^{(l)}$ 相乘”。下面，我们实现批量梯度下降法中的一次迭代：</p>
+<ol>
+<li>对于所有 $\textstyle l$，令 $\textstyle \Delta W^{(l)} :=0$ ,  $\textstyle \Delta b^{(l)} :=0$ （设置为全零矩阵或全零向量）</li>
+<li><p>对于 $\textstyle i=1$ 到 $\textstyle m$，<br>a. 使用反向传播算法计算 $\textstyle \nabla_{W^{(l)}} J(W,b;x,y)$ 和 $\textstyle \nabla_{b^{(l)}} J(W,b;x,y)$。<br>b. 计算 $\textstyle \Delta W^{(l)} :=\Delta W^{(l)} + \nabla_{W^{(l)}} J(W,b;x,y)$。<br>c. 计算 $\textstyle \Delta b^{(l)} :=\Delta b^{(l)} + \nabla_{b^{(l)}} J(W,b;x,y)$。</p>
+</li>
+<li><p>更新权重参数：$$\begin{split}<br>W^{(l)} &amp;=W^{(l)} - \alpha \left[ \left(\frac{1}{m} \Delta W^{(l)} \right) + \lambda W^{(l)}\right] \cr<br>b^{(l)} &amp;=b^{(l)} - \alpha \left[\frac{1}{m} \Delta b^{(l)}\right]<br>\end{split}$$</p>
+</li>
+</ol>
+<p>现在，我们可以重复梯度下降法的迭代步骤来减小代价函数 $\textstyle J(W,b)$ 的值，进而求解我们的神经网络。</p>
+</section>
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#机器学习模型" >
+    <span class="tag-code">机器学习模型</span>
+  </a>
+
+      </div>
+    
+    <div class="money-like">
+      <div class="reward-btn">
+        赏
+        <span class="money-code">
+          <span class="alipay-code">
+            <div class="code-image"></div>
+            <b>使用支付宝打赏</b>
+          </span>
+          <span class="wechat-code">
+            <div class="code-image"></div>
+            <b>使用微信打赏</b>
+          </span>
+        </span>
+      </div>
+      <p class="notice">欢迎打赏</p>
+    </div>
+    
+  </article>
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2017/09/17/06_ML_Back_Propagation/';
+    var banner = ''
+    if (banner) {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png') 
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      var imageW = $(this).width()
+      var imageH = $(this).height()
+      
+      var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+      zoom = zoom < 1 ? 1 : zoom
+      zoom = zoom > 2 ? 2 : zoom
+      var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+      $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+      $('.image-view-wrap').addClass('wrap-active')
+      $('.image-view-wrap img').css({
+        'width': `${imageW}`,
+        'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+      })
+      $('html').css('overflow', 'hidden')
+
+      $('.image-view-wrap').on('click', function() {
+        $(this).remove()
+        $('html').attr('style', '')
+      })
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "";
+    if (gitmentConfig != "undefined") {
+      var gitment = new Gitment({
+        id: "IV.机器学习模型-神经网络-反向传播算法",
+        owner: "",
+        repo: "",
+        oauth: {
+          client_id: "",
+          client_secret: ""
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine == 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  </body>
+</html>

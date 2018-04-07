@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="jayandjean&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      IV.机器学习模型-概率图模型-隐马尔科夫模型 | JAYANDJEAN
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+  <body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>JAYANDJEAN</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>IV.机器学习模型-概率图模型-隐马尔科夫模型</h2>
+  <p class="post-date">2018-04-06</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body">
+  <article class="post-article">
+    <section class="markdown-content"><p>学习隐马尔可夫模型的笔记，也是PRML第十三章读书笔记。</p>
+<a id="more"></a>
+<hr>
+<p>摘抄自《统计学习方法》 第10章 隐马尔可夫模型</p>
+<h2 id="10-1-隐马尔可夫模型的基本概念"><a href="#10-1-隐马尔可夫模型的基本概念" class="headerlink" title="10.1 隐马尔可夫模型的基本概念"></a>10.1 隐马尔可夫模型的基本概念</h2><h3 id="10-1-1-隐马尔可夫模型的定义"><a href="#10-1-1-隐马尔可夫模型的定义" class="headerlink" title="10.1.1 隐马尔可夫模型的定义"></a>10.1.1 隐马尔可夫模型的定义</h3><p>设Q是所有可能状态的集合，V是所有可能观测的集合：$$Q=\{q_1,q_2…q_N\},V=\{v_1,v_2…v_M\}$$其中，N是可能的状态数，M是可能的观测数。</p>
+<p>I是长度为T的状态序列，O是对应的观测序列：$$I=(i_1,i_2…i_T),O=(o_1,o_2…o_T)$$</p>
+<p>A是状态转移概率矩阵：$$A=[a_{ij}]_{N\times N}$$其中，$a_{ij}=P(i_{t+1}=q_j\mid i_t=q_i)$</p>
+<p>B是观测概率矩阵：$$B=\left[b_j(k)\right]_{N\times M}$$其中，$b_j(k)=P(o_t=v_k\mid i_t=q_j)$，是在时刻$t$处于状态$q_j$的条件下生成观测$v_k$的概率</p>
+<p>$\pi$是初始状态概率向量：$$\pi=(\pi_i)$$其中，$\pi_i=P(i_1=q_i)$，是时刻$t=1$处于状态$q_i$的概率</p>
+<p>隐马尔科夫模型$\lambda$可以用三元符号表示：$$\lambda=(A,B,\pi)$$</p>
+<blockquote>
+<p>例子：</p>
+</blockquote>
+<p>假设有4个盒子，每个盒子均装有红白两种球；四个盒子中的红白球的个数分别为（5，5）（3，7）（6，4）（8，2）；选取盒子的规则如下：如果当前盒子是盒子1，那么下一个盒子一定是盒子2，如果当前是盒子2或3，那么分别以概率0.4和0.6转移到左边或右边的盒子，如果当前是盒子4，那么各以0.5的概率停在盒子4和转移到盒子3；</p>
+<p>确定盒子后，随机在该盒子中选取一个球，记录颜色并放回，重复5次，得到一个球颜色的观测序列：$$O=\{红，红，白，白，红\}$$在整个过程中，观察者只能观测到球的颜色，观测不到是从哪个盒子取出来的；</p>
+<blockquote>
+<p>分析：</p>
+</blockquote>
+<p>这是一个典型的隐马尔科夫模型：</p>
+<p>盒子的状态，即状态集合是$$Q=\{盒子1，盒子2，盒子3，盒子4\},N=4$$</p>
+<p>球的颜色，即观测集合是$$V=\{红，白\},M=2$$</p>
+<p>状态序列和观测序列的长度$T=5$</p>
+<p>初始状态分布为$$\pi=(0.25,0.25,0.25,0.25)$$</p>
+<p>状态转移概率分布为：$$A=\begin{bmatrix} 0 &amp; 1 &amp; 0 &amp; 0 \cr 0.4 &amp; 0 &amp; 0.6 &amp; 0 \cr 0 &amp; 0.4 &amp; 0 &amp; 0.6 \cr 0 &amp; 0 &amp; 0.5 &amp; 0.5\end{bmatrix}$$</p>
+<p>观测概率分布为：$$B=\begin{bmatrix}0.5 &amp; 0.5 \cr 0.3 &amp; 0.7 \cr 0.6 &amp; 0.4 \cr 0.8 &amp; 0.2 \end{bmatrix}$$</p>
+<h3 id="10-1-2-观测序列的生成过程"><a href="#10-1-2-观测序列的生成过程" class="headerlink" title="10.1.2 观测序列的生成过程"></a>10.1.2 观测序列的生成过程</h3><h3 id="10-1-3-隐马尔可夫模型的3个基本问题"><a href="#10-1-3-隐马尔可夫模型的3个基本问题" class="headerlink" title="10.1.3 隐马尔可夫模型的3个基本问题"></a>10.1.3 隐马尔可夫模型的3个基本问题</h3><ol>
+<li>概率计算问题：给定模型$\lambda=(A,B,\pi)$和观测序列$O=(o_1,o_2…o_T)$，计算在模型$\lambda$下观测序列$O$出现的概率$P(O\mid\lambda)$。</li>
+<li>学习问题：已知观测序列$O=(o_1,o_2…o_T)$，估计模型$\lambda=(A,B,\pi)$参数，使得在该模型下观测序列概率$P(O\mid\lambda)$最大，即用极大似然估计的方法估计参数。</li>
+<li>预测问题：也称解码（decoding）问题：已知模型$\lambda=(A,B,\pi)$和观测序列$O=(o_1,o_2…o_T)$，求对给定观测序列条件概率$P(I\mid O)$最大的状态序列$I=(i_1,i_2…i_T)$，即给定观测序列，求最有可能的对应状态序列。</li>
+</ol>
+<h2 id="10-2-概率计算算法"><a href="#10-2-概率计算算法" class="headerlink" title="10.2 概率计算算法"></a>10.2 概率计算算法</h2><h3 id="10-2-1-直接计算法"><a href="#10-2-1-直接计算法" class="headerlink" title="10.2.1 直接计算法"></a>10.2.1 直接计算法</h3><p>给定模型$\lambda=(A,B,\pi)$和观测序列$O=(o_1,o_2…o_T)$，计算在模型$\lambda$下观测序列$O$出现的概率$P(O\mid\lambda)$。通过列举所有可能的长度为T的状态序列$I=(i_1,i_2…i_T)$，求各个状态序列$I$与观测序列$O=(o_1,o_2…o_T)$的联合概率$P(O,I\mid\lambda)$，然后对所有可能的状态序列求和，得到$P(O\mid\lambda)$。</p>
+<p>状态序列$I=(i_1,i_2…i_T)$的概率是$$P(I\mid\lambda)=\pi_{i_1}a_{i_1i_2}…a_{i_{T-1}i_T}$$</p>
+<p>对固定的状态序列$I=(i_1,i_2…i_T)$，观测序列$O=(o_1,o_2…o_T)$的概率是$P(O\mid I,\lambda)$，$$P(O\mid I,\lambda)=b_{i_1}(o_1)b_{i_2}(o_2)…b_{i_T}(o_T)$$那么：$$\begin{split}P(O,I\mid\lambda)<br>&amp;=P(O\mid I,\lambda)P(I\mid\lambda)\cr<br>&amp;=\pi_{i_1}b_{i_1}(o_1)a_{i_1i_2}…a_{i_{T-1}i_T}b_{i_T}(o_T)\end{split}$$</p>
+<p>然后对所有可能的状态序列求和，得到观测序列$O$的概率$P(O\mid\lambda)$</p>
+<p>$$\begin{split}<br>P(O\mid\lambda)<br>&amp;= \sum_{I}P(O\mid I,\lambda)P(I\mid\lambda)\cr<br>&amp;= \sum_{i_1,i_2…i_T}\pi_{i_1}b_{i_1}(o_1)a_{i_1i_2}…a_{i_{T-1}i_T}b_{i_T}(o_T)<br>\end{split}$$</p>
+<p>但是，计算量很大，是$O(TN^T)$阶的；</p>
+<h3 id="10-2-2-前向算法"><a href="#10-2-2-前向算法" class="headerlink" title="10.2.2 前向算法"></a>10.2.2 前向算法</h3><p>给定隐马尔科夫模型$\lambda$，定义到时刻$t$部分观测序列为$o_1,o_2…o_t$且状态为$q_i$的概率为前向概率，记作$$\alpha_t(i)=P(o_1,o_2…o_t,i_t=q_i\mid\lambda)$$</p>
+<p>那么：</p>
+<ol>
+<li>初值为$a_1(i)=\pi_ib_i(o_1),i=1,2…N$，$i$对应着可能的状态；</li>
+<li>递推关系：$$\alpha_{t+1}(i)=\left[\sum_{j=1}^{N}\alpha_t(j)a_{ji}\right]b_i(o_{t+1}),i=1,2…N$$</li>
+<li>终止：$$P(O\mid\lambda)=\sum_{i=1}^{N}\alpha_T(i)$$</li>
+</ol>
+<p>求和符号也是为了穷尽所有的状态！前向概率计算的计算量是$O(N^2T)$阶的。</p>
+<h3 id="10-2-3-后向算法"><a href="#10-2-3-后向算法" class="headerlink" title="10.2.3 后向算法"></a>10.2.3 后向算法</h3><p>给定隐马尔科夫模型$\lambda$，定义到时刻$t$状态为$q_i$的条件下，从$t+1$到$T$的部分观测序列为$o_{t+1},o_{t+2}…o_{T}$的概率为后向概率，记作$$\beta_{t}(i)=P(o_{t+1},o_{t+2}…o_T\mid i_t=q_i,\lambda)$$</p>
+<p>前向概率和后向概率都是利用动态规划来减少运算量。</p>
+<h3 id="10-2-4-一些概率与期望值的计算"><a href="#10-2-4-一些概率与期望值的计算" class="headerlink" title="10.2.4 一些概率与期望值的计算"></a>10.2.4 一些概率与期望值的计算</h3><h2 id="10-3-学习算法"><a href="#10-3-学习算法" class="headerlink" title="10.3 学习算法"></a>10.3 学习算法</h2><p>EM算法</p>
+<h2 id="10-4-预测算法"><a href="#10-4-预测算法" class="headerlink" title="10.4 预测算法"></a>10.4 预测算法</h2><h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p><img src="http://7xs8n3.com1.z0.glb.clouddn.com/HMM%E8%A7%A3%E9%87%8A%E5%9B%BE.png" alt=""></p>
+<hr>
+<p>摘抄自《模式识别与机器学习》 第13章 顺序数据</p>
+<h2 id="13-1-马尔科夫模型"><a href="#13-1-马尔科夫模型" class="headerlink" title="13.1 马尔科夫模型"></a>13.1 马尔科夫模型</h2><p>一般情况，观测序列的联合概率表示为：$$p(x_1,x_2…x_N)=p(x_1)\prod_{n=2}^{N}p(x_n\mid x_1,x_2…x_{n-1})$$</p>
+<p>之前讨论的情况都是要求独立同分布，那么联合概率表示为：$$p(x_1,x_2…x_N)=\prod_{n=1}^{N}p(x_n)$$</p>
+<p>现在在马尔科夫链中，联合概率可以表示为：$$p(x_1,x_2…x_N)=p(x_1)\prod_{n=2}^{N}p(x_n\mid x_{n-1})$$</p>
+<p>这只是一阶马尔科夫链。</p>
+<h2 id="13-2-隐马尔科夫模型"><a href="#13-2-隐马尔科夫模型" class="headerlink" title="13.2 隐马尔科夫模型"></a>13.2 隐马尔科夫模型</h2><h3 id="13-2-1-用于HMM的最大似然法"><a href="#13-2-1-用于HMM的最大似然法" class="headerlink" title="13.2.1 用于HMM的最大似然法"></a>13.2.1 用于HMM的最大似然法</h3><p>EM算法</p>
+<h3 id="13-2-2-前向后向算法"><a href="#13-2-2-前向后向算法" class="headerlink" title="13.2.2 前向后向算法"></a>13.2.2 前向后向算法</h3><h3 id="13-2-3-用于HMM的加和-乘积算法"><a href="#13-2-3-用于HMM的加和-乘积算法" class="headerlink" title="13.2.3 用于HMM的加和-乘积算法"></a>13.2.3 用于HMM的加和-乘积算法</h3><h3 id="13-2-6-隐马尔科夫模型的扩展"><a href="#13-2-6-隐马尔科夫模型的扩展" class="headerlink" title="13.2.6 隐马尔科夫模型的扩展"></a>13.2.6 隐马尔科夫模型的扩展</h3><p>！！！！！！</p>
+<h2 id="13-3-线性动态系统"><a href="#13-3-线性动态系统" class="headerlink" title="13.3 线性动态系统"></a>13.3 线性动态系统</h2><p>linear dynamical system!</p>
+<h2 id="总结：-1"><a href="#总结：-1" class="headerlink" title="总结："></a>总结：</h2><hr>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+<span class="line">3</span>
+<span class="line">4</span>
+<span class="line">5</span>
+<span class="line">6</span>
+<span class="line">7</span>
+<span class="line">8</span>
+<span class="line">9</span>
+<span class="line">10</span>
+<span class="line">11</span>
+<span class="line">12</span>
+<span class="line">13</span>
+<span class="line">14</span>
+<span class="line">15</span>
+<span class="line">16</span>
+<span class="line">17</span>
+<span class="line">18</span>
+<span class="line">19</span>
+<span class="line">20</span>
+<span class="line">21</span>
+<span class="line">22</span>
+<span class="line">23</span>
+<span class="line">24</span>
+<span class="line">25</span>
+<span class="line">26</span>
+<span class="line">27</span>
+</pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> hmmlearn.hmm <span class="keyword">import</span> MultinomialHMM
+<div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<div class="line">
+<div class="line"><span class="comment"># n_components 代表隐状态的个数</span>
+<div class="line"><span class="comment"># n_symbols 代表可能的观察数</span>
+<div class="line">model_multinomial = MultinomialHMM(n_components=<span class="number">4</span>)
+<div class="line">
+<div class="line"><span class="comment"># 概率转移矩阵：n_components*n_components</span>
+<div class="line">transition_matrix = np.array([[<span class="number">0.2</span>, <span class="number">0.6</span>, <span class="number">0.15</span>, <span class="number">0.05</span>],
+<div class="line">                              [<span class="number">0.2</span>, <span class="number">0.3</span>, <span class="number">0.3</span>, <span class="number">0.2</span>],
+<div class="line">                              [<span class="number">0.05</span>, <span class="number">0.05</span>, <span class="number">0.7</span>, <span class="number">0.2</span>],
+<div class="line">                              [<span class="number">0.005</span>, <span class="number">0.045</span>, <span class="number">0.15</span>, <span class="number">0.8</span>]])
+<div class="line">model_multinomial.transmat_ = transition_matrix
+<div class="line">
+<div class="line"><span class="comment"># 初始状态概率：n_components*1</span>
+<div class="line">initial_state_prob = np.array([<span class="number">0.1</span>, <span class="number">0.4</span>, <span class="number">0.4</span>, <span class="number">0.1</span>])
+<div class="line">model_multinomial.startprob_ = initial_state_prob
+<div class="line">
+<div class="line"><span class="comment"># 观测概率矩阵：n_components*n_symbols</span>
+<div class="line">emission_prob = np.array([[<span class="number">0.045</span>, <span class="number">0.15</span>, <span class="number">0.2</span>, <span class="number">0.6</span>, <span class="number">0.005</span>],
+<div class="line">                          [<span class="number">0.2</span>, <span class="number">0.2</span>, <span class="number">0.2</span>, <span class="number">0.3</span>, <span class="number">0.1</span>],
+<div class="line">                          [<span class="number">0.3</span>, <span class="number">0.1</span>, <span class="number">0.1</span>, <span class="number">0.05</span>, <span class="number">0.45</span>],
+<div class="line">                          [<span class="number">0.1</span>, <span class="number">0.1</span>, <span class="number">0.2</span>, <span class="number">0.05</span>, <span class="number">0.55</span>]])
+<div class="line">model_multinomial.emissionprob_ = emission_prob
+<div class="line">
+<div class="line"><span class="comment"># model.sample返回观测数据和隐藏的状态数据：V是观测数据；H是隐藏数据</span>
+<div class="line">V, H = model_multinomial.sample(<span class="number">100</span>)
+</div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></pre></td></tr></table></figure>
+<hr>
+<p><strong>参考：</strong></p>
+<ol>
+<li>《Introduction to Probability》</li>
+<li>《统计学习方法》</li>
+<li>《模式识别与机器学习》</li>
+<li>《机器学习》</li>
+<li>《Mastering Probabilistic Graphical Models using Python》</li>
+</ol>
+</section>
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#机器学习模型" >
+    <span class="tag-code">机器学习模型</span>
+  </a>
+
+      </div>
+    
+    <div class="money-like">
+      <div class="reward-btn">
+        赏
+        <span class="money-code">
+          <span class="alipay-code">
+            <div class="code-image"></div>
+            <b>使用支付宝打赏</b>
+          </span>
+          <span class="wechat-code">
+            <div class="code-image"></div>
+            <b>使用微信打赏</b>
+          </span>
+        </span>
+      </div>
+      <p class="notice">欢迎打赏</p>
+    </div>
+    
+  </article>
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2018/04/06/15_ML_Hidden_Markov_Model/';
+    var banner = ''
+    if (banner) {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png') 
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      var imageW = $(this).width()
+      var imageH = $(this).height()
+      
+      var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+      zoom = zoom < 1 ? 1 : zoom
+      zoom = zoom > 2 ? 2 : zoom
+      var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+      $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+      $('.image-view-wrap').addClass('wrap-active')
+      $('.image-view-wrap img').css({
+        'width': `${imageW}`,
+        'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+      })
+      $('html').css('overflow', 'hidden')
+
+      $('.image-view-wrap').on('click', function() {
+        $(this).remove()
+        $('html').attr('style', '')
+      })
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "";
+    if (gitmentConfig != "undefined") {
+      var gitment = new Gitment({
+        id: "IV.机器学习模型-概率图模型-隐马尔科夫模型",
+        owner: "",
+        repo: "",
+        oauth: {
+          client_id: "",
+          client_secret: ""
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine == 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  </body>
+</html>

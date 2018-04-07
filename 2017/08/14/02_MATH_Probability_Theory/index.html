@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="jayandjean&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      I.数学基础-概率论-PRML笔记 | JAYANDJEAN
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+  <body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>JAYANDJEAN</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>I.数学基础-概率论-PRML笔记</h2>
+  <p class="post-date">2017-08-14</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body">
+  <article class="post-article">
+    <section class="markdown-content"><p>《模式识别与机器学习》1.2 概率论和2 概率分布-学习笔记。未完成。</p>
+<a id="more"></a>
+<h2 id="1-2-概率论"><a href="#1-2-概率论" class="headerlink" title="1.2 概率论"></a>1.2 概率论</h2><p>两个随机变量$X$，$Y$。考虑$N$次试验，其中我们对$X$和$Y$都进行取样，把$X = x_i$且$Y = y_j$的试验的数量记作$n_{ij}$。并且，把$X$取值$x_i$(与$Y$的取值无关)的试验的数量记作$c_i$，类似地，把$Y$取值$y_j$的试验的数量记作$r_j$。</p>
+<ul>
+<li><p>联合概率(joint probability)，$X$取值$x_i$且$Y$取值$y_j$的概率$$p(X = x_i,Y = y_i) = \frac{n_{ij}}{N}$$</p>
+</li>
+<li><p>边缘概率(marginal probability)，<br>由于$c_i =\sum\limits_j n_{ij} $；$$p(X = x_i) = \frac{c_j}{N}=\sum\limits_{j=1}^{L} p(X = x_i,Y = y_i)$$<br>这是概率的加和规则(sum rule)。注意，$p(X = x_i)$有时被称为边缘概率(marginal probability)，因为它通过把其他变量(本例中的Y)边缘化或者加和得到。</p>
+</li>
+<li><p>条件概率(conditional probability)，在$X = x_i$的条件下$Y = y_j$的概率$$p(Y =y_j \mid X =x_i)= \frac{n_{ij}}{N}$$则$$p(X =x_i,Y =y_j)= \frac{n_{ij}}{N} = \frac{n_{ij}}{c_i} · \frac{c_i}{N} =p(Y =y_j \mid X =x_i)p(X =x_i)$$这被称为概率的乘积规则(product rule)</p>
+</li>
+<li><p>总结：$$sum\ rule：\ p(X) = \sum\limits_{Y}p(X,Y)$$$$product\ rule：\ p(X,Y) = p(Y\mid X)p(X)$$</p>
+</li>
+</ul>
+<p>根据乘积规则，以及对称性$p(X,Y) = p(Y,X)$，我们立即得到了下面的两个条件概率之间的关系：$$p(Y\mid X)=\frac{p(X\mid Y)p(Y)}{p(X)}$$这被称为贝叶斯定理(Bayes theorem)，在模式识别和机器学习领域扮演者中心角色。使用加和规则，贝叶斯定理中的分母可以用出现在分子中的项表示：$$p(X)=\sum\limits_{Y}p(X,Y)=\sum\limits_{Y}p(X\mid Y)p(Y)$$</p>
+<hr>
+<p>我们可以按照下面的方式表述贝叶斯定理。如果在我们知道水果的种类之前，有人问我们哪个盒子被选中， <font color="red">那么我们能够得到的最多的信息就是概率$p(B)$。</font>我们把这个叫做先验概率(priorprobability)，因为它是在我们观察到水果种类之前就能够得到的概率。<font color="red">一旦我们知道水果是橘子，我们就能够使用贝叶斯定理来计算概率$p(B\mid F)$。这个被称为后验概率(posteriorprobability)，因为它是我们观察到$F$之后的概率。</font><br>注意，在这个例子中，选择红盒子的先验概率是0.4，所以与红盒子相比，我们更有可能选择蓝盒子。然而，一旦我们观察到选择的水果是橘子，我们发现红盒子的后验概率现在是2/3，因此现在实际上更可能选择的是红盒子。这个结果与我们的直觉相符，因为红盒子中橘子的比例比蓝盒子高得多，因此观察到水果是橘子这件事提供给我们更强的证据来选择红盒子。事实上，这个证据相当强，已经超过了先验的假设，使得红盒子被选择的可能性大于蓝盒子。</p>
+<p>最后，如果两个变量的联合分布可以分解成两个边缘分布的乘积，即$p(X,Y)=p(X)p(Y)$，那么我们说$X$和$Y$相互独立(independent)。根据乘积规则，我们可以得到$p(Y\mid X)=p(Y)$，因此对于给定$X$的条件下的$Y$的条件分布实际上独立于$X$的值。例如，在我们的水果盒子的例子中，如果每个盒子包含同样比例的苹果和橘子，那么$p(F\mid B)=P(F)$，从而选择苹果的概率就与选择了哪个盒子无关。</p>
+<h3 id="1-2-1-概率密度"><a href="#1-2-1-概率密度" class="headerlink" title="1.2.1 概率密度"></a>1.2.1 概率密度</h3><h3 id="1-2-2-期望和协方差"><a href="#1-2-2-期望和协方差" class="headerlink" title="1.2.2 期望和协方差"></a>1.2.2 期望和协方差</h3><p>$$\mathbb{E}[f]=\sum_xp(x)f(x)$$</p>
+<p>$$\begin{align}<br>var[f]<br>&amp; = E\left[\left(f(x) − E[f(x)]\right)^2\right]\cr<br>&amp;=E\left[f(x)^2\right] − E[f(x)]^2<br>\end{align}$$</p>
+<h3 id="1-2-3-贝叶斯概率"><a href="#1-2-3-贝叶斯概率" class="headerlink" title="1.2.3 贝叶斯概率"></a>1.2.3 贝叶斯概率</h3><p>本章目前为止，我们根据随机重复事件的频率来考察概率。我们把这个叫做经典的 (classical)或者频率学家(frequentist)的关于概率的观点。现在我们转向更加通用的贝叶斯(Bayesian)观点。这种观点中，频率提供了<font color="red">不确定性</font>的一个定量化描述。</p>
+<p>然而，在作出合理的推断时，如果我们想要尊重常识，那么使用概率论来表达不确定性不是可选的，而是不可避免的。例如，Cox(1946)证明，如果用数值来表示置信的程度，那么编码了这种置信度中符合常识的一组简单的公理能够唯一地推导出一组规则来操控置信的程度，这组规则等价于概率的加和规则和乘积规则。</p>
+<p>贝叶斯定理现在有了一个新的意义。回忆一下，在水果盒子的例子中，水果种类的观察提供了相关的信息，改变了选择了红盒子的概率。在那个例子中，贝叶斯定理通过将观察到的数据融合，来把先验概率转化为后验概率。正如我们将看到的，在我们对数量(例如多项式曲线拟合例子中的参数w)进行推断时，我们可以采用一个类似的方法。在观察到数据之前，我们有一些关于参数$w$的假设，这以先验概率$p(w)$的形式给出。观测数据$D=\{t_1,…,t_N\}$的效果可以通过条件概率$p(D\mid w)$表达，我们将在1.2.5节看到这个如何被显式地表达出来。贝叶斯定理的形式为$$p(w\mid D)=\frac{p(D\mid w)p(w)}{p(D)}$$它让我们能够通过后验概率$p(w\mid D)$，在观测到$D$之后估计$w$的不确定性（可能性）。</p>
+<p>贝叶斯定理右侧的量$p(D\mid w)$由观测数据集$D$来估计，可以被看成参数向量$w$的函数，被称为似然函数(likelihood function)。它表达了在不同的参数向量$w$下，观测数据出现的可能性的大小。注意，似然函数不是$w$的概率分布，并且它关于$w$的积分并不(一定)等于1。</p>
+<p>贝叶斯公式的分母是一个归一化常数，确保了左侧的后验概率分布是一个合理的概率密度，积分为1。实际上，对公式两侧关于$w$进行积分， 我们可以用后验概率分布和似然函数来表达贝叶斯定理的分母<br>$$1=\int p(w\mid D)dw=\int\frac{p(D\mid w)p(w)}{p(D)}dw$$$$=&gt;p(D) = \int p(D \mid w)p(w) dw$$</p>
+<font color="red">在贝叶斯观点和频率学家观点中，似然函数$p(D\mid w)$都起着重要的作用。然而，在两种观点中，使用的方式有着本质的不同。在频率学家的观点中，$w$被认为是一个固定的参数，它的值由某种形式的“估计”来确定，这个估计的误差通过考察可能的数据集$D$的概率分布来得到。相反，从贝叶斯的观点来看，只有一个数据集$D$(即实际观测到的数据集)，参数的可能性通过$w$的概率分布来表达。</font>
+
+<p>频率学家广泛使用的一个估计是最大似然(maximum likelihood)估计，其中$w$的值是使似然函数$p(D\mid w)$达到最大值的$w$值。这对应于选择使观察到的数据集出现概率最大的$w$的值。在机器学习的文献中，似然函数的负对数被叫做误差函数(error function)。由于负对数是单调递减的函数，最大化似然函数等价于最小化误差函数。</p>
+<hr>
+<p>贝叶斯观点的一个优点是对先验概率的包含是很自然的事情。例如，假定投掷一枚普通的硬币3次，每次都是正面朝上。一个经典的最大似然模型在估计硬币正面朝上的概率时，结果会是1，表示所有未来的投掷都会是正面朝上！相反，一个带有任意的合理的先验的贝叶斯的方法将不会得出这么极端的结论。</p>
+<h3 id="1-2-4-高斯分布"><a href="#1-2-4-高斯分布" class="headerlink" title="1.2.4 高斯分布"></a>1.2.4 高斯分布</h3><p>稍后在本章中，以及在后续的章节中，我们要强调最大似然方法的极大的局限性。这里，我们通过考察我们给出的一元高斯分布的最大似然参数解，来稍微说明一下这个问题。特别地，我们会看到，最大似然方法系统化地低估了分布的方差。这是一种叫做偏移(bias)的现象的例子，与多项式曲线拟合问题中遇到的过拟合问题相关。我们首先注意到，最大似然解$\mu_{ML}$和$\sigma_{ML}^2$都是数据集$x_1，…，x_N$的函数。考虑这些量关于数据集的期望。数据集里面的点来自参数为$\mu$和$\sigma^2$的高斯分布。很容易证明$$E[\mu_{ML}]=\mu$$$$E[\sigma_{ML}^2]=\frac{N-1}{N}\sigma^2$$因此，最大似然估计的平均值将会得到正确的均值，但是将会低估方差，因子为N−1。</p>
+<p>注意，当数据点的数量N增大时，最大似然解的偏移会变得不太严重，并且在极限$N \to\infty$的情况下，方差的最大似然解与产生数据的分布的真实方差相等。在实际应用中，只要$N$的值不太小，那么偏移的现象不是个大问题。然而，在本书中，我们感兴趣的是带有很多参数的复杂模型。这些模型中，最大似然的偏移问题会更加严重。<font color="red">实际上，我们会看到，最大似然的偏移问题是我们在多项式曲线拟合问题中遇到的过拟合问题的核心。</font></p>
+<h3 id="1-2-5-重新考察曲线拟合问题"><a href="#1-2-5-重新考察曲线拟合问题" class="headerlink" title="1.2.5 重新考察曲线拟合问题"></a>1.2.5 重新考察曲线拟合问题</h3><p>我们已经看到，多项式曲线拟合的问题可以通过误差最小化问题来表示。这里我们回到曲线拟合的问题，从概率的角度来考察它，并且可以更深刻地认识误差函数和正则化，并且能够让我们完全从贝叶斯的角度来看待这个问题。</p>
+<p>曲线拟合问题的目标是能够根据$N$个输入$x=(x_1,…,x_N)^T$组成的数据集和它们对应的目标值$t=(t_1,…,t_N)^T$；我们要假定，给定$x$的值，对应的$t$值服从高斯分布，分布的均值为$y(x， w)$，我们定义了精度参数$\beta$，它对应于分布方差的倒数，则$$p(t\mid x,w,\beta)=N\left(t\mid y(x,w),\beta^{-1}\right)$$</p>
+<p>我们现在用训练数据$\{x，t\}$，通过最大似然方法，来决定未知参数$w$和$\beta$的值。如果数据假定从上述分布中抽取，那么似然函数为$$p(t\mid x,w,\beta)=\prod\limits_{n=1}^{N}N\left(t_n\mid y(x_n,w),\beta^{-1}\right)$$</p>
+<p>我们可以得到对数似然函数：$$ln\ p(t\mid x,w,\beta)=-\frac{\beta}{2}\sum\limits_{n=1}^{N}\left(t_n-y(x_n,w)\right)^2+\frac{N}{2}ln\ \beta-\frac{N}{2}ln(2\pi)$$</p>
+<p>因此，在高斯噪声的假设下，平方和误差函数是最大化似然函数的一个自然结果。</p>
+<p>我们也可以使用最大似然方法来确定高斯条件分布的精度参数$\beta$。关于$\beta$来最大化似然函数，我们有</p>
+<p>$$\frac{1}{\beta_{ML}}=\frac{1}{N}\sum\limits_{n=1}^{N}\left(y(x_n,w_{ML})-t_n)\right)^2$$</p>
+<p>已经确定了参数$w$和$\beta$，我么现在可以对新的$x$的值进行预测。由于我们现在有一个概率模 型，预测可以通过给出$t$的概率分布的预测分布(predictive distribution)来表示(而不仅仅是一个点的估计)。$$p(t\mid x,w_{ML},\beta_{ML})=N(t\mid y(x,w_{ML}),\beta_{ML}^{-1})$$</p>
+<p>现在让我们朝着贝叶斯的方法前进一步，引入在多项式系数$w$上的先验分布。简单起见，我们考虑下面形式的高斯分布</p>
+<p>$$p(w\mid\alpha)=N(w\mid 0,\alpha^{-1}I)=(\frac{\alpha}{2\pi})^{\frac{M+1}{2}}e^{-\frac{\alpha}{2}w^Tw}$$</p>
+<p>其中$\alpha$是分布的精度，$M+1$是对于$M$阶多项式的向量$w$的元素的总数。像$\alpha$这样控制模型参数分布的参数，被称为超参数(hyperparameters)。使用贝叶斯定理，$w$的后验概率正比于先验分布和似然函数的乘积。</p>
+<p>给定数据集，我们现在通过寻找最可能的$w$值(即最大化后验概率)来确定$w$。这种技术被称为最大后验(maximum posterior)，简称MAP。我们可以看到，最大化后验概率就是最小化下式：</p>
+<p>$$\frac{\beta}{2}\sum\limits_{n=1}^{N}\left(t_n-y(x_n,w)\right)^2+\frac{\alpha}{2}w^Tw$$</p>
+<p>因此我们看到最大化后验概率等价于最小化正则化的平方和误差函数，正则化参数为$\lambda=\frac{\alpha}{\beta}$。</p>
+<h3 id="1-2-6-贝叶斯曲线拟合"><a href="#1-2-6-贝叶斯曲线拟合" class="headerlink" title="1.2.6 贝叶斯曲线拟合"></a>1.2.6 贝叶斯曲线拟合</h3><p>虽然我们已经谈到了先验分布$p(w\mid\alpha)$，但是我们目前仍然在进行$w$的点估计，这并不是贝叶斯观点。在一个纯粹的贝叶斯方法中，我们应该自始至终地应用概率的加和规则和乘积规则。我们稍后会看到，这需要对所有$w$值进行积分。对于模式识别来说，这种积分是贝叶斯方法的核心。</p>
+<p>在曲线拟合问题中,我们知道训练数据$(data,target)$用$(X,Y)$表示，以及一个新的测试点$x$,我们的目标是预测$y$的值。因此我们想估计预测分布$p(y\mid x,X,Y)$。</p>
+<p>简单地说,贝叶斯方法就是自始至终地使用概率的加和规则和乘积规则。因此预测概率可以写成下面的形式：</p>
+<p>$$p(y\mid x,X,Y)=\int p(y\mid x,w)p(w\mid X,Y)dw$$</p>
+<p>$p(y\mid x,w)$由模型假设给出；$p(w\mid X,Y)$是参数的后验分布；</p>
+<hr>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><ul>
+<li>似然函数$P(D\mid w)$：它表达了在不同的参数$w$下，观测数据出现的可能性大小。</li>
+<li>后验概率$P(w\mid D)$：它表达了在现有的观测数据$D$下，参数$w$出现的可能性大小。</li>
+</ul>
+<p>1、根据最大似然估计对参数$w$进行点估计；直接由最优化方法求得参数（频率学派的观点）。<br>2、根据对参数$w$的先验分布和似然函数求出参数的后验概率分布$p(w\mid D)$，并根据最大后验概率估计对参数$w$进行点估计；直接由最优化方法求得参数。<br>3、虽然已经考虑了先验分布$p(w\mid\alpha)$（$\alpha$是关于模型本身的一些参数），但是我们目前仍然在进行$w$的点估计，这并不是贝叶斯观点。在一个纯粹的贝叶斯方法中，我们应该自始至终地应用概率的加和规则和乘积规则。我们稍后会看到，这需要对所有$w$值进行积分。对于模式识别来说，这种积分是贝叶斯方法的核心。</p>
+<p>例如：$$p(x=1\mid D)=\int_{0}^{1}p(x=1\mid \mu)p(\mu\mid D)d\mu＝\int_{0}^{1}\mu p(\mu\mid D)d\mu=E(\mu)$$所以：$$p(x=1\mid D)=\frac{m+a}{m+a+l+b}$$</p>
+<hr>
+<h1 id="第二章-概率分布"><a href="#第二章-概率分布" class="headerlink" title="第二章 概率分布"></a>第二章 概率分布</h1><h2 id="2-1-二元变量"><a href="#2-1-二元变量" class="headerlink" title="2.1 二元变量"></a>2.1 二元变量</h2><p>伯努利分布(Bernoulli distribution)<br>二项分布(binomial distribution)</p>
+<h3 id="2-1-1-Beta分布"><a href="#2-1-1-Beta分布" class="headerlink" title="2.1.1 Beta分布"></a>2.1.1 Beta分布</h3><p>我们已经看到伯努利分布的参数$\mu$的最大似然解,因此在二项分布中,这个最大似然解也是数据集里$x=1$的观测所占的比例。正如我们已经提到过的那样,这对于小规模的数据集会给出严重的过拟合结果。为了用贝叶斯的观点看待这个问题,我们需要引入一个关于$\mu$的先验概率分布$p(\mu)$。这里,我们考虑一种形式简单的先验分布。这种形式简单的先验分布有很多有用的性质。为了找到这个先验分布,我们注意到似然函数是某个因子与$\mu^x(1−\mu)^{1−x}$的乘积的形式。如果我们选择一个正比于$\mu$和$(1−\mu)$的幂指数的先验概率分布,那么后验概率分布(正比于先验和似然函数的乘积)就会有着与先验分布相同的函数形式。这个性质被叫做<font color="red">共轭性(conjugacy)</font>,我们在本章的后续部分将看到几个这样的例子。因此,我们把先验分布选择为Beta分布,定义为$$Beta(\mu\mid a,b)=\frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}\mu^{a-1}(1-\mu)^{b-1}$$</p>
+<p>Gamma函数的定义为$$\Gamma(x)=\int_{0}^{\infty}u^{x-1}e^{-u}du$$</p>
+<p>$\mu$的后验概率分布现在可以这样得到:把Beta先验与二项似然函数相乘,然后归一化。$$ p(\mu\mid m,l,a,b)=\frac{\Gamma(m+l+a+b)}{\Gamma(m+a)\Gamma(l+b)}\mu^{m+a-1}(1-\mu)^{l+b-1}$$,其中$l = N − m$,即对应于硬币“反面朝上”的样本数量。</p>
+<p>如果我们的目标是尽可能好地预测下一次试验的输出,那么我们必须估计给定观测数据集$D$的情况下,$x$的预测分布。（也就是回来求之前的$\mu$，因为之前用最大似然估计求得$\mu＝1$）根据概率的加和规则和乘积规则,这个预测分布的形式为$$p(x=1\mid D)=\int_{0}^{1}p(x=1\mid \mu)p(\mu\mid D)d\mu＝\int_{0}^{1}\mu p(\mu\mid D)d\mu=E(\mu)$$所以$$p(x=1\mid D)=\frac{m+a}{m+a+l+b}$$</p>
+<hr>
+<h2 id="2-2-多项式变量"><a href="#2-2-多项式变量" class="headerlink" title="2.2 多项式变量"></a>2.2 多项式变量</h2><p>one-of-K 表示法$x_k\in\{0,1\}$；<br>$\mu_k$表示$x_k=1$的概率；那么x的分布就是$$p(x\mid\mu)=\prod_{k=1}^{K}\mu_k^{x_k}$$</p>
+<p>参数$\mu_k$满足$\mu_k\geqslant0$和$\sum_k\mu_k=1$</p>
+<p>现在考虑一个有N个独立观测值$x_1,x_2…x_N$的数据集$D$。对应的似然函数为$$p(D\mid\mu)=\prod_{n=1}^{N}\prod_{k=1}^{K}\mu_k^{x_{nk}}=\prod_{k=1}^{K}\mu_k^{\sum_nx_{nk}}=\prod_{k=1}^{K}\mu_k^{m_k}$$</p>
+<p>当$N=3,K=5$$$\left[\begin{array}{cccc}<br>\mu_1,\mu_2…\mu_5\cr<br>1,0,0,0,0 \cr<br>0,1,0,0,0 \cr<br>0,0,1,0,0 \cr<br>\end{array}\right]$$</p>
+<p>$$m_k=\sum_nx_{nk}$$</p>
+<p>表示观测到$x_k=1$的次数，称为该分布的充分统计量。</p>
+<p>用最大似然估计，可以得到：$$\mu_k^{ML}=\frac{m_k}{N}$$</p>
+<p>多项式分布：</p>
+<p>$$ Mult(m_1,m_2…m_K\mid\mu,N)=\binom{N}{m_1m_2…m_K} \prod\limits_{k=1}^{K}\mu_k^{m_k}$$</p>
+<p>并且满足$\sum\limits_{k=1}^{K}m_k=N$</p>
+<h3 id="2-2-1-狄利克雷分布"><a href="#2-2-1-狄利克雷分布" class="headerlink" title="2.2.1 狄利克雷分布"></a>2.2.1 狄利克雷分布</h3><p>为了共轭性，狄利克雷分布(Dirichlet distribution)</p>
+<p>$$ Dir(\boldsymbol{\mu}\mid\boldsymbol{\alpha})=\cfrac{\Gamma{(\alpha_0)}}{\Gamma{(\alpha_1)}…\Gamma{(\alpha_K)}}\prod\limits_{k=1}^{K}\mu_k^{\alpha_k-1} $$</p>
+<h2 id="2-3-高斯分布"><a href="#2-3-高斯分布" class="headerlink" title="2.3 高斯分布"></a>2.3 高斯分布</h2><h3 id="2-3-1-条件高斯分布"><a href="#2-3-1-条件高斯分布" class="headerlink" title="2.3.1 条件高斯分布"></a>2.3.1 条件高斯分布</h3><h3 id="2-3-2-边缘高斯分布"><a href="#2-3-2-边缘高斯分布" class="headerlink" title="2.3.2 边缘高斯分布"></a>2.3.2 边缘高斯分布</h3><h3 id="2-3-3-高斯变量的贝叶斯定理"><a href="#2-3-3-高斯变量的贝叶斯定理" class="headerlink" title="2.3.3 高斯变量的贝叶斯定理"></a>2.3.3 高斯变量的贝叶斯定理</h3><h3 id="2-3-4-高斯分布的最大似然估计"><a href="#2-3-4-高斯分布的最大似然估计" class="headerlink" title="2.3.4 高斯分布的最大似然估计"></a>2.3.4 高斯分布的最大似然估计</h3><h3 id="2-3-5-顺序估计"><a href="#2-3-5-顺序估计" class="headerlink" title="2.3.5 顺序估计"></a>2.3.5 顺序估计</h3><h3 id="2-3-6-高斯分布的贝叶斯推断"><a href="#2-3-6-高斯分布的贝叶斯推断" class="headerlink" title="2.3.6 高斯分布的贝叶斯推断"></a>2.3.6 高斯分布的贝叶斯推断</h3><h3 id="2-3-7-t分布"><a href="#2-3-7-t分布" class="headerlink" title="2.3.7 t分布"></a>2.3.7 t分布</h3><h3 id="2-3-8-周期变量"><a href="#2-3-8-周期变量" class="headerlink" title="2.3.8 周期变量"></a>2.3.8 周期变量</h3><h3 id="2-3-9-混合高斯模型"><a href="#2-3-9-混合高斯模型" class="headerlink" title="2.3.9 混合高斯模型"></a>2.3.9 混合高斯模型</h3><h2 id="2-4-指数族分布"><a href="#2-4-指数族分布" class="headerlink" title="2.4 指数族分布"></a>2.4 指数族分布</h2><p>指数族分布的形式：$$ p(x \mid\eta) = h(x)g(\eta) exp\left(\eta^Tu(x)\right) $$</p>
+<p>其中x可能是标量或者向量，可能是离散的或者是连续的。$\eta$被称为概率分布的自然参数。</p>
+<p>考虑伯努利分布：</p>
+<p>$$\begin{split}<br>p(x\mid\mu)&amp;=Bern(x\mid\mu)=\mu^x(1-\mu)^{1-x}\cr<br>&amp;=exp\left(x\ln\mu+(1-x)\ln(1-\mu)\right)\cr<br>&amp;=(1-\mu)exp\left(\ln\left(\frac{\mu}{1-\mu}\right)x\right)<br>\end{split}$$</p>
+<p>$$\eta=\ln\left(\frac{\mu}{1-\mu}\right)$$</p>
+<p>$$\sigma(\eta)=\frac{1}{1+exp(-\eta)}$$</p>
+<p>被称为logistic sigmoid函数。</p>
+<hr>
+<p>多项式分布</p>
+<p>$$p(x\mid\mu)=\prod_{k=1}^{K}\mu_k^{x_k}=exp\left(\sum_{k=1}^{K}x_k\ln\mu_k\right)$$</p>
+<p>softmax函数</p>
+<h3 id="2-4-1-最大似然与充分统计量"><a href="#2-4-1-最大似然与充分统计量" class="headerlink" title="2.4.1 最大似然与充分统计量"></a>2.4.1 最大似然与充分统计量</h3><h3 id="2-4-2-共轭先验"><a href="#2-4-2-共轭先验" class="headerlink" title="2.4.2 共轭先验"></a>2.4.2 共轭先验</h3><h3 id="2-4-3-无信息先验"><a href="#2-4-3-无信息先验" class="headerlink" title="2.4.3 无信息先验"></a>2.4.3 无信息先验</h3><h2 id="2-5-非参数化方法"><a href="#2-5-非参数化方法" class="headerlink" title="2.5 非参数化方法"></a>2.5 非参数化方法</h2></section>
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#数学基础" >
+    <span class="tag-code">数学基础</span>
+  </a>
+
+      </div>
+    
+    <div class="money-like">
+      <div class="reward-btn">
+        赏
+        <span class="money-code">
+          <span class="alipay-code">
+            <div class="code-image"></div>
+            <b>使用支付宝打赏</b>
+          </span>
+          <span class="wechat-code">
+            <div class="code-image"></div>
+            <b>使用微信打赏</b>
+          </span>
+        </span>
+      </div>
+      <p class="notice">欢迎打赏</p>
+    </div>
+    
+  </article>
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2017/08/14/02_MATH_Probability_Theory/';
+    var banner = ''
+    if (banner) {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png') 
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      var imageW = $(this).width()
+      var imageH = $(this).height()
+      
+      var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+      zoom = zoom < 1 ? 1 : zoom
+      zoom = zoom > 2 ? 2 : zoom
+      var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+      $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+      $('.image-view-wrap').addClass('wrap-active')
+      $('.image-view-wrap img').css({
+        'width': `${imageW}`,
+        'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+      })
+      $('html').css('overflow', 'hidden')
+
+      $('.image-view-wrap').on('click', function() {
+        $(this).remove()
+        $('html').attr('style', '')
+      })
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "";
+    if (gitmentConfig != "undefined") {
+      var gitment = new Gitment({
+        id: "I.数学基础-概率论-PRML笔记",
+        owner: "",
+        repo: "",
+        oauth: {
+          client_id: "",
+          client_secret: ""
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine == 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  </body>
+</html>

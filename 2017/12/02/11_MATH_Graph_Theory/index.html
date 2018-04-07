@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="jayandjean&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      I.数学基础-图论-概述 | JAYANDJEAN
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+  <body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>JAYANDJEAN</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>I.数学基础-图论-概述</h2>
+  <p class="post-date">2017-12-02</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body">
+  <article class="post-article">
+    <section class="markdown-content"><p>整理一下关于图的知识点，这篇只整理基础内容。</p>
+<a id="more"></a>
+<p>主要包括以下几点内容：</p>
+<ol>
+<li>图的基本概念</li>
+<li>图的基本算法<ul>
+<li>深度优先搜索与广度优先搜索</li>
+<li>最小生成树</li>
+</ul>
+</li>
+<li>图的分析与可视化</li>
+<li>分布式图计算<ul>
+<li>了解不同的计算模型</li>
+<li>学会使用graph sdk</li>
+</ul>
+</li>
+<li>图聚类模型<ul>
+<li>spectral graph theory</li>
+</ul>
+</li>
+<li>概率图模型</li>
+</ol>
+<h3 id="1、图的基本概念"><a href="#1、图的基本概念" class="headerlink" title="1、图的基本概念"></a>1、图的基本概念</h3><ol>
+<li>图的定义：图$G$是一个三元组，记作$G=\{V(G),E(G),\varphi(G)\}$，其中$V(G)$为图的顶点集合，$E(G)$为图的边集合，$\varphi(G)$为边到顶点对的映射；</li>
+<li>定义：环、平行边、对称边</li>
+<li>定义：无向图、有向图、平凡图、简单图、完全图</li>
+<li>顶点度的定义：$x$为$G$的任一顶点，与顶点$x$关联的边数（环要计算两次）称为$x$的度数，记作$deg(x)$；$\Delta(G)$和$\delta(G)$分别表示$G$的最大顶点度和最小顶点度；</li>
+<li>设$G$为无向图，对于$G$的每个顶点$x$，若$d(x)=K$，则称$G$为$K$正则无向图；</li>
+<li>图的同构定义：设$G_1=\{V_1,E_1\}$和$G_2=\{V_2,E_2\}$是简单图，若存在一个从$V_1$到$V_2$的双射函数$f$，且$f$具有这样的性质，对$V_1$中的所有$x$和$y$，$x$和$y$在$G_1$中相邻，且$f(x)$和$f(y)$在$G_2$中相邻，则称$G_1$和$G_2$是同构的，记作$G_1\simeq G_2$；</li>
+<li>生成子图的定义：若$G_1\subseteq G$，且$V_1=V$，则称$G_1$是$G$的生成子图（$\textit{spanning subgraph}$）；</li>
+<li>导出子图的定义：设$V_1\subseteq V$，且$V_1\ne\emptyset$，以$V_1$为顶点，以两端点均在$V_1$中的全体边为边集的$G$的子图，称为$V_1$的导出子图（$\textit{induced subgraph}$），记作$G[V_1]$；</li>
+<li>定义：补图、并、交、差、环和</li>
+<li>边互不相同的链称为迹($\textit{trail}$)，内部点互不相同的链称为路($\textit{path}$)；</li>
+<li>两端点相同的迹（即闭迹）称为回；两端点相同的路（即闭路）称为圈；</li>
+<li>如果在图$G$中删去一个顶点$x$后，图$G$的连通分支数增加，即$W(G-x)&gt;W(G)$，则称顶点$x$为$G$的割点($\textit{cut vertex}$)；如果在图$G$中删去一条边$e$后，图$G$的连通分支数增加，即$W(G-e)&gt;W(G)$，则称边$e$为$G$的割边($\textit{cut edge}$)或桥；</li>
+<li>没有割点的非平凡连通图称为块($\textit{block}$)；</li>
+<li>如果图$G$的顶点集的一个真子集$T$满足$G-T$不连通或是平凡图，则称$T$为$G$的一个点割；如果图$G$的边集的一个真子集$S$满足$G-S$不连通或是平凡图，则称$S$为$G$的一个边割；</li>
+<li>设$G$是连通图，称$K(G)=\min\{\parallel T\parallel\mid T是G的点割\}$为$G$的点连通度；称$\lambda(G)=\min\{\parallel S\parallel\mid S是G的边割\}$为$G$的边连通度；</li>
+<li>邻接矩阵、关联矩阵、可达矩阵</li>
+<li>树是无圈连通无向图；</li>
+<li>如果$T$是$G$的一个生成子图而且又是一棵树，则称$T$是图$G$的一棵生成树，生成树$T$中的边称为树$T$的树枝，不在生成树$T$中的$G$的边，称为树$T$的弦；</li>
+<li>设$G=\{V,E\}$是简单无向图，$T\subseteq V,T\neq\emptyset$，若$T$中任意两个顶点都相邻，则称$T$是图$G$的团($\textit{clique}$)；</li>
+</ol>
+<h3 id="2、图的基本算法"><a href="#2、图的基本算法" class="headerlink" title="2、图的基本算法"></a>2、图的基本算法</h3><h3 id="3、图的分析与可视化"><a href="#3、图的分析与可视化" class="headerlink" title="3、图的分析与可视化"></a>3、图的分析与可视化</h3><ol>
+<li>基本的图统计<ol>
+<li>中心点：中心点的概念用来尝试识别出位于图中心的节点。测量中心点有多种不同的方法：<ol>
+<li>度中心点：具有最高度数的节点；</li>
+<li>间距中心点：测量特定节点是其他两个节点间的最短路径成员的次数；</li>
+<li>紧密中心点：测量从每个节点到其他所有节点的平均距离；</li>
+<li>Katz中心点：测量从每个节点到其他所有节点的加权距离；</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>桑基图，它是一种特定类型的流程图，图中延伸的分支的宽度对应数据流量的大小，通常应用于能源、材料成分、金融等数据的可视化分析。</li>
+<li>使用Graphviz实现图的可视化，使用python下的graphviz包，挺简单的；下面是一个例子。<img src="http://7xs8n3.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-12-16%20%E4%B8%8B%E5%8D%884.13.16.png" alt=""></li>
+</ol>
+<h3 id="4、分布式图计算"><a href="#4、分布式图计算" class="headerlink" title="4、分布式图计算"></a>4、分布式图计算</h3><ol>
+<li>基于MapReduce模型的MapReduce派系<ol>
+<li>Pegasus是一个建立在Hadoop平台上所实现的开源大规模图数据处理系统，其核心思想是将各种图计算的操作归纳为一个迭代的矩阵乘法计算；</li>
+</ol>
+</li>
+<li>基于BSP模型的Pregel派系<ol>
+<li>为了改进基于MR模型的大规模图计算系统的低效率，Google于2010年推出基于整体同步并行（Bulk Synchronous Parallel）模型的大规模分布式图计算框架Pregel；</li>
+<li>每个BSP作业由一系列顺序执行的通过全局路障分离的超步（Superstep）组成，并行任务按照超步组织，接收来自于上一个超步的消息，执行本地计算并发送消息给下一个超步。每一个超步包含三个过程：<ol>
+<li>本地计算：每个工作节点读取其本地内存数据并行计算，其计算异步执行；</li>
+<li>消息通信：参与计算的每个工作节点将消息传递给与之关联的其他工作节点，以便相互间交换所需的数据；</li>
+<li>路障同步：用于数据的整体同步，即块间同步，每个工作节点更新其自身消息缓存，确定所有的计算和消息传递都进行完毕后开始进入下一个超步；</li>
+</ol>
+</li>
+<li>基于BSP模型的大规模分布式图计算系统，最早最著名的就是Pregel；</li>
+<li>由于超步中每个节点上的本地计算所耗费的时间不等，执行进度不统一，因此全局路障同步将导致大量节点处于等待状态，形成快等慢的局面，造成计算效率低下的问题。</li>
+</ol>
+</li>
+<li>基于GAS模型的GraphLab派系<ol>
+<li>由GraphLab项目组提出的GAS（Gather-Apply-Scatter）模型通过将计算过程进一步细分来增加计算并发性；</li>
+<li>GAS模型将顶点Update函数划分成三个连续的处理阶段：负责提取消息的信息收集阶段（Gather）、负责基于收集的消息进行本地处理的应用阶段（Apply）和负责发送新的消息的分发阶段（Scatter）；</li>
+<li>在GAS模型中，并发任务间无需任何数据同步过程，任意时刻每个并发任务都可对全局参数进行读取和更新，这提高了计算资源的利用率和整体任务的执行速度；但其缺陷是：如果某些任务因为机器负载高或者硬件故障等在迭代轮数上严重滞后于其他任务，则可能会造成最终的计算结果不正确，即任务的正确性无法获得保障。</li>
+</ol>
+</li>
+<li>三大派系间的比较：<ol>
+<li>MR模型和BSP模型都属于同步范型，他们之间可以互相表达，其中map操作实现每个超步的本地计算，reduce操作实现超步间的消息通信和路障同步；</li>
+</ol>
+</li>
+</ol>
+<hr>
+<ul>
+<li>虽然Pregel框架计算模型简单，具有较好的可扩展性，但该框架存在三个方面的限制：<ol>
+<li>计算过程收敛速度慢导致迭代次数多，以顶点为单位的最小粒度计算、同步的计算模式，限制了整个任务计算的收敛速度；</li>
+<li>消息量大导致通信代价高；</li>
+<li>负载不均，存在木桶效应；</li>
+</ol>
+</li>
+<li>对应上述问题，现有的工作主要围绕着以下三个优化目标展开研究：<ol>
+<li>加快算法收敛，减少迭代次数：从以顶点为单位的细粒度计算过渡到以路径、子图为单位的粗粒度计算，从同步的计算模式过渡到异步的计算模式以及混合计算模式；</li>
+<li>减少消息数目，减轻网络负载：提出了基于顶点的划分策略和计算模式、基于共享内存的通信方式、消息合并技术等；</li>
+<li>消除木桶效应，实现负载均衡：从图划分策略、动态负载迁移以及调度模式出发提出多种优化方案；</li>
+</ol>
+</li>
+<li>目前常见的分布式图计算系统所采用的通信方式主要分为两类：<ol>
+<li>基于消息传递的方式：<ol>
+<li>有两种优化方式：第一种是通过合理的图分割技术，降低图分区之间的连通性减少跨机器的通信请求；第二种是通过Combine、Receiver-side scatter等技术减少消息数量</li>
+</ol>
+</li>
+<li>基于共享内存的方式：<ol>
+<li>GraphLab系统为被远程访问的图节点设置了本地ghost节点，并在该ghost节点中保存于原节点相同的数据信息；</li>
+<li>PowerGraph系统同样采用了共享内存的机制进行通信，该系统将图数据按照顶点切分的方式分布在不同计算节点上，即被切分的节点会出现在两个计算节点上；Spark上的GraphX系统也使用了与PowerGraph类似的共享内存通信方式；</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>图划分方式：边切分方式、点切分方式；目前采用点切分方式的系统主要有PowerGraph、GraphX以及PowerSwitch；<ol>
+<li>目前对图数据进行划分时主要采用了三种划分策略：离线划分策略、流式划分策略以及动态重划分策略；（暂时不了解）</li>
+</ol>
+</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li>《图论及其算法》</li>
+<li>《图分析与可视化》</li>
+<li>《分布式图处理系统技术综述》</li>
+</ol>
+</section>
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#数学基础" >
+    <span class="tag-code">数学基础</span>
+  </a>
+
+      </div>
+    
+    <div class="money-like">
+      <div class="reward-btn">
+        赏
+        <span class="money-code">
+          <span class="alipay-code">
+            <div class="code-image"></div>
+            <b>使用支付宝打赏</b>
+          </span>
+          <span class="wechat-code">
+            <div class="code-image"></div>
+            <b>使用微信打赏</b>
+          </span>
+        </span>
+      </div>
+      <p class="notice">欢迎打赏</p>
+    </div>
+    
+  </article>
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2017/12/02/11_MATH_Graph_Theory/';
+    var banner = ''
+    if (banner) {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png') 
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      var imageW = $(this).width()
+      var imageH = $(this).height()
+      
+      var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+      zoom = zoom < 1 ? 1 : zoom
+      zoom = zoom > 2 ? 2 : zoom
+      var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+      $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+      $('.image-view-wrap').addClass('wrap-active')
+      $('.image-view-wrap img').css({
+        'width': `${imageW}`,
+        'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+      })
+      $('html').css('overflow', 'hidden')
+
+      $('.image-view-wrap').on('click', function() {
+        $(this).remove()
+        $('html').attr('style', '')
+      })
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "";
+    if (gitmentConfig != "undefined") {
+      var gitment = new Gitment({
+        id: "I.数学基础-图论-概述",
+        owner: "",
+        repo: "",
+        oauth: {
+          client_id: "",
+          client_secret: ""
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine == 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  </body>
+</html>
