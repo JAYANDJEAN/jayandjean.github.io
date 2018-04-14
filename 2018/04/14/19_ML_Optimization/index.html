@@ -102,11 +102,11 @@
 <h3 id="Gradient-Descent"><a href="#Gradient-Descent" class="headerlink" title="Gradient Descent"></a>Gradient Descent</h3><p>梯度下降算法是指，在给定待优化的模型参数 $\theta \in \mathbb{R}^d$ 和目标函数 $J(\theta)$ 后，算法通过沿梯度 $\nabla_\theta J(\theta)$ 的相反方向更新 $\theta$ 来最小化 $J(\theta)$ 。学习率 $\eta$ 决定了每一时刻的更新步长。对于每一个时刻 $t$ ，我们可以用下述步骤描述梯度下降的流程：</p>
 <ol>
 <li>计算目标函数关于参数的梯度：$$g_t = \nabla_\theta J(\theta)$$</li>
-<li>根据历史梯度计算一阶和二阶动量：$$m_t = \phi(g_1, g_2, \cdots, g_t) $$<br>$$v_t = \psi(g_1, g_2, \cdots, g_t) $$</li>
+<li>根据历史梯度计算一阶和二阶动量：$$m_t = \phi(g_1, g_2, \cdots, g_t) $$$$v_t = \psi(g_1, g_2, \cdots, g_t) $$</li>
 <li>更新模型参数：$$\theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{v_t + \epsilon}} m_t $$其中， $\epsilon$ 为平滑项，防止分母为零，通常取 1e-8。</li>
 </ol>
 <h3 id="SGD-Stochastic-Gradient-Descent"><a href="#SGD-Stochastic-Gradient-Descent" class="headerlink" title="SGD (Stochastic Gradient Descent)"></a>SGD (Stochastic Gradient Descent)</h3><p>随机梯度下降算法最为简单，没有动量的概念，即：$$m_t = \eta \cdot g_t $$$$v_t = I^2 $$$$\epsilon = 0 $$</p>
-<p>这时，更新步骤就是最简单的：$$\theta_{t+1}= \theta_t - \eta \cdot g_t $$<br>SGD 的缺点在于收敛速度慢，可能在鞍点处震荡。并且，如何合理的选择学习率是 SGD 的一大难点。在实践中，有必要随着时间的推移逐渐降低学习率，因此我们将第 $t$ 步迭代的学习率记作 $\eta_t$。保证 SGD 收敛的一个充分条件是：$$\sum_{t=1}^{\infty}\eta_t=\infty$$$$\sum_{t=1}^{\infty}\eta_{t}^2&lt;\infty$$<br>实践中，一般会线性衰减学习率直到第 $\tau$ 次迭代：$$\eta_t = (1 − \alpha)\cdot\eta_0 + \alpha\cdot\eta_{\tau}$$其中 $\alpha=\frac{t}{\tau}$。在 $\tau$ 步迭代之后，一般使 $\eta$ 保持常数。</p>
+<p>这时，更新步骤就是最简单的：$$\theta_{t+1}= \theta_t - \eta \cdot g_t $$<br>SGD 的缺点在于收敛速度慢，可能在鞍点处震荡。并且，如何合理的选择学习率是 SGD 的一大难点。在实践中，有必要随着时间的推移逐渐降低学习率，因此我们将第 $t$ 步迭代的学习率记作 $\eta_t$。保证 SGD 收敛的一个充分条件是：$$\sum_{t=1}^{\infty}\eta_t=\infty;\sum_{t=1}^{\infty}\eta_{t}^2&lt;\infty$$<br>实践中，一般会线性衰减学习率直到第 $\tau$ 次迭代：$$\eta_t = (1 − \alpha)\cdot\eta_0 + \alpha\cdot\eta_{\tau}$$其中 $\alpha=\frac{t}{\tau}$。在 $\tau$ 步迭代之后，一般使 $\eta$ 保持常数。</p>
 <h3 id="SGD-with-Momentum"><a href="#SGD-with-Momentum" class="headerlink" title="SGD with Momentum"></a>SGD with Momentum</h3><p>为了抑制 SGD 的震荡，SGDM 认为梯度下降过程可以加入惯性。下坡的时候，如果发现是陡坡，那就利用惯性跑的快一些。SGDM是在SGD基础上引入了一阶动量：<br>$$m_t = \gamma \cdot m_{t-1} + \eta \cdot g_t $$</p>
 <p>一阶动量是各个时刻梯度方向的累积量。</p>
 <p>也就是说，$t$ 时刻的下降方向，不仅由当前点的梯度方向决定，而且由此前累积的下降方向决定。 $\gamma$ 的经验值为0.9，这就意味着下降方向主要是此前累积的下降方向，并略微偏向当前时刻的下降方向。</p>
