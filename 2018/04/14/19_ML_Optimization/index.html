@@ -103,16 +103,30 @@
 <ol>
 <li>计算目标函数关于参数的梯度：$$g_t = \nabla_\theta J(\theta)$$</li>
 <li>根据历史梯度计算一阶和二阶动量：$$m_t = \phi(g_1, g_2, \cdots, g_t) $$$$v_t = \psi(g_1, g_2, \cdots, g_t) $$</li>
-<li>更新模型参数：$$\theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{v_t + \epsilon}} m_t $$其中， $\epsilon$ 为平滑项，防止分母为零，通常取 1e-8。</li>
+<li>更新模型参数：$$\theta_{t+1} = \theta_t - \frac{m_t}{\sqrt{v_t} + \epsilon}$$其中， $\epsilon$ 为平滑项，防止分母为零，通常取 1e-8。</li>
 </ol>
 <h3 id="SGD-Stochastic-Gradient-Descent"><a href="#SGD-Stochastic-Gradient-Descent" class="headerlink" title="SGD (Stochastic Gradient Descent)"></a>SGD (Stochastic Gradient Descent)</h3><p>随机梯度下降算法最为简单，没有动量的概念，即：$$m_t = \eta \cdot g_t $$$$v_t = I^2 $$$$\epsilon = 0 $$</p>
 <p>这时，更新步骤就是最简单的：$$\theta_{t+1}= \theta_t - \eta \cdot g_t $$<br>SGD 的缺点在于收敛速度慢，可能在鞍点处震荡。并且，如何合理的选择学习率是 SGD 的一大难点。在实践中，有必要随着时间的推移逐渐降低学习率，因此我们将第 $t$ 步迭代的学习率记作 $\eta_t$。保证 SGD 收敛的一个充分条件是：$$\sum_{t=1}^{\infty}\eta_t=\infty;\sum_{t=1}^{\infty}\eta_{t}^2&lt;\infty$$<br>实践中，一般会线性衰减学习率直到第 $\tau$ 次迭代：$$\eta_t = (1 − \alpha)\cdot\eta_0 + \alpha\cdot\eta_{\tau}$$其中 $\alpha=\frac{t}{\tau}$。在 $\tau$ 步迭代之后，一般使 $\eta$ 保持常数。</p>
 <h3 id="SGD-with-Momentum"><a href="#SGD-with-Momentum" class="headerlink" title="SGD with Momentum"></a>SGD with Momentum</h3><p>为了抑制 SGD 的震荡，SGDM 认为梯度下降过程可以加入惯性。下坡的时候，如果发现是陡坡，那就利用惯性跑的快一些。SGDM是在SGD基础上引入了一阶动量：<br>$$m_t = \gamma \cdot m_{t-1} + \eta \cdot g_t $$</p>
+<p>这时，更新步骤是：$$\theta_{t+1}= \theta_t - m_t $$</p>
 <p>一阶动量是各个时刻梯度方向的累积量。</p>
 <p>也就是说，$t$ 时刻的下降方向，不仅由当前点的梯度方向决定，而且由此前累积的下降方向决定。 $\gamma$ 的经验值为0.9，这就意味着下降方向主要是此前累积的下降方向，并略微偏向当前时刻的下降方向。</p>
 <h3 id="Nesterov-Accelerated-Gradient"><a href="#Nesterov-Accelerated-Gradient" class="headerlink" title="Nesterov Accelerated Gradient"></a>Nesterov Accelerated Gradient</h3><p>SGD 还有一个问题是困在局部最优的沟壑里面震荡。NAG全称Nesterov  Accelerated Gradient，是在SGD、SGDM的基础上的进一步改进，改进点在于计算 $g_t$。我们知道在时刻$t$的主要下降方向是由累积动量决定的，自己的梯度方向说了也不算，那与其看当前梯度方向，不如先看看如果跟着累积动量走了一步，那个时候再怎么走。因此，NAG在计算 $g_t$，不计算当前位置的梯度方向，而是计算如果按照累积动量走了一步，那个时候的下降方向：$$g_t = \nabla_\theta J(\theta - \gamma \cdot m_{t-1})$$$$m_t = \gamma \cdot m_{t-1} + \eta \cdot g_t $$</p>
+<p>这时，更新步骤是：$$\theta_{t+1}= \theta_t - m_t $$</p>
 <p>可用下图表示，长红色向量与长绿色向量平行，均为累积动量。也就是从 SGDM 的角度来说，长红色向量为累积动量，短红色向量为当前计算出的梯度向量，那么长蓝色向量即为参数前进的方向。而从 NAG 的角度来说，参数先沿着长绿色向量走，并计算该处的梯度向量，即短红色向量，并与累积动量相加，即长灰色向量，也就是最后参数前进的方向。<br><img src="http://7xs8n3.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-04-14%20%E4%B8%8B%E5%8D%8810.56.32.png" alt=""></p>
 <h3 id="AdaGrad"><a href="#AdaGrad" class="headerlink" title="AdaGrad"></a>AdaGrad</h3><p>此前我们都没有用到二阶动量。二阶动量的出现，才意味着“自适应学习率”优化算法时代的到来。</p>
+<p>$$v_t=\sum_{\tau=1}^{t}g_{\tau}^2$$$$m_t=\eta \cdot g_t$$</p>
+<p>这时，更新步骤是：$$\theta_{t+1}= \theta_t - \frac{\eta \cdot g_t}{\sqrt{v_t}+\epsilon} $$</p>
+<p>从训练开始时积累梯度平方会导致有效学习率过早和过量的减小。AdaGrad在某些深度学习模型上效果不错，但不是全部。</p>
+<h3 id="RMSprop"><a href="#RMSprop" class="headerlink" title="RMSprop"></a>RMSprop</h3><p>同样借鉴Momentum的想法，由AdaGrad可以得到RMSprop算法：$$v_t=\gamma \cdot v_{t-1} + (1-\gamma) \cdot g_t^2$$$$m_t=\eta \cdot g_t$$这时，更新步骤是：$$\theta_{t+1}= \theta_t - \frac{\eta \cdot g_t}{\sqrt{v_t}+\epsilon} $$</p>
+<p>$\gamma$ 通常取 0.9 左右。</p>
+<h3 id="AdaDelta"><a href="#AdaDelta" class="headerlink" title="AdaDelta"></a>AdaDelta</h3><h3 id="Adam"><a href="#Adam" class="headerlink" title="Adam"></a>Adam</h3><p>在一阶动量和二阶动量上均借鉴Momentum的想法，可以得到Adam算法：</p>
+<p>$$m_t = \eta \cdot \left[ \beta_1 m_{t-1} + (1 - \beta_1)g_t \right] $$$$v_t = \beta_2 \cdot v_{t-1} + (1-\beta_2) \cdot g_t^2 $$</p>
+<p>实际使用过程中，参数的经验值是：$$\beta_1=0.9, \beta_2=0.999$$</p>
+<p>$$m_t = \frac{m_t}{1-\beta_1^t} $$$$v_t = \frac{v_t}{1-\beta_2^t} $$</p>
+<p>再进行更新，</p>
+<p>$$\theta_{t+1} = \theta_t - \frac{m_t}{\sqrt{v_t} + \epsilon } $$</p>
+<h3 id="Nadam"><a href="#Nadam" class="headerlink" title="Nadam"></a>Nadam</h3><p>Nesterov + Adam = Nadam</p>
 <h3 id="可视化对比"><a href="#可视化对比" class="headerlink" title="可视化对比"></a>可视化对比</h3><p><img src="http://7xs8n3.com1.z0.glb.clouddn.com/v2-5d5166a3d3712e7c03af74b1ccacbeac_b.gif" alt=""></p>
 <p><img src="http://7xs8n3.com1.z0.glb.clouddn.com/v2-4a3b4a39ab8e5c556359147b882b4788_b.gif" alt=""></p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
