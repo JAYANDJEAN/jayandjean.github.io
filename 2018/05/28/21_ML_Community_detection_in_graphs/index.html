@@ -10,7 +10,7 @@
   
   <title>
     
-      IV.机器学习模型-神经网络-VAEs | JAYANDJEAN
+      IV.机器学习模型-社区发现算法 | JAYANDJEAN
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -84,19 +84,54 @@
 </header>
 
     <div id="article-banner">
-  <h2>IV.机器学习模型-神经网络-VAEs</h2>
-  <p class="post-date">2018-04-08</p>
+  <h2>IV.机器学习模型-社区发现算法</h2>
+  <p class="post-date">2018-05-28</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
 </div>
 <main class="app-body">
   <article class="post-article">
-    <section class="markdown-content"><p>$\textit{Deep Learning}$ 第十四章读书笔记。</p>
+    <section class="markdown-content"><p>$\textit{Community detection in graphs}$读书笔记。</p>
 <a id="more"></a>
-<hr>
-<p>$p_{encoder}(h\mid x)$、$p_{decoder}(x\mid h)$</p>
-<h3 id="14-1-欠完备自编码器"><a href="#14-1-欠完备自编码器" class="headerlink" title="14.1 欠完备自编码器"></a>14.1 欠完备自编码器</h3></section>
+<h3 id="I-Introduction"><a href="#I-Introduction" class="headerlink" title="I.Introduction"></a>I.Introduction</h3><h3 id="II-COMMUNITIES-IN-REAL-WORLD-NETWORKS"><a href="#II-COMMUNITIES-IN-REAL-WORLD-NETWORKS" class="headerlink" title="II.COMMUNITIES IN REAL-WORLD NETWORKS"></a>II.COMMUNITIES IN REAL-WORLD NETWORKS</h3><h3 id="III-ELEMENTS-OF-COMMUNITY-DETECTION"><a href="#III-ELEMENTS-OF-COMMUNITY-DETECTION" class="headerlink" title="III.ELEMENTS OF COMMUNITY DETECTION"></a>III.ELEMENTS OF COMMUNITY DETECTION</h3><ol>
+<li><p>Communities</p>
+<ul>
+<li>Basics:<ul>
+<li>$\textit{intra-cluster density }\delta_{\textit{int}}(C)$</li>
+<li>$\textit{inter-cluster density }\delta_{\textit{ext}}(C)$</li>
+</ul>
+</li>
+<li>Local definitions:<ul>
+<li>$\textit{complete mutuality, reachability, vertex degree, comparison of internal versus external cohesion}$</li>
+</ul>
+</li>
+<li>Global definitions:<ul>
+<li>$\textit{modularity}$</li>
+</ul>
+</li>
+<li>Definitions based on vertex similarity:<ul>
+<li>$\textit{distance}$</li>
+<li>$\textit{cosine similarity}$</li>
+<li>$\textit{based on properties of random walks: commute-time, escape probability}$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Partitions</p>
+<ul>
+<li>A partition is a division of a graph in clusters, such that each vertex belongs to one cluster.</li>
+<li>Quality functions: modularity:<ul>
+<li>$$Q=\frac{1}{2m}\sum_{i\space j}(A_{ij}-P_{ij})\delta(C_i,C_j)$$</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="IV-TRADITIONAL-METHODS"><a href="#IV-TRADITIONAL-METHODS" class="headerlink" title="IV.TRADITIONAL METHODS"></a>IV.TRADITIONAL METHODS</h3><ol>
+<li>Graph partitioning</li>
+</ol>
+</section>
     
       <div class="tags">
         <span>Tags:</span>
@@ -129,7 +164,7 @@
 
 <script>
   (function () {
-    var url = 'http://yoursite.com/2018/04/08/17_ML_Variational_AutoEncoder/';
+    var url = 'http://yoursite.com/2018/05/28/21_ML_Community_detection_in_graphs/';
     var banner = ''
     if (banner) {
       $('#article-banner').css({
@@ -180,7 +215,7 @@
     var gitmentConfig = "";
     if (gitmentConfig != "undefined") {
       var gitment = new Gitment({
-        id: "IV.机器学习模型-神经网络-VAEs",
+        id: "IV.机器学习模型-社区发现算法",
         owner: "",
         repo: "",
         oauth: {
