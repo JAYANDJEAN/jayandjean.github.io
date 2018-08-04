@@ -10,7 +10,7 @@
   
   <title>
     
-      IV.机器学习模型-神经网络-Graph Embedding | JAYANDJEAN
+      IV.机器学习模型-社区发现算法 | JAYANDJEAN
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -84,7 +84,7 @@
 </header>
 
     <div id="article-banner">
-  <h2>IV.机器学习模型-神经网络-Graph Embedding</h2>
+  <h2>IV.机器学习模型-社区发现算法</h2>
   <p class="post-date">2018-06-14</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
@@ -92,15 +92,88 @@
 </div>
 <main class="app-body">
   <article class="post-article">
-    <section class="markdown-content"><p>Graph Embedding的知识整理。</p>
+    <section class="markdown-content"><p>社区发现算法的知识整理。</p>
 <a id="more"></a>
-<ol>
-<li><a href="https://zhuanlan.zhihu.com/p/32504175" target="_blank" rel="external">网络表示学习概述</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/33732033" target="_blank" rel="external">Graph Embedding：从DeepWalk到SDNE</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/26302789" target="_blank" rel="external">网络结构中节点嵌入向量表达（network embedding）方法介绍</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/32718265" target="_blank" rel="external">word embedding算法系列</a></li>
+<hr>
+<h3 id="networkx笔记"><a href="#networkx笔记" class="headerlink" title="networkx笔记"></a>networkx笔记</h3><h4 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h4><ol>
+<li>The basic graph classes are named: Graph, DiGraph, MultiGraph, and MultiDiGraph</li>
+<li>NetworkX uses a “dictionary of dictionaries of dictionaries” as the basic network data structure</li>
+</ol>
+<h4 id="Graph-Types"><a href="#Graph-Types" class="headerlink" title="Graph Types"></a>Graph Types</h4><h4 id="Algorithms"><a href="#Algorithms" class="headerlink" title="Algorithms"></a>Algorithms</h4><ol>
+<li>Approximations and Heuristics</li>
+<li>Assortativity</li>
+<li>Bipartite（二分图）<ul>
+<li>Basic functions</li>
+<li>Matching</li>
+<li>Matrix</li>
+<li>Projections</li>
+<li>Spectral</li>
+<li>Clustering</li>
+<li>Redundancy</li>
+<li>Centrality</li>
+<li>Generators</li>
+</ul>
+</li>
+<li>Boundary</li>
+<li>Bridges:Bridge-finding algorithms.</li>
+<li>Centrality（中心性）<ul>
+<li>Degree</li>
+<li>Eigenvector</li>
+<li>Closeness</li>
+<li>Current Flow Closeness</li>
+<li>(Shortest Path) Betweenness</li>
+<li>Current Flow Betweenness</li>
+<li>Communicability Betweenness</li>
+<li>Load</li>
+<li>Harmonic Centrality</li>
+<li>Reaching</li>
+</ul>
+</li>
+<li>Chains:Functions for finding chains in a graph.</li>
+<li>Chordal</li>
+<li>Clique:Functions for finding and manipulating cliques.</li>
+<li>Clustering</li>
+<li>Coloring</li>
+<li>Communicability</li>
+<li>Communities</li>
+<li>Components</li>
+<li>Connectivity</li>
+<li>Cores:Find the k-cores of a graph.</li>
+<li>Covering</li>
+<li>Cycles</li>
+<li>Cuts</li>
+<li>Directed Acyclic Graphs</li>
+<li>Dispersion</li>
+<li>Distance Measures（距离度量）</li>
+<li>Distance-Regular Graphs</li>
+<li>Dominance</li>
+<li>Dominating Sets</li>
+<li>Efficiency</li>
+<li>Eulerian</li>
+<li>Flows</li>
+<li>Graphical degree sequence</li>
+<li>Hierarchy</li>
+<li>Hybrid</li>
+<li>Isolates</li>
+<li>Isomorphism（同态性）</li>
+<li>Link Analysis</li>
+<li>Link Prediction</li>
+<li>Matching</li>
+<li>Minors</li>
+<li>Maximal independent set</li>
+<li>Operators</li>
+<li>Reciprocity</li>
+<li>Rich Club</li>
+<li>Shortest Paths</li>
+<li>。。。</li>
+</ol>
+<h4 id="Functions"><a href="#Functions" class="headerlink" title="Functions"></a>Functions</h4><h4 id="Graph-Generators"><a href="#Graph-Generators" class="headerlink" title="Graph Generators"></a>Graph Generators</h4><h4 id="Linear-Algebra"><a href="#Linear-Algebra" class="headerlink" title="Linear Algebra"></a>Linear Algebra</h4><h4 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h4><ol>
+<li><a href="http://snap.stanford.edu/data/" target="_blank" rel="external">Stanford Large Network Dataset Collection</a></li>
+<li><a href="https://networkx.github.io/" target="_blank" rel="external">networkx</a></li>
+<li><a href="https://networkx.github.io/documentation/stable/" target="_blank" rel="external">networkx_document</a></li>
 </ol>
 <hr>
+<p><a href="https://www.zhihu.com/question/29042018" target="_blank" rel="external">社区发现(Community detection)的经典方法有哪些？该领域最新的研究进展如何？</a></p>
 </section>
     
       <div class="tags">
@@ -134,7 +207,7 @@
 
 <script>
   (function () {
-    var url = 'http://yoursite.com/2018/06/14/23_ML_Graph_Embedding/';
+    var url = 'http://yoursite.com/2018/06/14/24_ML_Community_Detection/';
     var banner = ''
     if (banner) {
       $('#article-banner').css({
@@ -185,7 +258,7 @@
     var gitmentConfig = "";
     if (gitmentConfig != "undefined") {
       var gitment = new Gitment({
-        id: "IV.机器学习模型-神经网络-Graph Embedding",
+        id: "IV.机器学习模型-社区发现算法",
         owner: "",
         repo: "",
         oauth: {

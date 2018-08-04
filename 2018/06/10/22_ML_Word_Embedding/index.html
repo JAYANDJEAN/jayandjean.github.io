@@ -110,6 +110,33 @@
 <li>下面重点学习word2vec原理：<a href="https://blog.csdn.net/itplus/article/details/37969519" target="_blank" rel="external">word2vec 中的数学原理详解</a></li>
 <li>$\textit{How to Generate a Good Word Embedding}$：比较各个word embedding模型。</li>
 </ol>
+<hr>
+<h3 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h3><ol>
+<li>sigmoid函数</li>
+<li>Huffman树：带权路径长度之和最小的二叉树称为最优二叉树，又称Huffman树。</li>
+</ol>
+<h3 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h3><ol>
+<li><p>统计语言模型：n-gram模型</p>
+<ul>
+<li>记 $w_1^T:=(w_1,w_2,…w_T)$ 表示$T$个词按顺序构成的一个句子；</li>
+<li>则联合概率为 $$\begin{split}p(w_1^T)&amp;=p(w_1,w_2,…w_T)\cr&amp;=p(w_1)p(w_2|w_1)p(w_3|w_1^2)…p(w_T|w_1^{T-1})\end{split}$$</li>
+<li>考虑 $p(w_k|w_1^{k-1})$ 的近似计算，有 $$p(w_k|w_1^{k-1})=\frac{p(w_1^k)}{p(w_1^{k-1})}\approx\frac{count(w_1^k)}{count(w_1^{k-1})}$$</li>
+<li>n-gram模型做了一个 $n-1$ 阶的 $Markov$ 假设，认为一个词出现的概率只与前面的 $n-1$ 个词有关，即 $$p(w_k|w_1^{k-1})\approx p(w_k|w_{k-n+1}^{k-1})\approx \frac{count(w_{k-n+1}^{k})}{count(w_{k-n+1}^{k-1})}$$</li>
+<li>统计语言模型，往往利用最大似然估计，对目标函数进行优化，目标函数可以定义为 $$\prod_{w\in\mathcal{c}}p(w|Context(w))$$</li>
+</ul>
+</li>
+<li><p>神经网络语言模型</p>
+<ul>
+<li>对于语料 $C$ 中的任一个词 $w$，我们定义 $(Context(w),w)$ 为一个训练样本；同时定义词向量的长度为 $m$；</li>
+<li>整体结构主要分为：输入层、摄影层、隐藏层、输出层；</li>
+<li>输入层为样本：$(Context(w),w)$，类似于n-gram，$Context(w_k)=w_{k-n+1}^{k-1}$；</li>
+<li>摄影层为 $(n-1)m$ 维的向量 $x_w$，即将 $Context(w)$ 中的 $n-1$ 个词向量首尾相接构成 $(n-1)m$ 维的向量；</li>
+<li>隐藏层为 $$h_w=\tanh\left(Wx_w+p\right)$$</li>
+<li>输出层为 $N$ 维的向量，其中 $N$ 为语料库的词汇量大小 $$y_w=Uh_w+q$$</li>
+<li>当输出层为 $y_w=(y_{w,1},y_{w,2},…,y_{w,N})^T$</li>
+</ul>
+</li>
+</ol>
 </section>
     
       <div class="tags">
