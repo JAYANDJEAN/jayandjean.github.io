@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="jayandjean&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      I.数学基础-读书笔记 | JAYANDJEAN
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+  <body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>JAYANDJEAN</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>I.数学基础-读书笔记</h2>
+  <p class="post-date">2017-10-20</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body">
+  <article class="post-article">
+    <section class="markdown-content"><p>$\textit{Lecture Notes on the Lambda Calculus }$读书笔记。</p>
+<p>看到第六章就看不下去了，先缓缓。</p>
+<a id="more"></a>
+<h2 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1.Introduction"></a>1.Introduction</h2><ul>
+<li>1.1 Extensional vs. intensional view of functions:<ol>
+<li>functions as graphs</li>
+<li>functions as formulas</li>
+</ol>
+</li>
+<li>1.2 The lambda calculus:<ol>
+<li>One advantage of the lambda notation is that it allows us to easily talk about higher-order functions.</li>
+</ol>
+</li>
+<li>1.3 Untyped vs. typed lambda-calculi:<ol>
+<li>Untyped lambdacalculus.</li>
+<li>Simply-typed lambda calculus.</li>
+<li>Polymorphically typed lambda calculus.</li>
+</ol>
+</li>
+<li>1.4 Lambda calculus and computability</li>
+<li>1.5 Connections to computer science<ol>
+<li>Many real-world programming languages can be regarded as extensions of the lambda calculus.</li>
+</ol>
+</li>
+<li>1.6 Connections to logic<ol>
+<li>The connection between lambda calculus and constructive logics is via the “proofs-as-programs” paradigm.</li>
+</ol>
+</li>
+</ul>
+<h2 id="2-The-untyped-lambda-calculus"><a href="#2-The-untyped-lambda-calculus" class="headerlink" title="2.The untyped lambda calculus"></a>2.The untyped lambda calculus</h2><ul>
+<li>2.1 Syntax<ol>
+<li>lambda terms: variables, applications, and lambda abstractions</li>
+<li>Backus-Naur Form:$$M,N ::= x\mid (MN)\mid (\lambda x.M)$$</li>
+</ol>
+</li>
+<li>2.2 Free and bound variables, $\alpha\textit{-equivalence}$<ol>
+<li>If $x, y$ are variables, and $M$ is a term, we write $M\{y/x\}$ for the result of renaming $x$ as $y$ in $M$.</li>
+<li>We define $\alpha\textit{-equivalence}$ to be the smallest congruence relation $=_{\alpha}$ on lambda terms, such that for all terms $M$ and all variables $y$ that do not occur in $M$,$$\lambda x.M =_{\alpha} \lambda y.(M\{y/x\}),y\notin FV(M)$$</li>
+</ol>
+</li>
+<li>2.3 Substitution<ol>
+<li>We will write $M[N/x]$ for the result of replacing $x$ by $N$ in $M$.</li>
+<li>We should only replace free variables.</li>
+</ol>
+</li>
+<li>2.4 Introduction to $\beta\textit{-reduction}$<ol>
+<li>We will often use the ordinary equality symbol $M = N$ to denote $\alpha\textit{-equivalence}$.</li>
+<li>The process of evaluating lambda terms by “plugging arguments into functions” is called $\beta\textit{-reduction}$.$$(\lambda x.M)N\rightarrow_{\beta}M[N/x]$$</li>
+<li>A lambda term without any β-redexes is said to be in $\beta\textit{-normal form}$.</li>
+</ol>
+</li>
+<li>2.5 Formal definitions of $\beta\textit{-reduction}$ and $\beta\textit{-equivalence}$<ol>
+<li>$\mathbf{Definition.}$ We write $M\twoheadrightarrow_{\beta} M’$ if $M$ reduces to $M’$ in zero or more steps. Formally, $\twoheadrightarrow_{\beta}$ is defined to be the reflexive transitive closure of $\rightarrow_{\beta}$.</li>
+<li>$\mathbf{Definition.}$ We write $M =_{\beta} M’$ if $M$ can be transformed into $M’$ by zero or more reduction steps and/or inverse reduction steps.Formally, $=_{\beta}$ is defined to be the reflexive symmetric transitive closure of $\rightarrow_{\beta}$.</li>
+<li>好好看一下Closure</li>
+</ol>
+</li>
+</ul>
+<h2 id="3-Programming-in-the-untyped-lambda-calculus"><a href="#3-Programming-in-the-untyped-lambda-calculus" class="headerlink" title="3.Programming in the untyped lambda calculus"></a>3.Programming in the untyped lambda calculus</h2><ul>
+<li>3.1 Booleans<ol>
+<li>$$\begin{split}&amp;T=\lambda xy.x\cr &amp;F=\lambda xy.y\end{split}$$</li>
+<li>如果逻辑运算符“and”定义为：$\lambda ab.abF$，则$$\begin{split}&amp;\mathbf{and}\ TT\twoheadrightarrow_{\beta}T\cr &amp;\mathbf{and}\ TF\twoheadrightarrow_{\beta}F\cr &amp;\mathbf{and}\ FT\twoheadrightarrow_{\beta}F\cr &amp;\mathbf{and}\ FF\twoheadrightarrow_{\beta}F\cr\end{split}$$</li>
+</ol>
+</li>
+<li>3.2 Natural numbers</li>
+<li>3.3 Fixed points and recursive functions<ol>
+<li>If $F$ and $N$ are lambda terms, we say that $N$ is a fixed point of $F$ if $FN =_{\beta} N$</li>
+<li>$\mathbf{Theorem\ 3.1}\textit{ In the untyped lambda calculus, every term F has a fixed point.}$</li>
+<li>$\mathbf{Proof}$. Let $A = \lambda xy.y(xxy)$, and define $\theta = AA$. Now suppose $F$ is any lambda term, and let $N = \theta F$ . We claim that $N$ is a fixed point of $F$ . This is shown by the following calculation:$$\begin{split}N&amp;=\theta F\cr<br>&amp;=AAF\cr<br>&amp;=(\lambda xy.y(xxy))AF\cr<br>&amp;\rightarrow_{\beta}F(AAF)\cr<br>&amp;=F(\theta F)\cr<br>&amp;=FN\end{split}$$</li>
+<li>The term $\theta$ used in the proof is called Turing’s fixed point combinator.</li>
+</ol>
+</li>
+<li>3.4 Other data types: pairs, tuples, lists, trees, etc.</li>
+</ul>
+<h2 id="4-The-Church-Rosser-Theorem"><a href="#4-The-Church-Rosser-Theorem" class="headerlink" title="4.The Church-Rosser Theorem"></a>4.The Church-Rosser Theorem</h2><ul>
+<li>4.1 Extensionality, $\eta$-equivalence, and $\eta$-reduction<ol>
+<li>$\eta\textit{-reduction}$:$$\lambda x.Mx\rightarrow_{\eta} M, \textit{where}\ x\notin FV(M)$$</li>
+<li>Single-step $\beta\eta$-reduction $\rightarrow_{\beta\eta}$ is defined as the union of the single-step $\beta$- and $\eta$-reductions</li>
+</ol>
+</li>
+<li>4.2 Statement of the Church-Rosser Theorem, and some con- sequences<ol>
+<li>$\mathbf{Theorem\ 4.2}$ (Church and Rosser, 1936):<br> Suppose $M$, $N$, and $P$ are lambda terms such that $M \twoheadrightarrow N$ and $M \twoheadrightarrow P$. Then there exists a lambda term $Z$ such that $N \twoheadrightarrow Z$ and $P \twoheadrightarrow Z$.</li>
+</ol>
+</li>
+<li>4.3 Preliminary remarks on the proof of the Church-Rosser Theorem<ol>
+<li>很有意思，帮助理解，但一些图太难画了。</li>
+</ol>
+</li>
+<li>4.4 Proof of the Church-Rosser Theorem<ol>
+<li>We begin by defining a new relation $M \rhd M’$ on terms, called $\textit{parallel one-step reduction}$. We define $\rhd$ to be the smallest relation satisfying:$$\begin{split}&amp;\frac{}{x\rhd x}\cr<br>&amp;\frac{P\rhd P’,N\rhd N’}{PN\rhd P’N’}\cr<br>&amp;\frac{N\rhd N’}{\lambda x.N\rhd\lambda x.N’}\cr<br>&amp;\frac{Q\rhd Q’,N\rhd N’}{(\lambda x.Q)N\rhd Q’[N’/x]}\cr<br>&amp;\frac{P\rhd P’(x\notin FV(P))}{\lambda x.Px\rhd P’}\end{split}$$</li>
+<li>$\mathbf{Lemma\ 4.6}$:<ul>
+<li>(a) For all $M$, $M’$, if $M\rightarrow_{\beta\eta} M’$ then $M \rhd M’$.</li>
+<li>(b) For all $M$, $M’$, if $M\rhd M’$ then $M \twoheadrightarrow_{\beta\eta} M’$.</li>
+<li>(c) $\twoheadrightarrow_{\beta\eta}$ is the reflexive transitive closure of $\rhd$.</li>
+</ul>
+</li>
+<li>$\mathbf{Lemma\ 4.7}$ (Substitution).If $M \rhd M’$ and $U \rhd U’$, then $M[U/y] \rhd M’[U’/y]$.</li>
+<li>$\mathbf{Lemma\ 4.8}$ (Maximal parallel one-step reductions). Whenever $M \rhd M’$, then $M’ \rhd M^*$.</li>
+<li>$\mathbf{Lemma\ 4.9}$ (Diamond property for $\rhd$). If $M \rhd N$ and $M \rhd P$ , then there exists $Z$<br>such that $N \rhd Z$ and $P \rhd Z$.</li>
+<li>$\textit{Proof of Theorem 4.2}$: Since $\rhd$ satisfies the diamond property, and its reflexive transitive closure $\twoheadrightarrow_{\beta\eta}$ also satisfies the diamond property,and the diamond property for $\twoheadrightarrow_{\beta\eta}$ is just the Church-Rosser property for $\rightarrow_{\beta\eta}$.</li>
+</ol>
+</li>
+</ul>
+<h2 id="5-Combinatory-algebras"><a href="#5-Combinatory-algebras" class="headerlink" title="5.Combinatory algebras"></a>5.Combinatory algebras</h2><ul>
+<li><p>5.1 Applicative structures</p>
+<ol>
+<li>$\mathbf{Definition.}$ Let $(A, ·)$ be an applicative structure. the set of polynomials is given by the following grammar:<br>$$t,s ::= x|a|ts$$</li>
+</ol>
+</li>
+<li><p>5.2 Combinatory completeness</p>
+<ol>
+<li>$\mathbf{Definition}$ (Combinatory completeness). An applicative structure $(A, ·)$ is combinatorially complete if for every polynomial $t(x_1 , . . . , x_n )$ of $n \geqslant 0$ variables, there exists some element $a \in A$ such that<br>$$ax_1 …x_n = t(x_1,…,x_n)$$<br>holds in A.</li>
+<li>$\mathbf{Theorem 5.1.}$ An applicative structure $(A, ·)$ is $\textit{combinatorially complete}$ if and only if there exist two elements $s, k \in A$, such that the following equations are satisfied for all $x, y, z \in A$:$$\begin{split}&amp;sxyz = (xz)(yz),\cr &amp;kxy = x\end{split}$$</li>
+<li>已经看得云里雾里了，不明白定义和定理的用意。</li>
+</ol>
+</li>
+<li><p>5.3 Combinatory algebras</p>
+</li>
+</ul>
+<hr>
+<h2 id="6-Simply-typed-lambda-calculus-propositional-logic-and-the-Curry-Howard-isomorphism"><a href="#6-Simply-typed-lambda-calculus-propositional-logic-and-the-Curry-Howard-isomorphism" class="headerlink" title="6.Simply-typed lambda calculus, propositional logic, and the Curry-Howard isomorphism"></a>6.Simply-typed lambda calculus, propositional logic, and the Curry-Howard isomorphism</h2><ul>
+<li>6.1 Simple types and simply-typed terms<ol>
+<li>We usually use the Greek letter $\iota$  to denote a basic type. The set of simple types is given by the following BNF:<br>$$\textit{Simple types}: A,B::=\iota\mid A\to B \mid A×B \mid 1$$</li>
+</ol>
+</li>
+<li>6.2 Connections to propositional logic<ol>
+<li>whether it is possible to find a closed term of the given type.</li>
+<li>This connection between simply-typed lambda calculus and propositional logic is known as the “Curry-Howard isomorphism”.</li>
+<li>The main difference between intuitionistic and classical logic is that the former misses the principles of “proof by contradiction” and “excluded middle”.</li>
+<li>Intuitionistic logic is also known as constructive logic. The disadvantage of constructive logic is that it is generally more difficult to prove things. The advantage is that once one has a proof, the proof can be transformed into an algorithm.</li>
+</ol>
+</li>
+<li>6.3 Propositional intuitionistic logic</li>
+<li>6.11 Classical logic vs. intuitionistic logic</li>
+</ul>
+<h2 id="7-Weak-and-strong-normalization"><a href="#7-Weak-and-strong-normalization" class="headerlink" title="7.Weak and strong normalization"></a>7.Weak and strong normalization</h2><h2 id="8-Polymorphism"><a href="#8-Polymorphism" class="headerlink" title="8.Polymorphism"></a>8.Polymorphism</h2><h2 id="9-Type-inference"><a href="#9-Type-inference" class="headerlink" title="9.Type inference"></a>9.Type inference</h2><h2 id="10-Denotational-semantics"><a href="#10-Denotational-semantics" class="headerlink" title="10.Denotational semantics"></a>10.Denotational semantics</h2><h2 id="11-The-language-PCF"><a href="#11-The-language-PCF" class="headerlink" title="11.The language PCF"></a>11.The language PCF</h2><h2 id="12-Complete-partial-orders"><a href="#12-Complete-partial-orders" class="headerlink" title="12.Complete partial orders"></a>12.Complete partial orders</h2><h2 id="13-Denotational-semantics-of-PCF"><a href="#13-Denotational-semantics-of-PCF" class="headerlink" title="13.Denotational semantics of PCF"></a>13.Denotational semantics of PCF</h2></section>
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#数学基础" >
+    <span class="tag-code">数学基础</span>
+  </a>
+
+      </div>
+    
+    <div class="money-like">
+      <div class="reward-btn">
+        赏
+        <span class="money-code">
+          <span class="alipay-code">
+            <div class="code-image"></div>
+            <b>使用支付宝打赏</b>
+          </span>
+          <span class="wechat-code">
+            <div class="code-image"></div>
+            <b>使用微信打赏</b>
+          </span>
+        </span>
+      </div>
+      <p class="notice">欢迎打赏</p>
+    </div>
+    
+  </article>
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2017/10/20/MATH_05_Lambda_Calculus/';
+    var banner = ''
+    if (banner) {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png') 
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      var imageW = $(this).width()
+      var imageH = $(this).height()
+      
+      var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+      zoom = zoom < 1 ? 1 : zoom
+      zoom = zoom > 2 ? 2 : zoom
+      var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+      $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+      $('.image-view-wrap').addClass('wrap-active')
+      $('.image-view-wrap img').css({
+        'width': `${imageW}`,
+        'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+      })
+      $('html').css('overflow', 'hidden')
+
+      $('.image-view-wrap').on('click', function() {
+        $(this).remove()
+        $('html').attr('style', '')
+      })
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "";
+    if (gitmentConfig != "undefined") {
+      var gitment = new Gitment({
+        id: "I.数学基础-读书笔记",
+        owner: "",
+        repo: "",
+        oauth: {
+          client_id: "",
+          client_secret: ""
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine == 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  </body>
+</html>

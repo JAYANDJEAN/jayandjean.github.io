@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="jayandjean&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      IV.机器学习模型-概率图模型-隐马尔科夫模型 | JAYANDJEAN
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+  <body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>JAYANDJEAN</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>IV.机器学习模型-概率图模型-隐马尔科夫模型</h2>
+  <p class="post-date">2018-04-06</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body">
+  <article class="post-article">
+    <section class="markdown-content"><p>隐马尔可夫模型的学习笔记。</p>
+<a id="more"></a>
+<hr>
+<p>事实上，HMM和卡尔曼滤波的算法本质是一模一样的，只不过HMM要假设隐藏变量是离散的，而卡尔曼滤波假设隐藏变量是连续的。</p>
+<h3 id="马尔科夫模型与HMM"><a href="#马尔科夫模型与HMM" class="headerlink" title="马尔科夫模型与HMM"></a>马尔科夫模型与HMM</h3><p>要讲隐马尔科夫模型，需要先从马尔科夫模型讲起。已知N个有序随机变量，根据贝叶斯定理，他们的联合分布可以写成条件分布的连乘积：<br>$$p(x_1,x_2,…x_N)=\prod_{n=1}^{N}p(x_n\mid x_{n-1},…x_1)$$<br>马尔科夫模型是指，假设序列中的任何一个随机变量在给定它的前一个变量时的分布与更早的变量无关，即：<br>$$p(x_n\mid x_{n-1},…x_1)=p(x_n\mid x_{n-1})$$<br>在此假设下，N个随机变量的联合分布可以简化为：<br>$$p(x_1,x_2,…x_N)=p(x_1)\prod_{n=2}^{N}p(x_n\mid x_{n-1})$$<br>这称为一阶马尔科夫链，一阶马尔科夫性只能表达当前变量与前一个变量的关系，然而很多实际问题往往没有这么简单。为了表达当前变量与更早的变量之间的关系，一种方法为引入高阶马尔科夫性。但引入高阶马尔科夫链会面临指数爆炸问题，即参数数量随着阶数的增大呈指数增长。另一种方法为引入隐变量。即<br>$$p(x_n\mid x_{n-1},…x_1)=p(z_n\mid z_{n-1})p(x_n\mid z_n)$$也就是即使$x_{n-1}$确定，依然需要前面的变量确定$z_{n-1}$，这样建立了当前变量与前面变量的关系。那么N个随机变量的联合分布可以表示为：<br>$$p(x_1,x_2,…x_N,z_1,z_2,…z_N)=p(z_1)\left[\prod_{n=2}^{N}p(z_n\mid x_{z-1})\right]\left[\prod_{n=1}^{N}p(x_n\mid z_{n})\right]$$</p>
+<h3 id="隐马尔可夫模型的定义"><a href="#隐马尔可夫模型的定义" class="headerlink" title="隐马尔可夫模型的定义"></a>隐马尔可夫模型的定义</h3><ol>
+<li>设H是所有可能状态的集合，V是所有可能观测的集合：$$H=\{h_1,h_2…h_N\},V=\{v_1,v_2…v_M\}$$其中，N是可能的状态数，M是可能的观测数。</li>
+<li>设Z是长度为T的状态序列，X是对应的观测序列：$$Z=(z_1,z_2…z_T),X=(x_1,x_2…x_T)$$</li>
+<li>设A是状态转移概率矩阵，则$$A=[a_{ij}]_{N\times N}$$<ul>
+<li>其中$a_{ij}=p(z_{t+1}=h_j\mid z_t=h_i)$</li>
+<li>可以得到$\sum_{k=1}^{N}a_{ik}=1$，也就是矩阵A的每一行的和为1</li>
+</ul>
+</li>
+<li>设B是观测概率矩阵：$$B=\left[b_j(k)\right]_{N\times M}$$<ul>
+<li>其中$b_j(k)=p(x_t=v_k\mid z_t=h_j)$，是在时刻$t$处于状态$h_j$的条件下生成观测$v_k$的概率</li>
+</ul>
+</li>
+<li>$\pi$是初始状态概率向量：$$\pi=(\pi_i)$$<ul>
+<li>其中，$\pi_i=p(z_1=h_i)$，是时刻$t=1$处于状态$h_i$的概率</li>
+</ul>
+</li>
+<li>那么隐马尔科夫模型$\lambda$可以用三元符号表示：$$\lambda=(A,B,\pi)$$</li>
+</ol>
+<h3 id="概率计算"><a href="#概率计算" class="headerlink" title="概率计算"></a>概率计算</h3><ol>
+<li><p>直接计算：给定模型$\lambda=(A,B,\pi)$和观测序列$X=(x_1,x_2…x_T)$，计算在模型$\lambda$下观测序列$X$出现的概率$p(X\mid\lambda)$。通过列举所有可能的长度为T的状态序列$Z=(z_1,z_2…z_T)$，求各个状态序列$Z$与观测序列$X=(x_1,x_2…x_T)$的联合概率$P(X,Z\mid\lambda)$，然后对所有可能的状态序列求和，得到$P(X\mid\lambda)$。但是，计算量很大，是$O(TN^T)$阶的；</p>
+</li>
+<li><p>前向算法</p>
+<ul>
+<li>给定隐马尔科夫模型$\lambda$，定义到时刻$t$部分观测序列为$x_1,x_2…x_t$且时刻$t$状态为$z_t$的概率为前向概率，记作$$\alpha_t(z_t)=p(x_1,x_2…x_t,z_t\mid\lambda)$$</li>
+<li>那么：<ul>
+<li>初值为$\alpha_1(z_1)=p(x_1,z_1)$</li>
+<li>递推关系：$$\alpha_{t+1}(z_{t+1})=\left[\sum_{z_t}\alpha_{t}(z_t)p(z_{t+1}\mid z_{t})\right]p(x_{t+1}\mid z_{t+1})$$</li>
+<li>终止：$$P(X\mid\lambda)=\sum_{z_T}\alpha_T(z_T)$$</li>
+</ul>
+</li>
+<li>前向概率计算的计算量是$O(N^2T)$阶的。</li>
+<li>前向概率和后向概率都是利用动态规划来减少运算量。</li>
+</ul>
+</li>
+</ol>
+<h3 id="隐马尔可夫模型的三个基本问题"><a href="#隐马尔可夫模型的三个基本问题" class="headerlink" title="隐马尔可夫模型的三个基本问题"></a>隐马尔可夫模型的三个基本问题</h3><ol>
+<li>概率计算问题：给定模型$\lambda=(A,B,\pi)$和观测序列$X=(x_1,x_2…x_T)$，计算在模型$\lambda$下观测序列$X$出现的概率$P(X\mid\lambda)$。</li>
+<li>学习问题：已知观测序列$X=(x_1,x_2…x_T)$，估计模型$\lambda=(A,B,\pi)$参数，使得在该模型下观测序列概率$P(X\mid\lambda)$最大，即用极大似然估计的方法估计参数。</li>
+<li>预测问题：也称解码（decoding）问题：已知模型$\lambda=(A,B,\pi)$和观测序列$X=(x_1,x_2…x_T)$，求对给定观测序列条件概率$P(Z\mid X)$最大的状态序列$Z=(z_1,z_2…z_T)$，即给定观测序列，求最有可能的对应状态序列。</li>
+</ol>
+<h3 id="学习问题：EM算法"><a href="#学习问题：EM算法" class="headerlink" title="学习问题：EM算法"></a>学习问题：EM算法</h3><p>未仔细看！</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a href="https://zhuanlan.zhihu.com/p/27907806" target="_blank" rel="external">隐马尔科夫模型</a></li>
+<li>$\textit{Pattern Recognition and Machine Learning}$</li>
+<li>《统计学习方法》</li>
+</ol>
+</section>
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#机器学习模型" >
+    <span class="tag-code">机器学习模型</span>
+  </a>
+
+      </div>
+    
+    <div class="money-like">
+      <div class="reward-btn">
+        赏
+        <span class="money-code">
+          <span class="alipay-code">
+            <div class="code-image"></div>
+            <b>使用支付宝打赏</b>
+          </span>
+          <span class="wechat-code">
+            <div class="code-image"></div>
+            <b>使用微信打赏</b>
+          </span>
+        </span>
+      </div>
+      <p class="notice">欢迎打赏</p>
+    </div>
+    
+  </article>
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2018/04/06/ML_06_Hidden_Markov_Model/';
+    var banner = ''
+    if (banner) {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png') 
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      var imageW = $(this).width()
+      var imageH = $(this).height()
+      
+      var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+      zoom = zoom < 1 ? 1 : zoom
+      zoom = zoom > 2 ? 2 : zoom
+      var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+      $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+      $('.image-view-wrap').addClass('wrap-active')
+      $('.image-view-wrap img').css({
+        'width': `${imageW}`,
+        'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+      })
+      $('html').css('overflow', 'hidden')
+
+      $('.image-view-wrap').on('click', function() {
+        $(this).remove()
+        $('html').attr('style', '')
+      })
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "";
+    if (gitmentConfig != "undefined") {
+      var gitment = new Gitment({
+        id: "IV.机器学习模型-概率图模型-隐马尔科夫模型",
+        owner: "",
+        repo: "",
+        oauth: {
+          client_id: "",
+          client_secret: ""
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine == 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  </body>
+</html>

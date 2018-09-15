@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="jayandjean&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      IV.机器学习模型-神经网络-Word Embedding | JAYANDJEAN
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+  <body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>JAYANDJEAN</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>IV.机器学习模型-神经网络-Word Embedding</h2>
+  <p class="post-date">2018-06-10</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body">
+  <article class="post-article">
+    <section class="markdown-content"><p>Word Embedding的知识整理。</p>
+<a id="more"></a>
+<ol>
+<li><a href="http://licstar.net/archives/328" target="_blank" rel="external">Deep Learning in NLP （一）词向量和语言模型</a>：主要介绍语言模型的发展历史。<ul>
+<li>Yoshua Bengio, Rejean Ducharme, Pascal Vincent, and Christian Jauvin. A neural probabilistic language model. Journal of Machine Learning Research (JMLR), 3:1137–1155, 2003. <a href="http://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf" target="_blank" rel="external">PDF</a></li>
+<li>Ronan Collobert, Jason Weston, Léon Bottou, Michael Karlen, Koray Kavukcuoglu and Pavel Kuksa. Natural Language Processing (Almost) from Scratch. Journal of Machine Learning Research (JMLR), 12:2493-2537, 2011. <a href="http://www.jmlr.org/papers/volume12/collobert11a/collobert11a.pdf" target="_blank" rel="external">PDF</a></li>
+<li>Andriy Mnih &amp; Geoffrey Hinton. Three new graphical models for statistical language modelling. International Conference on Machine Learning (ICML). 2007. <a href="http://www.cs.utoronto.ca/~hinton/absps/threenew.pdf" target="_blank" rel="external">PDF</a></li>
+<li>Andriy Mnih &amp; Geoffrey Hinton. A scalable hierarchical distributed language model. The Conference on Neural Information Processing Systems (NIPS) (pp. 1081–1088). 2008. <a href="http://www.cs.utoronto.ca/~hinton/absps/andriytree.pdf" target="_blank" rel="external">PDF</a></li>
+<li>Mikolov Tomáš. Statistical Language Models based on Neural Networks. PhD thesis, Brno University of Technology. 2012. <a href="">PDF</a></li>
+<li>Turian Joseph, Lev Ratinov, and Yoshua Bengio. Word representations: a simple and general method for semi-supervised learning. Proceedings of the 48th Annual Meeting of the Association for Computational Linguistics (ACL). 2010. <a href="">PDF</a></li>
+<li>Eric Huang, Richard Socher, Christopher Manning and Andrew Ng. Improving word representations via global context and multiple word prototypes. Proceedings of the 50th Annual Meeting of the Association for Computational Linguistics: Long Papers-Volume 1. 2012. <a href="https://nlp.stanford.edu/pubs/HuangACL12.pdf" target="_blank" rel="external">PDF</a></li>
+<li>Mikolov, Tomas, Wen-tau Yih, and Geoffrey Zweig. Linguistic regularities in continuous space word representations. Proceedings of NAACL-HLT. 2013. <a href="https://www.aclweb.org/anthology/N/N13/N13-1090.pdf" target="_blank" rel="external">PDF</a></li>
+</ul>
+</li>
+<li>word embedding 是一个将词向量化的概念，来源于Bengio的论文《Neural probabilistic language models》，中文译名有”词嵌入”。word2vec是谷歌提出一种word embedding 的工具或者算法集合，采用了两种模型(CBOW与skip-gram模型)与两种方法(负采样与层次softmax方法)的组合，比较常见的组合为 skip-gram+负采样方法。<a href="https://www.zhihu.com/question/53354714/answer/134664719" target="_blank" rel="external">摘自知乎</a>。其中几个比较有名的word embedding方法包括：word2vec (Google), GloVe, wordRank, FastText (Facebook)</li>
+<li>下面重点学习word2vec原理：<a href="https://blog.csdn.net/itplus/article/details/37969519" target="_blank" rel="external">word2vec 中的数学原理详解</a></li>
+<li>$\textit{How to Generate a Good Word Embedding}$：比较各个word embedding模型。</li>
+</ol>
+<hr>
+<h3 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h3><ol>
+<li>sigmoid函数</li>
+<li>Huffman树：带权路径长度之和最小的二叉树称为最优二叉树，又称Huffman树。</li>
+</ol>
+<h3 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h3><ol>
+<li><p>统计语言模型：n-gram模型</p>
+<ul>
+<li>记 $w_1^T:=(w_1,w_2,…w_T)$ 表示$T$个词按顺序构成的一个句子；</li>
+<li>则联合概率为 $$\begin{split}p(w_1^T)&amp;=p(w_1,w_2,…w_T)\cr&amp;=p(w_1)p(w_2|w_1)p(w_3|w_1^2)…p(w_T|w_1^{T-1})\end{split}$$</li>
+<li>考虑 $p(w_k|w_1^{k-1})$ 的近似计算，有 $$p(w_k|w_1^{k-1})=\frac{p(w_1^k)}{p(w_1^{k-1})}\approx\frac{count(w_1^k)}{count(w_1^{k-1})}$$</li>
+<li>n-gram模型做了一个 $n-1$ 阶的 $Markov$ 假设，认为一个词出现的概率只与前面的 $n-1$ 个词有关，即 $$p(w_k|w_1^{k-1})\approx p(w_k|w_{k-n+1}^{k-1})\approx \frac{count(w_{k-n+1}^{k})}{count(w_{k-n+1}^{k-1})}$$</li>
+<li>统计语言模型，往往利用最大似然估计，对目标函数进行优化，目标函数可以定义为 $$\prod_{w\in\mathcal{c}}p(w|Context(w))$$</li>
+</ul>
+</li>
+<li><p>神经网络语言模型</p>
+<ul>
+<li>对于语料 $C$ 中的任一个词 $w$，我们定义 $(Context(w),w)$ 为一个训练样本；同时定义词向量的长度为 $m$；</li>
+<li>整体结构主要分为：输入层、摄影层、隐藏层、输出层；</li>
+<li>输入层为样本：$(Context(w),w)$，类似于n-gram，$Context(w_k)=w_{k-n+1}^{k-1}$；</li>
+<li>摄影层为 $(n-1)m$ 维的向量 $x_w$，即将 $Context(w)$ 中的 $n-1$ 个词向量首尾相接构成 $(n-1)m$ 维的向量；</li>
+<li>隐藏层为 $$h_w=\tanh\left(Wx_w+p\right)$$</li>
+<li>输出层为 $N$ 维的向量，其中 $N$ 为语料库的词汇量大小 $$y_w=Uh_w+q$$</li>
+<li>当输出层为 $y_w=(y_{w,1},y_{w,2},…,y_{w,N})^T$</li>
+</ul>
+</li>
+</ol>
+</section>
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#机器学习模型" >
+    <span class="tag-code">机器学习模型</span>
+  </a>
+
+      </div>
+    
+    <div class="money-like">
+      <div class="reward-btn">
+        赏
+        <span class="money-code">
+          <span class="alipay-code">
+            <div class="code-image"></div>
+            <b>使用支付宝打赏</b>
+          </span>
+          <span class="wechat-code">
+            <div class="code-image"></div>
+            <b>使用微信打赏</b>
+          </span>
+        </span>
+      </div>
+      <p class="notice">欢迎打赏</p>
+    </div>
+    
+  </article>
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2018/06/10/ML_12_Word_Embedding/';
+    var banner = ''
+    if (banner) {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png') 
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      var imageW = $(this).width()
+      var imageH = $(this).height()
+      
+      var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+      zoom = zoom < 1 ? 1 : zoom
+      zoom = zoom > 2 ? 2 : zoom
+      var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+      $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+      $('.image-view-wrap').addClass('wrap-active')
+      $('.image-view-wrap img').css({
+        'width': `${imageW}`,
+        'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+      })
+      $('html').css('overflow', 'hidden')
+
+      $('.image-view-wrap').on('click', function() {
+        $(this).remove()
+        $('html').attr('style', '')
+      })
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "";
+    if (gitmentConfig != "undefined") {
+      var gitment = new Gitment({
+        id: "IV.机器学习模型-神经网络-Word Embedding",
+        owner: "",
+        repo: "",
+        oauth: {
+          client_id: "",
+          client_secret: ""
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine == 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  </body>
+</html>
