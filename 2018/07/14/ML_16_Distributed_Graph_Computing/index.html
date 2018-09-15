@@ -10,7 +10,7 @@
   
   <title>
     
-      【置顶】学习规划 | JAYANDJEAN
+      IV.机器学习模型-复杂网络-分布式图计算框架了解 | JAYANDJEAN
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -84,162 +84,88 @@
 </header>
 
     <div id="article-banner">
-  <h2>【置顶】学习规划</h2>
-  <p class="post-date">2018-08-19</p>
+  <h2>IV.机器学习模型-复杂网络-分布式图计算框架了解</h2>
+  <p class="post-date">2018-07-14</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
 </div>
 <main class="app-body">
   <article class="post-article">
-    <section class="markdown-content"><p>为了成为一个合格的算法工程师！</p>
-<a id="more"></a>
+    <section class="markdown-content"><h3 id="1、分布式图计算"><a href="#1、分布式图计算" class="headerlink" title="1、分布式图计算"></a>1、分布式图计算</h3><ol>
+<li>基于MapReduce模型的MapReduce派系<ol>
+<li>Pegasus是一个建立在Hadoop平台上所实现的开源大规模图数据处理系统，其核心思想是将各种图计算的操作归纳为一个迭代的矩阵乘法计算；</li>
+</ol>
+</li>
+<li>基于BSP模型的Pregel派系<ol>
+<li>为了改进基于MR模型的大规模图计算系统的低效率，Google于2010年推出基于整体同步并行（Bulk Synchronous Parallel）模型的大规模分布式图计算框架Pregel；</li>
+<li>每个BSP作业由一系列顺序执行的通过全局路障分离的超步（Superstep）组成，并行任务按照超步组织，接收来自于上一个超步的消息，执行本地计算并发送消息给下一个超步。每一个超步包含三个过程：<ol>
+<li>本地计算：每个工作节点读取其本地内存数据并行计算，其计算异步执行；</li>
+<li>消息通信：参与计算的每个工作节点将消息传递给与之关联的其他工作节点，以便相互间交换所需的数据；</li>
+<li>路障同步：用于数据的整体同步，即块间同步，每个工作节点更新其自身消息缓存，确定所有的计算和消息传递都进行完毕后开始进入下一个超步；</li>
+</ol>
+</li>
+<li>基于BSP模型的大规模分布式图计算系统，最早最著名的就是Pregel；</li>
+<li>由于超步中每个节点上的本地计算所耗费的时间不等，执行进度不统一，因此全局路障同步将导致大量节点处于等待状态，形成快等慢的局面，造成计算效率低下的问题。</li>
+</ol>
+</li>
+<li>基于GAS模型的GraphLab派系<ol>
+<li>由GraphLab项目组提出的GAS（Gather-Apply-Scatter）模型通过将计算过程进一步细分来增加计算并发性；</li>
+<li>GAS模型将顶点Update函数划分成三个连续的处理阶段：负责提取消息的信息收集阶段（Gather）、负责基于收集的消息进行本地处理的应用阶段（Apply）和负责发送新的消息的分发阶段（Scatter）；</li>
+<li>在GAS模型中，并发任务间无需任何数据同步过程，任意时刻每个并发任务都可对全局参数进行读取和更新，这提高了计算资源的利用率和整体任务的执行速度；但其缺陷是：如果某些任务因为机器负载高或者硬件故障等在迭代轮数上严重滞后于其他任务，则可能会造成最终的计算结果不正确，即任务的正确性无法获得保障。</li>
+</ol>
+</li>
+<li>三大派系间的比较：<ol>
+<li>MR模型和BSP模型都属于同步范型，他们之间可以互相表达，其中map操作实现每个超步的本地计算，reduce操作实现超步间的消息通信和路障同步；</li>
+</ol>
+</li>
+</ol>
+<hr>
 <ul>
-<li>I.数学基础<ul>
-<li>1、最优化<ul>
-<li><a href="https://jayandjean.github.io/2017/08/20/MATH_04_Optimize_Dual/" target="_blank" rel="external">对偶形式的推导</a></li>
-</ul>
+<li>虽然Pregel框架计算模型简单，具有较好的可扩展性，但该框架存在三个方面的限制：<ol>
+<li>计算过程收敛速度慢导致迭代次数多，以顶点为单位的最小粒度计算、同步的计算模式，限制了整个任务计算的收敛速度；</li>
+<li>消息量大导致通信代价高；</li>
+<li>负载不均，存在木桶效应；</li>
+</ol>
 </li>
-<li>2、信息论<ul>
-<li><a href="https://jayandjean.github.io/2017/08/13/MATH_01_Information_Theory_Entropy/" target="_blank" rel="external">信息熵的基本介绍</a></li>
-</ul>
+<li>对应上述问题，现有的工作主要围绕着以下三个优化目标展开研究：<ol>
+<li>加快算法收敛，减少迭代次数：从以顶点为单位的细粒度计算过渡到以路径、子图为单位的粗粒度计算，从同步的计算模式过渡到异步的计算模式以及混合计算模式；</li>
+<li>减少消息数目，减轻网络负载：提出了基于顶点的划分策略和计算模式、基于共享内存的通信方式、消息合并技术等；</li>
+<li>消除木桶效应，实现负载均衡：从图划分策略、动态负载迁移以及调度模式出发提出多种优化方案；</li>
+</ol>
 </li>
-<li>3、概率论<ul>
-<li><a href="https://jayandjean.github.io/2017/08/14/MATH_02_Probability_Theory/" target="_blank" rel="external">PRML读书笔记</a></li>
-</ul>
+<li>目前常见的分布式图计算系统所采用的通信方式主要分为两类：<ol>
+<li>基于消息传递的方式：<ol>
+<li>有两种优化方式：第一种是通过合理的图分割技术，降低图分区之间的连通性减少跨机器的通信请求；第二种是通过Combine、Receiver-side scatter等技术减少消息数量</li>
+</ol>
 </li>
-<li>4、图论<ul>
-<li><a href="https://jayandjean.github.io/2017/12/02/MATH_07_Graph_Theory/" target="_blank" rel="external">图论概述</a></li>
-</ul>
+<li>基于共享内存的方式：<ol>
+<li>GraphLab系统为被远程访问的图节点设置了本地ghost节点，并在该ghost节点中保存于原节点相同的数据信息；</li>
+<li>PowerGraph系统同样采用了共享内存的机制进行通信，该系统将图数据按照顶点切分的方式分布在不同计算节点上，即被切分的节点会出现在两个计算节点上；Spark上的GraphX系统也使用了与PowerGraph类似的共享内存通信方式；</li>
+</ol>
 </li>
-<li>5、线性代数、抽象代数</li>
-<li>6、数理逻辑、范畴论、类型论、计算复杂性<ul>
-<li><a href="https://jayandjean.github.io/2017/10/20/MATH_05_Lambda_Calculus/" target="_blank" rel="external">$\textit{Lecture Notes on the Lambda Calculus}$ 读书笔记</a></li>
-<li><a href="http://hongjiang.info/scala/" target="_blank" rel="external">Scala</a></li>
-<li><a href="https://jayandjean.github.io/2017/11/12/MATH_06_Foundations_for_Programming_Languages/" target="_blank" rel="external">程序设计语言理论基础</a></li>
-</ul>
+</ol>
 </li>
-<li>7、博弈论、决策论、变分法<ul>
-<li><a href="https://jayandjean.github.io/2017/08/20/MATH_03_Calculus_of_Variations_Euler_Equation/" target="_blank" rel="external">极值的必要条件-欧拉方程</a></li>
-</ul>
-</li>
-<li>8、时间序列分析<ul>
-<li><a href="">$\textit{Time Series Analysis}$ 读书笔记</a></li>
-</ul>
+<li>图划分方式：边切分方式、点切分方式；目前采用点切分方式的系统主要有PowerGraph、GraphX以及PowerSwitch；<ol>
+<li>目前对图数据进行划分时主要采用了三种划分策略：离线划分策略、流式划分策略以及动态重划分策略；（暂时不了解）</li>
+</ol>
 </li>
 </ul>
-</li>
-<li>II.物理基础<ul>
-<li>1、量子信息与量子计算 </li>
-</ul>
-</li>
-<li>III.数据结构与算法<ul>
-<li>1、数据结构<ul>
-<li>$\textit{Stack、Queue、Heap、Union-Find}$</li>
-</ul>
-</li>
-<li>2、排序算法<ul>
-<li>插入排序、选择排序、希尔排序、并归排序、快速排序、堆排序</li>
-</ul>
-</li>
-<li>3、搜索查找<ul>
-<li>二叉查找树、红黑树、散列表（哈希表）</li>
-</ul>
-</li>
-<li>4、图论算法<ul>
-<li>最小生成树</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>IV.机器学习模型</p>
-<ul>
-<li>1、线性模型<ul>
-<li>LR、SVM</li>
-</ul>
-</li>
-<li>2、树模型<ul>
-<li>ID3、C4.5</li>
-</ul>
-</li>
-<li>3、集成模型：<ul>
-<li>AdaBoost算法</li>
-<li>GBDT </li>
-</ul>
-</li>
-<li>4、混合模型<ul>
-<li>混合高斯模型</li>
-</ul>
-</li>
-<li><p>5、概率图模型</p>
-<ul>
-<li><a href="https://jayandjean.github.io/2018/04/06/ML_06_Hidden_Markov_Model/" target="_blank" rel="external">隐马尔科夫模型（HMM）</a></li>
-<li><a href="https://jayandjean.github.io/2018/04/07/ML_07_Latent_Dirichlet_Allocation/" target="_blank" rel="external">隐狄利克雷分配模型（LDA）</a></li>
-<li><a href="">马尔科夫随机场</a></li>
-<li><a href="">条件随机场</a></li>
-</ul>
-</li>
-<li><p>6、神经网络模型</p>
-<ul>
-<li><a href="https://jayandjean.github.io/2018/01/12/ML_05_Convolutional_Neural_Network/" target="_blank" rel="external">卷积神经网络模型</a></li>
-<li><a href="https://jayandjean.github.io/2018/01/13/ML_05_Recurrent_Neural_Network/" target="_blank" rel="external">循环神经网络模型</a></li>
-<li><a href="">波尔茨曼机</a></li>
-<li><a href="https://jayandjean.github.io/2018/04/08/ML_08_Variational_AutoEncoder/" target="_blank" rel="external">VAEs</a></li>
-<li><a href="https://jayandjean.github.io/2018/04/09/ML_09_Generative_Adversarial_Network/" target="_blank" rel="external">GANs</a></li>
-</ul>
-</li>
-<li>7、强化学习</li>
-<li>8、聚类分析<ul>
-<li><a href="https://jayandjean.github.io/2017/11/11/ML_04_Clustering_Algorithms/" target="_blank" rel="external">聚类分析概述</a></li>
-</ul>
-</li>
-<li>9、半监督学习</li>
-<li>10、降维与特征选择</li>
-<li>11、优化算法：<ul>
-<li><a href="https://jayandjean.github.io/2017/09/17/ML_02_Back_Propagation/" target="_blank" rel="external">反向传播算法的推导</a> </li>
-<li><a href="https://jayandjean.github.io/2017/08/19/ML_01_EM_Variational_Inference/" target="_blank" rel="external">从EM算法到变分推断</a></li>
-<li><a href="https://jayandjean.github.io/2017/09/19/ML_03_Monte_Carlo/" target="_blank" rel="external">蒙特卡罗(Monte Carlo)方法</a></li>
-<li><a href="https://jayandjean.github.io/2018/04/14/ML_10_Optimization/" target="_blank" rel="external">深度模型中的优化</a></li>
-</ul>
-</li>
-<li>12、模型评估</li>
-<li>13、复杂网络<ul>
-<li><a href="">分布式图计算框架了解</a></li>
-<li><a href="https://jayandjean.github.io/2018/05/28/ML_15_Community_detection_in_graphs/" target="_blank" rel="external">$\textit{Community detection in graphs}$ 读书笔记</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li>V.编程工具<ul>
-<li>1、Python</li>
-<li>2、Scala</li>
-<li>3、Java、C++</li>
-<li>4、Hadoop、Spark</li>
-<li>5、TensorFlow、MXNet、pyTorch</li>
-<li>6、Mathematica</li>
-</ul>
-</li>
-<li>VI.应用<ul>
-<li>1、计算机视觉</li>
-<li>2、语音识别</li>
-<li>3、自然语言处理</li>
-<li>4、推荐系统</li>
-<li>5、计算广告<ul>
-<li><a href="https://jayandjean.github.io/2018/03/10/APPLY_01_Computational_Advertising/" target="_blank" rel="external">《计算广告》读书笔记</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="参考书"><a href="#参考书" class="headerlink" title="参考书"></a>参考书</h3><ul>
-<li>$\textit{Pattern Recognition and Machine Learning}$</li>
-<li>$\textit{Deep Learning}$</li>
-<li>$\textit{Lecture Notes on the Lambda Calculus}$</li>
-<li>《统计学习方法》</li>
-<li>《概率图模型》</li>
-</ul>
-<h3 id="一些有用的链接"><a href="#一些有用的链接" class="headerlink" title="一些有用的链接"></a>一些有用的链接</h3><p><a href="http://www.mathstat.dal.ca/~selinger/papers/" target="_blank" rel="external">Peter Selinger</a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li>《图论及其算法》</li>
+<li>《图分析与可视化》</li>
+<li>《分布式图处理系统技术综述》</li>
+</ol>
 </section>
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#机器学习模型" >
+    <span class="tag-code">机器学习模型</span>
+  </a>
+
+      </div>
     
     <div class="money-like">
       <div class="reward-btn">
@@ -263,7 +189,7 @@
 
 <script>
   (function () {
-    var url = 'http://yoursite.com/2018/08/19/00_PLANS/';
+    var url = 'http://yoursite.com/2018/07/14/ML_16_Distributed_Graph_Computing/';
     var banner = ''
     if (banner) {
       $('#article-banner').css({
@@ -314,7 +240,7 @@
     var gitmentConfig = "";
     if (gitmentConfig != "undefined") {
       var gitment = new Gitment({
-        id: "【置顶】学习规划",
+        id: "IV.机器学习模型-复杂网络-分布式图计算框架了解",
         owner: "",
         repo: "",
         oauth: {
