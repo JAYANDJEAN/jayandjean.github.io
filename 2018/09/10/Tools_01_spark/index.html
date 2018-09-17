@@ -94,8 +94,36 @@
   <article class="post-article">
     <section class="markdown-content"><p>spark学习读书笔记。</p>
 <a id="more"></a>
-<h2 id="GraphX"><a href="#GraphX" class="headerlink" title="GraphX"></a>GraphX</h2><ol>
-<li>互</li>
+<h2 id="RDD"><a href="#RDD" class="headerlink" title="RDD"></a>RDD</h2><ol>
+<li>Spark RDD转换操作：<ul>
+<li><code>map</code></li>
+<li><code>filter</code></li>
+<li><code>flatMap</code></li>
+<li><code>sample</code></li>
+<li><code>union/intersection/substract</code></li>
+<li><code>distinct</code></li>
+<li><code>groupByKey</code>:<code>(K,V).groupByKey() =&gt; (K,Seq[V])</code></li>
+<li><code>reduceByKey(func,[numTasks])</code></li>
+<li><code>aggregateByKey(zeroValue:U)(seqOp:(U,T)=&gt;U, combOp:(U,U)=&gt;U)</code></li>
+<li><code>combineByKey</code>，其实也没看懂</li>
+<li><code>sortByKey</code></li>
+<li><code>join</code>:<code>(K,V).join((K,W)) =&gt; (K,(V,W))</code></li>
+<li><code>cogroup</code></li>
+<li><code>randomSplit</code></li>
+<li><code>zip</code>:拉链操作</li>
+</ul>
+</li>
+<li>Spark RDD行动操作:<ul>
+<li><code>reduce</code></li>
+<li><code>collect</code>:以<code>Array</code>的形式返回</li>
+<li><code>count</code></li>
+<li><code>take</code></li>
+<li><code>countByKey</code></li>
+<li><code>foreach</code></li>
+</ul>
+</li>
+<li>MLlib矩阵</li>
+<li>Spark MLlib ALS交替最小二乘法</li>
 </ol>
 </section>
     
