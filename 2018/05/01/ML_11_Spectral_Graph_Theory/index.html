@@ -10,7 +10,7 @@
   
   <title>
     
-      IV.机器学习模型-复杂网络-谱分法 | JAYANDJEAN
+      IV.机器学习模型-复杂网络-谱聚类 | JAYANDJEAN
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -84,7 +84,7 @@
 </header>
 
     <div id="article-banner">
-  <h2>IV.机器学习模型-复杂网络-谱分法</h2>
+  <h2>IV.机器学习模型-复杂网络-谱聚类</h2>
   <p class="post-date">2018-05-01</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
@@ -92,8 +92,77 @@
 </div>
 <main class="app-body">
   <article class="post-article">
-    <section class="markdown-content"><p>聚类分析中的谱分法了解一下。</p>
+    <section class="markdown-content"><p>了解一下聚类分析中的谱聚类。已完成。</p>
 <a id="more"></a>
+<p>摘自：<a href="https://www.cnblogs.com/pinard/p/6221564.html" target="_blank" rel="external">谱聚类（spectral clustering）原理总结</a></p>
+<h3 id="无向图"><a href="#无向图" class="headerlink" title="无向图"></a>无向图</h3><ol>
+<li>对于一个无向图$G$，我们一般用点的集合$V$和边的集合$E$来描述。即为$G(V,E)$。</li>
+<li>邻接矩阵（Adjacency Matrix）是表示顶点之间相邻关系的矩阵。我们定义权重$w_{ij}$为点$v_i$和点$v_j$之间的权重。由于我们是无向图，所以$w_{ij}=w_{ji}$。</li>
+<li>从相似矩阵转换到邻接矩阵，常用的方法：$$w_{ij}=s_{ij}=\exp(-\frac{\parallel x_i-x_j\parallel^{2}}{2\sigma^2})$$</li>
+<li>对于图中的任意一个点$v_i$，它的度$d_i$定义为和它相连的所有边的权重之和，即$$d_i=\sum_{j=1}^{n}w_{ij}$$</li>
+<li>对于点集$V$的的一个子集$A\subset V$，我们定义：$$vol(A):=\sum_{i\in A}d_i$$</li>
+<li>利用每个点度的定义，我们可以得到一个$nxn$的度矩阵$D$,它是一个对角矩阵，只有主对角线有值，定义如下：$$<br>D=\begin{bmatrix}<br>d_1 &amp; \cdots &amp; \cdots \cr<br>\cdots &amp; d_2 &amp; \cdots \cr<br>\vdots &amp; \vdots &amp; \ddots \cr<br>\cdots\ &amp; \cdots\ &amp; d_n\\<br>\end{bmatrix}$$</li>
+</ol>
+<h3 id="拉普拉斯矩阵"><a href="#拉普拉斯矩阵" class="headerlink" title="拉普拉斯矩阵"></a>拉普拉斯矩阵</h3><ol>
+<li>拉普拉斯矩阵的定义：$$L=D-W$$ </li>
+<li>拉普拉斯矩阵具有以下良好性质：<ul>
+<li>拉普拉斯矩阵是对称矩阵；</li>
+<li>由于拉普拉斯矩阵是对称矩阵，则它的所有的特征值都是实数；</li>
+<li>对于任意的向量 $f$，我们有：$$f^{T}Lf=\frac{1}{2}\sum_{i=1}^n\sum_{j=1}^{n}w_{ij}(f_i−f_j)^2$$</li>
+<li>拉普拉斯矩阵是半正定的，且对应的$n$个实数特征值都大于等于0，即$0=\lambda_1\leqslant\lambda_2\leqslant…\leqslant\lambda_n$， 且最小的特征值为0，这个由性质3很容易得出。</li>
+</ul>
+</li>
+</ol>
+<h3 id="无向图切图"><a href="#无向图切图" class="headerlink" title="无向图切图"></a>无向图切图</h3><ol>
+<li>对于无向图$G$的切图，我们的目标是将图$G(V,E)$切成相互没有连接的$k$个子图，每个子图点的集合为：$A_1,A_2,..A_k$，它们满足$A_i\cap A_j=\emptyset$，且$A_1\cup A_2\cup…\cup A_k=V$.</li>
+<li>对于任意两个子图点的集合 $A,B\subset V,A\cap B=\emptyset$, 我们定义A和B之间的切图权重为：$$W(A,B)=\sum_{i\in A,j\in B}w_{ij}$$</li>
+<li>那么对于我们$k$个子图点的集合：$A_1,A_2,..A_k$，我们定义该集合的切图权重为：$$W(A_1,A_2,…A_k)=\frac{1}{2}\sum_{i=1}^{k}W(A_i,\bar{A_i})$$其中$\bar{A_i}$为$A_i$的补集</li>
+<li>那么如何切图可以让子图内的点权重和高，子图间的点权重和低呢？一个自然的想法就是最小化$W(A_1,A_2,…A_k)$</li>
+</ol>
+<h3 id="谱聚类之切图聚类"><a href="#谱聚类之切图聚类" class="headerlink" title="谱聚类之切图聚类"></a>谱聚类之切图聚类</h3><ol>
+<li>为了避免最小切图导致的切图效果不佳，我们需要对每个子图的规模做出限定，一般来说，有两种切图方式，第一种是RatioCut，第二种是Ncut。下面我们分别加以介绍。</li>
+<li>RatioCut切图<ul>
+<li>RatioCut切图为了避免第五节的最小切图，对每个切图，不光考虑最小化$W(A_1,A_2,…A_k)$，它还同时考虑最大化每个子图点的个数，即：$$RatioCut(A_1,A_2,…A_k)=\frac{1}{2}\sum_{i=1}^{k}\frac{W(A_i,\bar{A_i})}{\mid A_i \mid}$$</li>
+<li>我们定义一个$n×k$的矩阵$H$为：$$h_{ij}=\left\{<br>  \begin{array}{lr}<br>  0 &amp; v_i \notin A_j \cr<br>  \frac{1}{\sqrt{\mid A_j\mid}} &amp; v_i \in A_j \cr<br>  \end{array}\right.$$列向量$h_i\in\{h_1,h_2…h_k\}$为指示向量</li>
+<li>那么对于$h_i^TLh_i$，我们有：$$\begin{split}        h_i^TLh_i&amp;=\frac{1}{2}\sum_{m=1}\sum_{n=1}w_{mn}(h_{im}-h_{in})^2\cr<br>  &amp;=\frac{1}{2}\left(\sum_{m\in A_i,n\notin A_i}w_{mn}\left(\frac{1}{\sqrt{\mid A_i\mid}}-0\right)^2+\sum_{m\notin A_i,n\in A_i}w_{mn}\left(0-\frac{1}{\sqrt{\mid A_i\mid}}\right)^2\right)\cr<br>  &amp;=\frac{1}{2}\left(\sum_{m\in A_i,n\notin A_i}w_{mn}\frac{1}{\mid A_i\mid}+\sum_{m\notin A_i,n\in A_i}w_{mn}\frac{1}{\mid A_i\mid}\right)\cr<br>  &amp;=\frac{1}{2}\left(W(A_i,\bar{A_i})\frac{1}{\mid A_i\mid}+W(\bar{A_i},A_i)\frac{1}{\mid A_i\mid}\right)\cr<br>  &amp;=\frac{W(A_i,\bar{A_i})}{\mid A_i\mid}<br>  \end{split}$$</li>
+<li>那么可以得到：$$RatioCut(A_1,A_2,…A_k)=\sum_{i=1}^{k}h_i^TLh_i=\sum_{i=1}^k(H^TLH)_{ii}=tr(H^TLH)$$</li>
+<li>也就是说，我们的RatioCut切图，实际上就是最小化我们的$tr(H^TLH)$。则我们的切图优化目标为：$$\begin{split}&amp;\min\limits_{H}\ tr(H^TLH)\cr&amp;s.t.\ H^TH=I\end{split}$$</li>
+<li>因为$h_i^TLh_i$ 的最大值为$L$的最大特征值，最小值是$L$的最小特征值，那么通过求$L$的最小的$k$个特征值，以及对应的$k$个特征向量，这$k$个特征向量组成一个$n×k$维度的矩阵，即为我们的$H$</li>
+<li>由于我们在使用维度规约的时候损失了少量信息，导致得到的优化后的指示向量h对应的H现在不能完全指示各样本的归属，因此一般在得到$n×k$维度的矩阵$H$后还需要对每一行进行一次传统的聚类，比如使用K-Means聚类.</li>
+</ul>
+</li>
+<li>Ncut切图<ul>
+<li>Ncut切图和RatioCut切图很类似，但是把Ratiocut的分母$\mid A_i\mid$换成$vol(A_i)$. 由于子图样本的个数多并不一定权重就大，我们切图时基于权重也更合我们的目标，因此一般来说Ncut切图优于RatioCut切图。$$NCut(A_1,A_2,…A_k)=\frac{1}{2}\sum_{i=1}^{k}\frac{W(A_i,\bar{A_i})}{vol(A_i)}$$</li>
+</ul>
+</li>
+</ol>
+<h3 id="谱聚类算法"><a href="#谱聚类算法" class="headerlink" title="谱聚类算法"></a>谱聚类算法</h3><ol>
+<li>总结下谱聚类的基本流程了。一般来说，谱聚类主要的注意点为相似矩阵的生成方式，切图的方式以及最后的聚类方法。</li>
+<li>最常用的相似矩阵的生成方式是基于高斯核距离的全连接方式，最常用的切图方式是Ncut。而到最后常用的聚类方法为K-Means。下面以Ncut总结谱聚类算法流程。</li>
+<li>输入：样本集$D=(x_1,x_2,…,x_n)$，相似矩阵的生成方式, 降维后的维度$k_1$, 聚类方法，聚类后的维度$k_2$</li>
+<li>输出：簇划分$C(c_1,c_2,…c_{k_2})$.　<ol>
+<li>根据输入的相似矩阵的生成方式构建样本的相似矩阵$S$</li>
+<li>根据相似矩阵$S$构建邻接矩阵$W$，构建度矩阵$D$</li>
+<li>计算出拉普拉斯矩阵$L$</li>
+<li>构建标准化后的拉普拉斯矩阵$D^{-1/2}LD^{-1/2}$</li>
+<li>计算$D^{-1/2}LD^{-1/2}$最小的$k_1$个特征值所各自对应的特征向量 $f$</li>
+<li>将各自对应的特征向量$f$组成的矩阵按行标准化，最终组成$n×k_1$维的特征矩阵$F$</li>
+<li>对F中的每一行作为一个$k_1$维的样本，共$n$个样本，用输入的聚类方法进行聚类，聚类维数为$k_2$。</li>
+<li>得到簇划分$C(c_1,c_2,…c_{k_2})$.　</li>
+</ol>
+</li>
+<li>谱聚类算法的主要优点有：<ol>
+<li>谱聚类只需要数据之间的相似度矩阵，因此对于处理稀疏数据的聚类很有效。这点传统聚类算法比如K-Means很难做到</li>
+<li>由于使用了降维，因此在处理高维数据聚类时的复杂度比传统聚类算法好。</li>
+</ol>
+</li>
+<li>谱聚类算法的主要缺点有：<ol>
+<li>如果最终聚类的维度非常高，则由于降维的幅度不够，谱聚类的运行速度和最后的聚类效果均不好。</li>
+<li>聚类效果依赖于相似矩阵，不同的相似矩阵得到的最终聚类效果可能很不同。</li>
+</ol>
+</li>
+</ol>
+<p>sklearn中有实现：<a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.SpectralClustering.html#sklearn.cluster.SpectralClustering" target="_blank" rel="external">SpectralClustering</a></p>
 </section>
     
       <div class="tags">
@@ -178,7 +247,7 @@
     var gitmentConfig = "";
     if (gitmentConfig != "undefined") {
       var gitment = new Gitment({
-        id: "IV.机器学习模型-复杂网络-谱分法",
+        id: "IV.机器学习模型-复杂网络-谱聚类",
         owner: "",
         repo: "",
         oauth: {
@@ -208,7 +277,7 @@
 </div>
     <footer class="app-footer">
   <p class="copyright">
-    &copy; 2018 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    &copy; 2019 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
     <br>
     Theme by <a href="https://github.com/yanm1ng">yanm1ng</a>
   </p>
