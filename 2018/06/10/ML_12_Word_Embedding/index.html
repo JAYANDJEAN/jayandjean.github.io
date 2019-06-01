@@ -95,20 +95,7 @@
     <section class="markdown-content"><p>Word Embedding的知识整理。未完成。</p>
 <a id="more"></a>
 <ol>
-<li><a href="http://licstar.net/archives/328" target="_blank" rel="external">Deep Learning in NLP （一）词向量和语言模型</a>：主要介绍语言模型的发展历史。<ul>
-<li>Yoshua Bengio, Rejean Ducharme, Pascal Vincent, and Christian Jauvin. A neural probabilistic language model. Journal of Machine Learning Research (JMLR), 3:1137–1155, 2003. <a href="http://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf" target="_blank" rel="external">PDF</a></li>
-<li>Ronan Collobert, Jason Weston, Léon Bottou, Michael Karlen, Koray Kavukcuoglu and Pavel Kuksa. Natural Language Processing (Almost) from Scratch. Journal of Machine Learning Research (JMLR), 12:2493-2537, 2011. <a href="http://www.jmlr.org/papers/volume12/collobert11a/collobert11a.pdf" target="_blank" rel="external">PDF</a></li>
-<li>Andriy Mnih &amp; Geoffrey Hinton. Three new graphical models for statistical language modelling. International Conference on Machine Learning (ICML). 2007. <a href="http://www.cs.utoronto.ca/~hinton/absps/threenew.pdf" target="_blank" rel="external">PDF</a></li>
-<li>Andriy Mnih &amp; Geoffrey Hinton. A scalable hierarchical distributed language model. The Conference on Neural Information Processing Systems (NIPS) (pp. 1081–1088). 2008. <a href="http://www.cs.utoronto.ca/~hinton/absps/andriytree.pdf" target="_blank" rel="external">PDF</a></li>
-<li>Mikolov Tomáš. Statistical Language Models based on Neural Networks. PhD thesis, Brno University of Technology. 2012. <a href="">PDF</a></li>
-<li>Turian Joseph, Lev Ratinov, and Yoshua Bengio. Word representations: a simple and general method for semi-supervised learning. Proceedings of the 48th Annual Meeting of the Association for Computational Linguistics (ACL). 2010. <a href="">PDF</a></li>
-<li>Eric Huang, Richard Socher, Christopher Manning and Andrew Ng. Improving word representations via global context and multiple word prototypes. Proceedings of the 50th Annual Meeting of the Association for Computational Linguistics: Long Papers-Volume 1. 2012. <a href="https://nlp.stanford.edu/pubs/HuangACL12.pdf" target="_blank" rel="external">PDF</a></li>
-<li>Mikolov, Tomas, Wen-tau Yih, and Geoffrey Zweig. Linguistic regularities in continuous space word representations. Proceedings of NAACL-HLT. 2013. <a href="https://www.aclweb.org/anthology/N/N13/N13-1090.pdf" target="_blank" rel="external">PDF</a></li>
-</ul>
-</li>
-<li>word embedding 是一个将词向量化的概念，来源于Bengio的论文《Neural probabilistic language models》，中文译名有”词嵌入”。word2vec是谷歌提出一种word embedding 的工具或者算法集合，采用了两种模型(CBOW与skip-gram模型)与两种方法(负采样与层次softmax方法)的组合，比较常见的组合为 skip-gram+负采样方法。<a href="https://www.zhihu.com/question/53354714/answer/134664719" target="_blank" rel="external">摘自知乎</a>。其中几个比较有名的word embedding方法包括：word2vec (Google), GloVe, wordRank, FastText (Facebook)</li>
 <li>下面重点学习word2vec原理：<a href="https://blog.csdn.net/itplus/article/details/37969519" target="_blank" rel="external">word2vec 中的数学原理详解</a></li>
-<li>$\textit{How to Generate a Good Word Embedding}$：比较各个word embedding模型。</li>
 </ol>
 <hr>
 <h3 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h3><ol>
