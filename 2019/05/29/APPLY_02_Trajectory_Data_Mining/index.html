@@ -10,7 +10,7 @@
   
   <title>
     
-      VI.应用-$\text{Trajectory Data Mining:An Overview}$ | JAYANDJEAN
+      VI.应用-Trajectory Data Mining | JAYANDJEAN
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -84,7 +84,7 @@
 </header>
 
     <div id="article-banner">
-  <h2>VI.应用-$\text{Trajectory Data Mining:An Overview}$</h2>
+  <h2>VI.应用-Trajectory Data Mining</h2>
   <p class="post-date">2019-05-29</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
@@ -92,8 +92,81 @@
 </div>
 <main class="app-body">
   <article class="post-article">
-    <section class="markdown-content"><p>$\text{Trajectory Data Mining:An Overview}$读书笔记。未完成。</p>
+    <section class="markdown-content"><p><a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/TrajectoryDataMining-tist-yuzheng_published.pdf" target="_blank" rel="external">$\textbf{Trajectory Data Mining: An Overview}$</a></p>
+<p>很好的一篇概述，清晰明了地阐述了其框架，涉及内容又十分宽泛。目前只是走马观花的了解全貌，需要细读。</p>
 <a id="more"></a>
+<ol>
+<li>$\textbf{Trajectory Data}$：主要分为四个类别<ol>
+<li>$\texttt{Mobility of people}$</li>
+<li>$\texttt{Mobility of transportation}$</li>
+<li>$\texttt{Mobility of animals}$</li>
+<li>$\texttt{Mobility of natural phenomena}$</li>
+</ol>
+</li>
+<li>$\textbf{Trajectory Data Preprocessing}$<ol>
+<li>$\texttt{Noise Filtering}$<ol>
+<li>$\textit{Mean Filter}$</li>
+<li>$\textit{Kalman and Particle Filters}$</li>
+<li>$\textit{Heuristics-Based Outlier Detection}$</li>
+</ol>
+</li>
+<li>$\texttt{Stay Point Detection}$</li>
+<li>$\texttt{Trajectory Compression}$：对轨迹数据进行压缩，以减少计算量<ol>
+<li>$\textit{Distance Metric}$</li>
+<li>$\textit{Offline Compression}$</li>
+<li>$\textit{Online Data Reduction}$</li>
+<li>$\textit{Compression with Semantic Meaning}$</li>
+</ol>
+</li>
+<li>$\texttt{Trajectory Segmentation}$：对轨迹数据进行切割<ol>
+<li>$\textit{time interval}$</li>
+<li>$\textit{shape of a trajectory}$</li>
+<li>$\textit{semantic meanings}$</li>
+</ol>
+</li>
+<li>$\texttt{Map Matching}$：对原始的经纬度数据转化为路网数据<ol>
+<li>$\textit{geometric}$</li>
+<li>$\textit{topological}$</li>
+<li>$\textit{probabilistic}$</li>
+<li>$\textit{other advanced techniques}$</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>$\textbf{Trajectory Data Management}$<ol>
+<li>$\texttt{Trajectory Indexing and Retrieval}$：没看懂是为了解决什么问题</li>
+<li>$\texttt{Distance/Similarity of Trajectories}$：了解一下度量方式</li>
+</ol>
+</li>
+<li>$\textbf{Uncertainty in Trajectory Data}$<ol>
+<li>$\texttt{Reducing Uncertainty from Trajectory Data}$：解决因采样率低，造成数据稀疏，不确定性增大等问题<ol>
+<li>$\textit{Modeling Uncertainty of a Trajectory for Queries}$</li>
+<li>$\textit{Path Inference from Uncertain Trajectories}$</li>
+</ol>
+</li>
+<li>$\texttt{Privacy of Trajectory Data}$：为保护隐私性，需要增大数据的不确定性。</li>
+</ol>
+</li>
+<li>$\textbf{Trajectory Pattern Mining}$<ol>
+<li>$\texttt{Moving Together Patterns}$</li>
+<li>$\texttt{Trajectory Clustering}$</li>
+<li>$\texttt{Mining Sequential Patterns from Trajectories}$</li>
+<li>$\texttt{Mining Periodical Patterns from Trajectories<br>}$</li>
+</ol>
+</li>
+<li>$\textbf{Trajectory Classification}$：做运动状态分类、交通方式分类等分类任务</li>
+<li>$\textbf{Anomalies Detection From Trajectories}$<ol>
+<li>$\texttt{Detecting Outlier Trajectories}$</li>
+<li>$\texttt{Identifying Anomalous Events by Trajectories}$</li>
+</ol>
+</li>
+<li>$\textbf{Transfer Trajectory To Other Representations}$<ol>
+<li>$\texttt{From Trajectory to Graph}$</li>
+<li>$\texttt{From Trajectory to Matrix}$</li>
+<li>$\texttt{From Trajectory to Tensor}$</li>
+</ol>
+</li>
+</ol>
 </section>
     
       <div class="tags">
@@ -178,7 +251,7 @@
     var gitmentConfig = "";
     if (gitmentConfig != "undefined") {
       var gitment = new Gitment({
-        id: "VI.应用-$\text{Trajectory Data Mining:An Overview}$",
+        id: "VI.应用-Trajectory Data Mining",
         owner: "",
         repo: "",
         oauth: {
