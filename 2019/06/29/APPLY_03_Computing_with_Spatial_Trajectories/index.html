@@ -10,7 +10,7 @@
   
   <title>
     
-      VI.应用-Trajectory Data Mining | JAYANDJEAN
+      VI.应用-Computing with Spatial Trajectories | JAYANDJEAN
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -84,91 +84,56 @@
 </header>
 
     <div id="article-banner">
-  <h2>VI.应用-Trajectory Data Mining</h2>
-  <p class="post-date">2019-05-29</p>
+  <h2>VI.应用-Computing with Spatial Trajectories</h2>
+  <p class="post-date">2019-06-29</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
 </div>
 <main class="app-body">
   <article class="post-article">
-    <section class="markdown-content"><p><a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/TrajectoryDataMining-tist-yuzheng_published.pdf" target="_blank" rel="external">$\textbf{Trajectory Data Mining: An Overview}$</a></p>
+    <section class="markdown-content"><p>$\textbf{Computing with Spatial Trajectories}$读书笔记</p>
+<p>$\textit{}$</p>
 <a id="more"></a>
-<p>很好的一篇概述，清晰明了地阐述了其框架，涉及内容又十分宽泛。值得细读。</p>
-<p>未完成，需要补充。</p>
-<ol>
-<li>$\textbf{Trajectory Data}$：主要分为四个类别<ol>
-<li>$\texttt{Mobility of people}$</li>
-<li>$\texttt{Mobility of transportation}$</li>
-<li>$\texttt{Mobility of animals}$</li>
-<li>$\texttt{Mobility of natural phenomena}$</li>
+<h2 id="Chapter-1-Trajectory-Preprocessing"><a href="#Chapter-1-Trajectory-Preprocessing" class="headerlink" title="Chapter 1: Trajectory Preprocessing"></a>Chapter 1: Trajectory Preprocessing</h2><h3 id="1-1-Introduction"><a href="#1-1-Introduction" class="headerlink" title="1.1 Introduction"></a>1.1 Introduction</h3><ol>
+<li>$\textit{a trajectory is the path that a moving object follows through space as a function of time.}$</li>
 </ol>
-</li>
-<li>$\textbf{Trajectory Data Preprocessing}$<ol>
-<li>$\texttt{Noise Filtering}$<ol>
-<li>$\textit{Mean Filter}$</li>
-<li>$\textit{Kalman and Particle Filters}$</li>
-<li>$\textit{Heuristics-Based Outlier Detection}$</li>
-</ol>
-</li>
-<li>$\texttt{Stay Point Detection}$</li>
-<li>$\texttt{Trajectory Compression}$：对轨迹数据进行压缩，以减少计算量<ol>
-<li>$\textit{Distance Metric}$</li>
-<li>$\textit{Offline Compression}$</li>
-<li>$\textit{Online Data Reduction}$</li>
-<li>$\textit{Compression with Semantic Meaning}$</li>
-</ol>
-</li>
-<li>$\texttt{Trajectory Segmentation}$：对轨迹数据进行切割<ol>
-<li>$\textit{time interval}$</li>
-<li>$\textit{shape of a trajectory}$</li>
-<li>$\textit{semantic meanings}$</li>
-</ol>
-</li>
-<li>$\texttt{Map Matching}$：对原始的经纬度数据转化为路网数据<ol>
-<li>$\textit{geometric}$</li>
-<li>$\textit{topological}$</li>
-<li>$\textit{probabilistic}$</li>
-<li>$\textit{other advanced techniques}$</li>
+<h3 id="1-2-Trajectory-Data-Generation"><a href="#1-2-Trajectory-Data-Generation" class="headerlink" title="1.2 Trajectory Data Generation"></a>1.2 Trajectory Data Generation</h3><h3 id="1-3-Performance-Metrics-and-Error-Measures"><a href="#1-3-Performance-Metrics-and-Error-Measures" class="headerlink" title="1.3 Performance Metrics and Error Measures"></a>1.3 Performance Metrics and Error Measures</h3><ol>
+<li>为了评价轨迹数据压缩的性能，主要从以下几个方面:<ol>
+<li>$\textit{Processing time}$: 算法计算时间</li>
+<li>$\textit{Compression rate}$: 数据压缩比</li>
+<li>$\textit{Error measure}$: 压缩数据的偏离情况<ol>
+<li>$\textit{perpendicular Euclidean distance}$: 即计算原始数据在压缩数据上的投影距离</li>
+<li>$\textit{time synchronized Euclidean distance}$: 考虑时间因素</li>
 </ol>
 </li>
 </ol>
 </li>
-<li>$\textbf{Trajectory Data Management}$<ol>
-<li>$\texttt{Trajectory Indexing and Retrieval}$：没看懂是为了解决什么问题</li>
-<li>$\texttt{Distance/Similarity of Trajectories}$：了解一下度量方式</li>
 </ol>
-</li>
-<li>$\textbf{Uncertainty in Trajectory Data}$<ol>
-<li>$\texttt{Reducing Uncertainty from Trajectory Data}$：解决因采样率低，造成数据稀疏，不确定性增大等问题<ol>
-<li>$\textit{Modeling Uncertainty of a Trajectory for Queries}$</li>
-<li>$\textit{Path Inference from Uncertain Trajectories}$</li>
-</ol>
-</li>
-<li>$\texttt{Privacy of Trajectory Data}$：为保护隐私性，需要增大数据的不确定性。</li>
-</ol>
-</li>
-<li>$\textbf{Trajectory Pattern Mining}$<ol>
-<li>$\texttt{Moving Together Patterns}$</li>
-<li>$\texttt{Trajectory Clustering}$</li>
-<li>$\texttt{Mining Sequential Patterns from Trajectories}$</li>
-<li>$\texttt{Mining Periodical Patterns from Trajectories<br>}$</li>
-</ol>
-</li>
-<li>$\textbf{Trajectory Classification}$：做运动状态分类、交通方式分类等分类任务</li>
-<li>$\textbf{Anomalies Detection From Trajectories}$<ol>
-<li>$\texttt{Detecting Outlier Trajectories}$</li>
-<li>$\texttt{Identifying Anomalous Events by Trajectories}$</li>
-</ol>
-</li>
-<li>$\textbf{Transfer Trajectory To Other Representations}$<ol>
-<li>$\texttt{From Trajectory to Graph}$</li>
-<li>$\texttt{From Trajectory to Matrix}$</li>
-<li>$\texttt{From Trajectory to Tensor}$</li>
+<h3 id="1-4-Batched-Compression-Techniques"><a href="#1-4-Batched-Compression-Techniques" class="headerlink" title="1.4 Batched Compression Techniques"></a>1.4 Batched Compression Techniques</h3><ol>
+<li>批压缩算法是指通过抛弃一些不重要的点，从原始轨迹数据中产出其近似地轨迹数据。</li>
+<li>这个问题与$\textit{line generalization problem}$十分相似：<ol>
+<li>$\textit{uniform sampling algorithm}$: 直接取第$i$个数据</li>
+<li>$\textit{Douglas-Peucker (DP)}$: 递归的解决轨迹切分问题</li>
+<li>$\textit{Bellman’s algorithm}$: 利用动态规划，时间复杂度为$O(N^3)$</li>
+<li>$\textit{bottom-up algorithm}$</li>
 </ol>
 </li>
 </ol>
-</section>
+<h3 id="1-5-On-Line-Data-Reduction-Techniques"><a href="#1-5-On-Line-Data-Reduction-Techniques" class="headerlink" title="1.5 On-Line Data Reduction Techniques"></a>1.5 On-Line Data Reduction Techniques</h3><h3 id="1-6-Trajectory-Data-Reduction-Based-on-Speed-and-Direction"><a href="#1-6-Trajectory-Data-Reduction-Based-on-Speed-and-Direction" class="headerlink" title="1.6 Trajectory Data Reduction Based on Speed and Direction"></a>1.6 Trajectory Data Reduction Based on Speed and Direction</h3><ol>
+<li>$\textit{threshold-guided sampling algorithms}$</li>
+</ol>
+<h3 id="1-7-Trajectory-Filtering"><a href="#1-7-Trajectory-Filtering" class="headerlink" title="1.7 Trajectory Filtering"></a>1.7 Trajectory Filtering</h3><ol>
+<li>因为定位漂移等问题的存在，收集的轨迹数据里往往存在异常点，需要对这些噪音进行过滤。</li>
+<li>数学表示为：$$\textbf{z}_{i}=\textbf{x}_{i}+\textbf{v}_{i}$$$$\mathbf{v}_{i} \sim N(\mathbf{0}, R),R=\left[\begin{array}{cc}{\sigma^{2}} &amp; {0} \\ {0} &amp; {\sigma^{2}}\end{array}\right]$$</li>
+</ol>
+<h3 id="1-8-Mean-and-Median-Filters"><a href="#1-8-Mean-and-Median-Filters" class="headerlink" title="1.8 Mean and Median Filters"></a>1.8 Mean and Median Filters</h3><ol>
+<li>$\textit{Mean Filter}$:$$\bar{\mathbf{x}}_{i}=\frac{1}{n} \sum_{j=i-n+1}^{i} \mathbf{z}_{j}$$$\bar{\mathbf{x}}_{i}$是对${\mathbf{x}}_{i}$的估计，一般$n=10$</li>
+<li>$\textit{Median Filter}$:$$\bar{\mathbf{x}}_{i}=\operatorname{median}\left\{\mathbf{z}_{i-n+1}, \mathbf{z}_{i-n+2}, \ldots, \mathbf{z}_{i-1}, \mathbf{z}_{i}\right\}$$</li>
+</ol>
+<h3 id="1-9-Kalman-Filter"><a href="#1-9-Kalman-Filter" class="headerlink" title="1.9 Kalman Filter"></a>1.9 Kalman Filter</h3><p>未看</p>
+<h3 id="1-10-Particle-Filter"><a href="#1-10-Particle-Filter" class="headerlink" title="1.10 Particle Filter"></a>1.10 Particle Filter</h3><p>未看</p>
+<h2 id="Chapter-2-Trajectory-Indexing-and-Retrieval"><a href="#Chapter-2-Trajectory-Indexing-and-Retrieval" class="headerlink" title="Chapter 2: Trajectory Indexing and Retrieval"></a>Chapter 2: Trajectory Indexing and Retrieval</h2><h2 id="Chapter-3-Uncertainty-in-Spatial-Trajectories"><a href="#Chapter-3-Uncertainty-in-Spatial-Trajectories" class="headerlink" title="Chapter 3: Uncertainty in Spatial Trajectories"></a>Chapter 3: Uncertainty in Spatial Trajectories</h2><h2 id="Chapter-4-Privacy-of-Spatial-Trajectories"><a href="#Chapter-4-Privacy-of-Spatial-Trajectories" class="headerlink" title="Chapter 4: Privacy of Spatial Trajectories"></a>Chapter 4: Privacy of Spatial Trajectories</h2><h2 id="Chapter-5-Trajectory-Pattern-Mining"><a href="#Chapter-5-Trajectory-Pattern-Mining" class="headerlink" title="Chapter 5: Trajectory Pattern Mining"></a>Chapter 5: Trajectory Pattern Mining</h2><h2 id="Chapter-6-Activity-Recognition-from-Trajectory-Data"><a href="#Chapter-6-Activity-Recognition-from-Trajectory-Data" class="headerlink" title="Chapter 6: Activity Recognition from Trajectory Data"></a>Chapter 6: Activity Recognition from Trajectory Data</h2><h2 id="Chapter-7-Trajectory-Analysis-for-Driving"><a href="#Chapter-7-Trajectory-Analysis-for-Driving" class="headerlink" title="Chapter 7: Trajectory Analysis for Driving"></a>Chapter 7: Trajectory Analysis for Driving</h2><h2 id="Chapter-8-Location-Based-Social-Networks-Users"><a href="#Chapter-8-Location-Based-Social-Networks-Users" class="headerlink" title="Chapter 8: Location-Based Social Networks: Users"></a>Chapter 8: Location-Based Social Networks: Users</h2><h3 id="8-1-Introduction"><a href="#8-1-Introduction" class="headerlink" title="8.1 Introduction"></a>8.1 Introduction</h3><h2 id="Chapter-9-Location-Based-Social-Networks-Locations"><a href="#Chapter-9-Location-Based-Social-Networks-Locations" class="headerlink" title="Chapter 9: Location-Based Social Networks: Locations"></a>Chapter 9: Location-Based Social Networks: Locations</h2></section>
     
       <div class="tags">
         <span>Tags:</span>
@@ -201,7 +166,7 @@
 
 <script>
   (function () {
-    var url = 'http://yoursite.com/2019/05/29/APPLY_02_Trajectory_Data_Mining/';
+    var url = 'http://yoursite.com/2019/06/29/APPLY_03_Computing_with_Spatial_Trajectories/';
     var banner = ''
     if (banner) {
       $('#article-banner').css({
@@ -252,7 +217,7 @@
     var gitmentConfig = "";
     if (gitmentConfig != "undefined") {
       var gitment = new Gitment({
-        id: "VI.应用-Trajectory Data Mining",
+        id: "VI.应用-Computing with Spatial Trajectories",
         owner: "",
         repo: "",
         oauth: {
