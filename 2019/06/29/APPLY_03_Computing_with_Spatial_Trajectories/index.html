@@ -133,7 +133,54 @@
 </ol>
 <h3 id="1-9-Kalman-Filter"><a href="#1-9-Kalman-Filter" class="headerlink" title="1.9 Kalman Filter"></a>1.9 Kalman Filter</h3><p>未看</p>
 <h3 id="1-10-Particle-Filter"><a href="#1-10-Particle-Filter" class="headerlink" title="1.10 Particle Filter"></a>1.10 Particle Filter</h3><p>未看</p>
-<h2 id="Chapter-2-Trajectory-Indexing-and-Retrieval"><a href="#Chapter-2-Trajectory-Indexing-and-Retrieval" class="headerlink" title="Chapter 2: Trajectory Indexing and Retrieval"></a>Chapter 2: Trajectory Indexing and Retrieval</h2><h2 id="Chapter-3-Uncertainty-in-Spatial-Trajectories"><a href="#Chapter-3-Uncertainty-in-Spatial-Trajectories" class="headerlink" title="Chapter 3: Uncertainty in Spatial Trajectories"></a>Chapter 3: Uncertainty in Spatial Trajectories</h2><h2 id="Chapter-4-Privacy-of-Spatial-Trajectories"><a href="#Chapter-4-Privacy-of-Spatial-Trajectories" class="headerlink" title="Chapter 4: Privacy of Spatial Trajectories"></a>Chapter 4: Privacy of Spatial Trajectories</h2><h2 id="Chapter-5-Trajectory-Pattern-Mining"><a href="#Chapter-5-Trajectory-Pattern-Mining" class="headerlink" title="Chapter 5: Trajectory Pattern Mining"></a>Chapter 5: Trajectory Pattern Mining</h2><h2 id="Chapter-6-Activity-Recognition-from-Trajectory-Data"><a href="#Chapter-6-Activity-Recognition-from-Trajectory-Data" class="headerlink" title="Chapter 6: Activity Recognition from Trajectory Data"></a>Chapter 6: Activity Recognition from Trajectory Data</h2><h2 id="Chapter-7-Trajectory-Analysis-for-Driving"><a href="#Chapter-7-Trajectory-Analysis-for-Driving" class="headerlink" title="Chapter 7: Trajectory Analysis for Driving"></a>Chapter 7: Trajectory Analysis for Driving</h2><h2 id="Chapter-8-Location-Based-Social-Networks-Users"><a href="#Chapter-8-Location-Based-Social-Networks-Users" class="headerlink" title="Chapter 8: Location-Based Social Networks: Users"></a>Chapter 8: Location-Based Social Networks: Users</h2><h3 id="8-1-Introduction"><a href="#8-1-Introduction" class="headerlink" title="8.1 Introduction"></a>8.1 Introduction</h3><h2 id="Chapter-9-Location-Based-Social-Networks-Locations"><a href="#Chapter-9-Location-Based-Social-Networks-Locations" class="headerlink" title="Chapter 9: Location-Based Social Networks: Locations"></a>Chapter 9: Location-Based Social Networks: Locations</h2></section>
+<hr>
+<h2 id="Chapter-5-Trajectory-Pattern-Mining"><a href="#Chapter-5-Trajectory-Pattern-Mining" class="headerlink" title="Chapter 5 Trajectory Pattern Mining"></a>Chapter 5 Trajectory Pattern Mining</h2><h3 id="5-1-Introduction"><a href="#5-1-Introduction" class="headerlink" title="5.1 Introduction"></a>5.1 Introduction</h3><h3 id="5-2-Overview-of-Trajectory-Patterns"><a href="#5-2-Overview-of-Trajectory-Patterns" class="headerlink" title="5.2 Overview of Trajectory Patterns"></a>5.2 Overview of Trajectory Patterns</h3><ol>
+<li>$\textit{Clustering and Join.}$</li>
+<li>$\textit{Spatial and Spatiotemporal Patterns}$：后者加上时间维度</li>
+<li>$\textit{Global Vs. Partial Patterns}$：轨迹是否可以拆分成段</li>
+<li>$\textit{Individual Vs. Group Patterns}$</li>
+<li>$\textit{Spatial Constraints: Movement on Spatial Networks}$</li>
+<li>$\textit{Temporal Constraints: Periodicity}$</li>
+</ol>
+<h3 id="5-3-Relative-Motion-Patterns"><a href="#5-3-Relative-Motion-Patterns" class="headerlink" title="5.3 Relative Motion Patterns"></a>5.3 Relative Motion Patterns</h3><ol>
+<li>$\textit{RElative MOtion (REMO)}$:冀于速度、方向角等运动属性挖掘出有意义的模式<ol>
+<li>$\textit{basic motion patterns}$:$\textit{ Constant、Concurrence、Trendsetter}$</li>
+<li>$\textit{spatial motion patterns}$:$\textit{ Track、Flock、Leadership}$</li>
+<li>$\textit{aggregate/segregate motion patterns}$:$\textit{ Convergence、Encounter、Divergence、Breakup}$</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h2 id="Chapter-8-Location-Based-Social-Networks-Users"><a href="#Chapter-8-Location-Based-Social-Networks-Users" class="headerlink" title="Chapter 8: Location-Based Social Networks: Users"></a>Chapter 8: Location-Based Social Networks: Users</h2><h3 id="8-1-Introduction"><a href="#8-1-Introduction" class="headerlink" title="8.1 Introduction"></a>8.1 Introduction</h3><ol>
+<li>$\textit{location-based social network (LBSN)}$有两个基础的研究点：<ol>
+<li>对用户的历史轨迹数据进行建模</li>
+<li>根据历史数据，评估用户之间的相似性</li>
+</ol>
+</li>
+<li>$\textit{Understanding users:}$<ol>
+<li>$\textit{Estimate user similarity}$</li>
+<li>$\textit{Finding local experts in a region}$</li>
+<li>$\textit{Community discovery}$</li>
+</ol>
+</li>
+<li>$\textit{Understanding locations:}$<ol>
+<li>$\textit{Generic travel recommendations}$</li>
+<li>$\textit{Personalized travel recommendations}$</li>
+<li>$\textit{Events discovery from social media}$</li>
+</ol>
+</li>
+</ol>
+<h3 id="8-2-Modeling-Human-Location-History"><a href="#8-2-Modeling-Human-Location-History" class="headerlink" title="8.2 Modeling Human Location History"></a>8.2 Modeling Human Location History</h3><ol>
+<li>$\textit{Detecting Significant Places}$<ol>
+<li>$\textbf{Definition of Stay Point}:\forall k \in[i, j), \text { Dist}\left(p_{i}, p_{k}\right)&lt;\delta, \operatorname{Int}\left(p_{i}, p_{j}\right)&gt;\tau$，该算法的时间复杂度为$O(n)$</li>
+</ol>
+</li>
+<li>$\textit{Stay Point Representation}$<ol>
+<li>需要将驻留点映射到poi上，考虑到定位的精确度问题，可以在驻留点10米范围内确定poi候选集，并通过$\textbf{TF-IDF}$确定。</li>
+</ol>
+</li>
+</ol>
+<h3 id="8-3-Mining-User-Similarity-Based-on-Location-History"><a href="#8-3-Mining-User-Similarity-Based-on-Location-History" class="headerlink" title="8.3 Mining User Similarity Based on Location History"></a>8.3 Mining User Similarity Based on Location History</h3><h3 id="8-4-Friend-Recommendation-and-Community-Discovery"><a href="#8-4-Friend-Recommendation-and-Community-Discovery" class="headerlink" title="8.4 Friend Recommendation and Community Discovery"></a>8.4 Friend Recommendation and Community Discovery</h3></section>
     
       <div class="tags">
         <span>Tags:</span>
